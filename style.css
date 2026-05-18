@@ -1,0 +1,299 @@
+/*
+============================================================
+   ÍNDICE (Usa Ctrl + F)
+============================================================
+   ESTILOS_BASE
+   ESTILOS_LAYOUT
+   COMPONENTES_HEADER
+   ESTILOS_INTERFAZ_GENERAL
+   CONTENEDOR_PRINCIPAL_Y_FOOTER
+   PLANTILLAS_CLIENTE
+   ESTILOS_TABLAS
+   VENTANAS_EMERGENTES
+   ESTILOS_TOASTS
+============================================================
+*/
+
+/* --- ESTILOS_BASE --- */
+
+body, html {
+    background-color: #E7C6FF;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #2D283E;
+}
+
+/* --- ESTILOS_LAYOUT --- */
+
+body {
+    display: grid;
+    grid-template-columns: auto;
+    padding: 1%;
+}
+
+/* --- COMPONENTES_HEADER --- */
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 1;
+    height: 10%;
+    width: 98%;
+    margin-top: 2vh;
+    border-radius: 20px;
+    background-color: #C8B6FF;
+    border: 1px solid #B8A2FF;
+    text-align: center;
+    box-shadow: 0px 0px 10px #636262;
+}
+
+/* --- ESTILOS_INTERFAZ_GENERAL --- */
+
+button:hover {cursor: pointer;}
+
+.input_db {
+    height: 60%;
+    width: 15%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    border: 2px solid #C8B6FF;
+    transition: all 0.3s ease;
+}
+
+.input_db::placeholder {
+    color: #B8A2FF;
+}
+
+.input_db:focus {
+    font-weight: bolder;
+    border: 2px solid gray;
+    outline: none;
+    transform: rotate(2deg) scale(1.1);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.button_db {
+    font-size: 20px;
+    height: 70%;
+    width: 15%;
+    border-radius: 20px;
+    border: 1px solid #B8A2FF;
+    transition: all 0.3s ease;
+}
+
+.button_db:hover {
+    background-color: white;
+    border: 3px solid gray;
+    transform: scale(1.05);
+    font-weight: bolder;
+    rotate: 3deg;
+}
+
+/* --- CONTENEDOR_PRINCIPAL_Y_FOOTER --- */
+
+#main {
+    overflow: auto;
+    background: #F3F0FF;
+    margin-top: 14vh;
+    margin-bottom: 2vh;
+    height: 71vh;
+    border: 1px solid #C8B6FF;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px #636262;
+}
+
+footer {
+    bottom: 0;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 1;
+    height: 10%;
+    width: 98%;
+    border-radius: 20px;
+    background-color: #C8B6FF;
+    border: 1px solid #B8A2FF;
+    text-align: center;
+    box-shadow: 0px 0px 10px #636262;
+}
+
+/* --- PLANTILLAS_CLIENTE --- */
+
+.cliente {
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #B8A2FF;
+    border-radius: 10px;
+    margin: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 5px #C8B6FF;
+}
+
+.cliente-cont {
+    display: flex;
+    font-size: 20px;
+}
+
+.cliente-cont * {
+ border-right: 1px solid;
+ width: 20%;
+ text-align: center;
+}
+
+.cli_platform {
+    border: none;
+}
+
+.cli_button {
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background-color: #C8B6FF;
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 0px #A084E8;
+    font-size: large;
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.cli_button:hover {
+    transform: scale(1.07);
+    font-weight: bolder;
+}
+
+.cli_button:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #A084E8;
+}
+
+/* --- ESTILOS_TABLAS --- */
+
+#template_table {
+    width: 80%;
+    margin: 0px auto;
+}
+
+table {
+    border-collapse: separate; 
+    border-spacing: 0;
+    overflow: hidden;
+    border: 3px solid #C8B6FF;
+    border-radius: 15px;
+    width: 100%;
+}
+
+tr {
+    background-color: #C8B6FF;
+}
+
+th {
+    border: 1px solid #C8B6FF;
+    background-color: #C8B6FF;
+    width: 1.5%;
+}
+
+td {
+    border-radius: 0px;
+    border:3px solid #C8B6FF;
+    background-color: #FBFBFF;
+    text-align: center;
+}
+
+th:last-child, td:last-child {
+    border-right: none; 
+}
+
+/* --- VENTANAS_EMERGENTES --- */
+.ventana {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 30%;
+    background-color: rgba(251, 251, 255); 
+    border: 5px solid #C8B6FF;
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 5px black;
+    animation: aparecer 0.4s forwards;
+}
+
+.ventana form {
+    width: 100%;
+    height: 100%;
+}
+
+.ventana form input {
+    margin-top: 20px;
+    width: 80%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    border: 2px solid #C8B6FF;
+    height: 50px;
+    transition: all 0.3s ease;
+}
+
+.ventana form input::placeholder {
+    color: #B8A2FF;
+    font-weight: normal;
+}
+
+.ventana form input:focus {
+    font-weight: bolder;
+    border: 2px solid gray;
+    outline: none;
+    transform: rotate(2deg) scale(1.1);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#añadir {
+    transition: all 0.3s ease;
+    background-color: #C8B6FF;
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 0px #A084E8;
+    font-size: large;
+    margin-bottom: 10px;
+    font-weight: bolder;
+}
+
+#añadir:hover {
+    transform: scale(1.07) rotate(2deg);
+}
+
+#añadir:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #A084E8;
+}
+
+/* ESTILOS_TOASTS */
+.toast_nube {
+    background: #6f6f9c !important;
+    color: #cdd6f4 !important;
+    padding: 25px !important;
+    font-weight: bolder;
+    font-size: 25px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+/*  */
