@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> <!--Css de los toast-->
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
@@ -15,33 +16,11 @@
         <button class="button_db" id="cli_realizados">Pagos realizados</button>
     </header>
     
-    <div id="main">
-        <div class="cliente">
-            <div class="cliente-cont">
-                <h3 class="cli_id">33</h3>
-                <h3 class="cli_name">Jesus De Nazaret</h3>
-                <h3 class="cli_nick">Dios</h3>
-                <h3 class="cli_email">dios@gmail.com</h3>
-                <h3 class="cli_platform">Instagram</h3>
-                <button class="cli_button" value="True">Pagos</button>
-            </div>
-        </div>
-
-        <div class="cliente">
-            <div class="cliente-cont">
-                <h3 class="cli_id">34</h3>
-                <h3 class="cli_name">Jesus De Nazaret</h3>
-                <h3 class="cli_nick">Dios</h3>
-                <h3 class="cli_email">dios@gmail.com</h3>
-                <h3 class="cli_platform">Discord</h3>
-                <button class="cli_button"value="True">Pagos</button>
-            </div>   
-        </div>
+    <div id="main"> <!-- Aqui van los clientes -->
     </div>
 
     <footer>
         <H2>Gestión De Usuarios</H2>
-        <h4>&copy Media Markt Team. Todos los derechos reservados.</h4>
     </footer>
 
 <!-- Plantillas -->
@@ -77,13 +56,13 @@
     <h1>Añadir Cliente</h1>
     <form>
         <center>
-        <input type="text" placeholder="(opcional) Nombre">
+        <input type="text" placeholder="(opcional) Nombre" id="add_nombre">
         <br>
-        <input type="text" placeholder="NickName" required>
+        <input type="text" placeholder="NickName" id="add_nick" required>
         <br>
-        <input type="email" placeholder="Email" required>
+        <input type="email" placeholder="Email" id="add_email" required>
         <br>
-        <input type="text" placeholder="Plataforma" required>
+        <input type="text" placeholder="Plataforma" id="add_plataforma" required>
         <br>
         <input type="submit" id="añadir" class="botonsend">
         </center>
@@ -95,7 +74,7 @@
     <form>
         <center>
             <input type="text" placeholder="Nombre del Cliente">
-            <input type="number" placeholder="Id del cliente" required>
+            <input type="number" placeholder="Id del cliente" min="0" required>
             <input type="submit" id="añadir" class="botonsend">
         </center>
     </form>

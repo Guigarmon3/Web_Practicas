@@ -1,7 +1,8 @@
-
 // Mostrar y/o ocultar tabla de pagos de un cliente
 const boton = document.querySelector(".cli_button");
 const table = document.getElementById("template_table");
+
+
 table.remove();
 document.addEventListener("click", (e) => {
     const boton = e.target.closest(".cli_button");
@@ -18,7 +19,7 @@ document.addEventListener("click", (e) => {
 });
 
 
-// Formulario para añadir usuarios
+// Formulario para añahttp://127.0.0.1:3000/index.html?vscode-livepreview=truedir usuarios
 const adduser = document.getElementById("cli_add");
 const addventana = document.getElementById("adduser");
 const formadd = document.querySelector("#adduser form");
@@ -38,11 +39,45 @@ adduser.addEventListener("click", () => {
 });
 
 formadd.addEventListener("submit", (e) => {
+    e.preventDefault();
+
     if (!formadd.checkValidity()) return;
+
+    const nombre = document.getElementById("add_nombre").value;
+    const nick = document.getElementById("add_nick").value;
+    const correo = document.getElementById("add_email").value;
+    const plataforma = document.getElementById("add_plataforma").value;
+            
+    fetch('http://localhost:8080/customers/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: nombre,
+            nick: nick,
+            email: correo,
+            platform: plataforma
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`Error en la respuesta del servidor: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log('Guardado:', data);
+        Toast("Usuario añadido correctamente"); 
+        
+        cargarClientes(); 
+    })
+    .catch(err => console.error('Error:', err));
+        
+    // Fin añadido
     formadd.reset();
     addventana.style.display = "none";
     adduser.value = "False";
 });
+
 
 // Formulario para Borrar Cliente
 
@@ -75,7 +110,7 @@ formdel.addEventListener("submit", (e) => {
 const MostrarPendientes = document.getElementById("cli_pendientes");
 MostrarPendientes.addEventListener("click", (e)=> {
      Toast("Mostrando pagos pendientes");
-}) 
+});
 
 
 // Consulta automatica Pagos Realizados
@@ -95,3 +130,77 @@ function Toast(texto) {
     className: "toast_nube",
   }).showToast();    
 }
+
+
+// Aqui va el SPRINGBOOT
+//Test
+// 1. Definir la función que realiza la petición fetch
+async function cargarClientes() {
+    console.log("Iniciando la consulta fetch...");
+    try {
+        const respuesta = await fetch('http://localhost:8080/customers/all');
+        if (!respuesta.ok) {
+            throw new Error(`Error en la petición: ${respuesta.status}`);
+        }
+
+        const clientes = await respuesta.json();
+        console.log(clientes);
+        const main = document.getElementById("main");
+        if (main) {
+            main.innerHTML = ''; 
+
+            clientes.forEach(cliente => {
+                const newdiv = document.createElement("div");
+                newdiv.classList.add("cliente");
+
+                const newdiv2 = document.createElement("div");
+                newdiv2.classList.add("cliente-cont");
+                
+                const nombre = document.createElement("h3");
+                nombre.classList.add("cli_name");
+                nombre.textContent = cliente.name || '';
+
+                const nickname = document.createElement("h3");
+                nickname.classList.add("cli_nick");
+                nickname.textContent = cliente.nick;
+
+                const correo = document.createElement("h3");
+                correo.classList.add("cli_email");
+                correo.textContent = cliente.email;
+
+                const plataforma = document.createElement("h3");
+                plataforma.classList.add("cli_platform");
+                plataforma.textContent = cliente.platform;
+                
+                const modificar = document.createElement("h3");
+                modificar.classList.add("cli_modificar")
+                modificar.textContent="Modificar";
+
+                const borrar = document.createElement("button");
+                borrar.classList.add("cli_borrar")
+                borrar.textContent="Eliminar";
+
+                const boton = document.createElement("button");
+                boton.classList.add("cli_button");
+                boton.value = "True";
+                boton.textContent = "Pagos";
+
+                newdiv2.appendChild(nombre);
+                newdiv2.appendChild(nickname);
+                newdiv2.appendChild(correo);
+                newdiv2.appendChild(plataforma);
+                newdiv2.appendChild(modificar);
+                newdiv2.appendChild(borrar);
+                newdiv2.appendChild(boton);
+
+                newdiv.appendChild(newdiv2);
+                main.appendChild(newdiv);
+            });
+        }
+
+    } catch (error) {
+        console.error("Error detallado en la consulta:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarClientes);
