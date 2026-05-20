@@ -2,6 +2,22 @@
 const boton = document.querySelector(".cli_button");
 const table = document.getElementById("template_table");
 
+const adduser = document.getElementById("cli_add");
+const addventana = document.getElementById("adduser");
+const formadd = document.querySelector("#adduser form");
+
+const addnombre = document.getElementById("add_nombre");
+const addnick = document.getElementById("add_nick");
+const addcorreo = document.getElementById("add_email");
+const addplataforma = document.getElementById("add_plataforma");
+
+const modventana = document.getElementById("moduser");
+const formmod = document.querySelector("#moduser form");
+
+const modnombre = document.getElementById("mod_nombre");
+const modnick = document.getElementById("mod_nick");
+const modcorreo = document.getElementById("mod_email");
+const modplataforma = document.getElementById("mod_plataforma");
 
 table.remove();
 document.addEventListener("click", (e) => {
@@ -22,39 +38,30 @@ document.addEventListener("click", (e) => {
 const inputbuscat = document.getElementById("cli_found");
 inputbuscat.addEventListener("input", async (e) => {
    const terminoBusqueda = e.target.value.trim();
-   // Si el buscador está vacío, cargamos todos los clientes de nuevo
    if (terminoBusqueda === "") {
        cargarClientes();
        return;
    }
 
-
    try {
-       // Suponiendo que en Spring Boot creaste un endpoint tipo: /customers/search?nick=elNick
        const respuesta = await fetch(`http://localhost:8080/customers/search/${terminoBusqueda}`);
       
        if (!respuesta.ok) {
            throw new Error("Error en la búsqueda");
        }
-
-
        const clientesFiltrados = await respuesta.json();
-       // Pintamos solo los clientes devueltos por la búsqueda
        renderizarClientes(clientesFiltrados);
-
 
    } catch (error) {
        console.error("Error al buscar cliente:", error);
    }
 });
 
-
-// Función auxiliar para reutilizar la lógica de pintar los clientes en el HTML
 function renderizarClientes(clientes) {
     const main = document.getElementById("main");
     if (!main) return;
   
-    main.innerHTML = ''; // Limpiamos el contenedor
+    main.innerHTML = ''; 
 
 
     clientes.forEach(cliente => {
@@ -87,10 +94,34 @@ function renderizarClientes(clientes) {
         const modificar = document.createElement("button");
         modificar.classList.add("cli_modificar")
         modificar.textContent="Modificar";
+        modificar.value = "False";
+
+        modificar.addEventListener("click", () => {
+            if (modificar.value == "False") {
+                modventana.style.display = "block";
+                modificar.value = "True";
+
+                modnombre.value = cliente.name;
+                modnick.value = cliente.nick;
+                modcorreo.value = cliente.email;
+                modplataforma.value = cliente.platform;
+            } else {
+                modventana.style.display = "none";
+                modificar.value = "False";
+            }
+        })
 
         const borrar = document.createElement("button");
         borrar.classList.add("cli_borrar")
         borrar.textContent="Eliminar"
+
+        borrar.addEventListener("click", () => {
+            const confirmar = confirm(`¿Estás seguro de que quieres eliminar a ${cliente.nick}?`);
+            if (confirmar){
+                console.log(cliente.id);
+                borrarCliente(cliente.id);
+            }
+        })
 
         const boton = document.createElement("button");
         boton.classList.add("cli_button");
@@ -113,10 +144,7 @@ function renderizarClientes(clientes) {
 }
 
 
-// Formulario para añahttp://127.0.0.1:3000/index.html?vscode-livepreview=truedir usuarios
-const adduser = document.getElementById("cli_add");
-const addventana = document.getElementById("adduser");
-const formadd = document.querySelector("#adduser form");
+// Formulario para añadir usuarios
 
 adduser.value = "False";
 
@@ -124,8 +152,6 @@ adduser.addEventListener("click", () => {
     if (adduser.value == "False") {
         addventana.style.display = "block";
         adduser.value = "True";
-        delventana.style.display = "none";
-        userdel.value = "False";
     } else {
         addventana.style.display = "none";
         adduser.value = "False";
@@ -136,20 +162,15 @@ formadd.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (!formadd.checkValidity()) return;
-
-    const nombre = document.getElementById("add_nombre").value;
-    const nick = document.getElementById("add_nick").value;
-    const correo = document.getElementById("add_email").value;
-    const plataforma = document.getElementById("add_plataforma").value;
             
     fetch('http://localhost:8080/customers/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            name: nombre,
-            nick: nick,
-            email: correo,
-            platform: plataforma
+            name: addnombre.value,
+            nick: addnick.value,
+            email: addcorreo.value,
+            platform: addplataforma.value
         })
     })
     .then(res => {
@@ -172,33 +193,60 @@ formadd.addEventListener("submit", (e) => {
     adduser.value = "False";
 });
 
+// Borrar cliente por id
+async function borrarCliente(identificador){
+    const url = `http://localhost:8080/customers/delete?id=${identificador}`;
 
-// Formulario para Borrar Cliente
+    try {
+        const respuesta = await fetch(url, { method: 'DELETE' });
+        if (!respuesta.ok){
+            throw new Error(`Error al eliminar: ${respuesta.status}`);
+        }
 
-const userdel = document.getElementById("cli_del");
-const delventana = document.getElementById("deluser");
-const formdel = document.querySelector("#deluser form");
-userdel.value = "False";
-
-userdel.addEventListener("click", () => {
-    if (userdel.value == "False") {
-        formadd.reset();
-        addventana.style.display = "none";
-        adduser.value = "False";
-        delventana.style.display = "block";
-        userdel.value = "True";
-    } else {
-        delventana.style.display = "none";
-        userdel.value = "False";
+        Toast("Usuario eliminado correctamente");
+        cargarClientes();
+    } catch (error){
+        console.error("Error al borrar el cliente:", error);
+        Toast("No se pudo eliminar al usuario");
     }
-});
+}
 
-formdel.addEventListener("submit", (e) => {
-    if (!formdel.checkValidity()) return;
-    formdel.reset();
+//Modificar cliente
+formmod.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (!formadd.checkValidity()) return;
+            
+    fetch('http://localhost:8080/customers/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: addnombre.value,
+            nick: addnick.value,
+            email: addcorreo.value,
+            platform: addplataforma.value
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`Error en la respuesta del servidor: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log('Guardado:', data);
+        Toast("Usuario añadido correctamente"); 
+        
+        cargarClientes(); 
+    })
+    .catch(err => console.error('Error:', err));
+        
+    // Fin añadido
+    formadd.reset();
     addventana.style.display = "none";
     adduser.value = "False";
 });
+
 // Consulta automatica Pagos Pendientes
 // select * from Cliente where realizado = false;
 const MostrarPendientes = document.getElementById("cli_pendientes");

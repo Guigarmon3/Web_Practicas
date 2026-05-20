@@ -285,7 +285,7 @@ th:last-child, td:last-child {
     margin-right: 10px;
 }
 
-#añadir {
+.botonsend {
     transition: all 0.3s ease;
     background-color: #C8B6FF;
     color: white;
@@ -296,11 +296,11 @@ th:last-child, td:last-child {
     font-weight: bolder;
 }
 
-#añadir:hover {
+.botonsend:hover {
     transform: scale(1.07) rotate(2deg);
 }
 
-#añadir:active {
+.botonsend:active {
     transform: translateY(2px);
     box-shadow: 0px 2px 0px #A084E8;
 }
