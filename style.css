@@ -353,7 +353,7 @@ th:last-child, td:last-child {
     #main {
         margin-top: 20px;
         height: 89%;
-        width: 96%;
+        width: 95%;
     }
     footer {
         display: none;
@@ -437,5 +437,5 @@ th:last-child, td:last-child {
     td {
         border-radius: 0px;
     }
-
+    /* Holi */
 }
