@@ -84,7 +84,7 @@ function renderizarClientes(clientes) {
         plataforma.classList.add("cli_platform");
         plataforma.textContent = cliente.platform;
 
-        const modificar = document.createElement("h3");
+        const modificar = document.createElement("button");
         modificar.classList.add("cli_modificar")
         modificar.textContent="Modificar";
 
