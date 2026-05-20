@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> <!--Css de los toast-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> <!--CSS DE LOS TOAST-->
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
     <header>
         <input placeholder="Busqueda por nick" class="input_db" id="cli_found">
+        <button class="button_db" id="cotizacion">Cotización</button>
         <button class="button_db" id="cli_add">Añadir Cliente</button>
         <button class="button_db" id="cli_del">Borrar Cliente</button>
         <button class="button_db" id="cli_pendientes">Pagos pendientes</button> <!-- select * from cliente where id in (select id from cliente where is_made = false)-->
         <button class="button_db" id="cli_realizados">Pagos realizados</button>
     </header>
     
-    <div id="main"> <!-- Aqui van los clientes -->
+    <div id="main"> 
     </div>
 
     <footer>
@@ -30,7 +31,7 @@
         <tbody>
             <tr>
                 <th>Tipo</th> <!--Tipo de trabajo, retrato, paisaje x-->
-                <th>Titulo</th> <!--Descripcion del trabajo-->
+                <th>Descripción</th> <!--Descripcion del trabajo-->
                 <th>id | Numero</th> <!--Id transaccion 6 caracteres-->
                 <th>Fecha</th>
                 <th>Precio USD$</th>
