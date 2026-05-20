@@ -249,3 +249,4 @@ async function cargarClientes() {
 
 
 document.addEventListener('DOMContentLoaded', cargarClientes);
+// Sergi borrar y buscar
