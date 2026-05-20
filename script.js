@@ -18,6 +18,100 @@ document.addEventListener("click", (e) => {
     }
 });
 
+//Buscar clientes por nick
+const inputbuscat = document.getElementById("cli_found");
+inputbuscat.addEventListener("input", async (e) => {
+   const terminoBusqueda = e.target.value.trim();
+   // Si el buscador está vacío, cargamos todos los clientes de nuevo
+   if (terminoBusqueda === "") {
+       cargarClientes();
+       return;
+   }
+
+
+   try {
+       // Suponiendo que en Spring Boot creaste un endpoint tipo: /customers/search?nick=elNick
+       const respuesta = await fetch(`http://localhost:8080/customers/search/${terminoBusqueda}`);
+      
+       if (!respuesta.ok) {
+           throw new Error("Error en la búsqueda");
+       }
+
+
+       const clientesFiltrados = await respuesta.json();
+       // Pintamos solo los clientes devueltos por la búsqueda
+       renderizarClientes(clientesFiltrados);
+
+
+   } catch (error) {
+       console.error("Error al buscar cliente:", error);
+   }
+});
+
+
+// Función auxiliar para reutilizar la lógica de pintar los clientes en el HTML
+function renderizarClientes(clientes) {
+    const main = document.getElementById("main");
+    if (!main) return;
+  
+    main.innerHTML = ''; // Limpiamos el contenedor
+
+
+    clientes.forEach(cliente => {
+        const newdiv = document.createElement("div");
+        newdiv.classList.add("cliente");
+
+
+        const newdiv2 = document.createElement("div");
+        newdiv2.classList.add("cliente-cont");
+
+
+        const nombre = document.createElement("h3");
+        nombre.classList.add("cli_name");
+        nombre.textContent = cliente.name === "" ? "?" : (cliente.name || '');
+        
+        const nickname = document.createElement("h3");
+        nickname.classList.add("cli_nick");
+        nickname.textContent = cliente.nick;
+
+
+        const correo = document.createElement("h3");
+        correo.classList.add("cli_email");
+        correo.textContent = cliente.email;
+
+
+        const plataforma = document.createElement("h3");
+        plataforma.classList.add("cli_platform");
+        plataforma.textContent = cliente.platform;
+
+        const modificar = document.createElement("h3");
+        modificar.classList.add("cli_modificar")
+        modificar.textContent="Modificar";
+
+        const borrar = document.createElement("button");
+        borrar.classList.add("cli_borrar")
+        borrar.textContent="Eliminar"
+
+        const boton = document.createElement("button");
+        boton.classList.add("cli_button");
+        boton.value = "True";
+        boton.textContent = "Pagos";
+
+
+        newdiv2.appendChild(nombre);
+        newdiv2.appendChild(nickname);
+        newdiv2.appendChild(correo);
+        newdiv2.appendChild(plataforma);
+        newdiv2.appendChild(modificar);
+        newdiv2.appendChild(borrar);
+        newdiv2.appendChild(boton);
+
+
+        newdiv.appendChild(newdiv2);
+        main.appendChild(newdiv);
+    });
+}
+
 
 // Formulario para añahttp://127.0.0.1:3000/index.html?vscode-livepreview=truedir usuarios
 const adduser = document.getElementById("cli_add");
@@ -136,71 +230,22 @@ function Toast(texto) {
 //Test
 // 1. Definir la función que realiza la petición fetch
 async function cargarClientes() {
-    console.log("Iniciando la consulta fetch...");
-    try {
-        const respuesta = await fetch('http://localhost:8080/customers/all');
-        if (!respuesta.ok) {
-            throw new Error(`Error en la petición: ${respuesta.status}`);
-        }
+   console.log("Iniciando la consulta fetch...");
+   try {
+       const respuesta = await fetch('http://localhost:8080/customers/all');
+       if (!respuesta.ok) {
+           throw new Error(`Error en la petición: ${respuesta.status}`);
+       }
 
-        const clientes = await respuesta.json();
-        console.log(clientes);
-        const main = document.getElementById("main");
-        if (main) {
-            main.innerHTML = ''; 
 
-            clientes.forEach(cliente => {
-                const newdiv = document.createElement("div");
-                newdiv.classList.add("cliente");
+       const clientes = await respuesta.json();
+       renderizarClientes(clientes); // Reutilizamos la función aquí también
 
-                const newdiv2 = document.createElement("div");
-                newdiv2.classList.add("cliente-cont");
-                
-                const nombre = document.createElement("h3");
-                nombre.classList.add("cli_name");
-                nombre.textContent = cliente.name || '';
 
-                const nickname = document.createElement("h3");
-                nickname.classList.add("cli_nick");
-                nickname.textContent = cliente.nick;
-
-                const correo = document.createElement("h3");
-                correo.classList.add("cli_email");
-                correo.textContent = cliente.email;
-
-                const plataforma = document.createElement("h3");
-                plataforma.classList.add("cli_platform");
-                plataforma.textContent = cliente.platform;
-                
-                const modificar = document.createElement("h3");
-                modificar.classList.add("cli_modificar")
-                modificar.textContent="Modificar";
-
-                const borrar = document.createElement("button");
-                borrar.classList.add("cli_borrar")
-                borrar.textContent="Eliminar";
-
-                const boton = document.createElement("button");
-                boton.classList.add("cli_button");
-                boton.value = "True";
-                boton.textContent = "Pagos";
-
-                newdiv2.appendChild(nombre);
-                newdiv2.appendChild(nickname);
-                newdiv2.appendChild(correo);
-                newdiv2.appendChild(plataforma);
-                newdiv2.appendChild(modificar);
-                newdiv2.appendChild(borrar);
-                newdiv2.appendChild(boton);
-
-                newdiv.appendChild(newdiv2);
-                main.appendChild(newdiv);
-            });
-        }
-
-    } catch (error) {
-        console.error("Error detallado en la consulta:", error);
-    }
+   } catch (error) {
+       console.error("Error detallado en la consulta:", error);
+   }
 }
+
 
 document.addEventListener('DOMContentLoaded', cargarClientes);
