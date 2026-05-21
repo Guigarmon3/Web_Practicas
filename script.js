@@ -368,12 +368,10 @@ function tablavertical() {
         th.textContent = text;
         const td = document.createElement("td");
         if (th.textContent === "Transferencia Realizada") {
-            if (data[i] === true) {
                 const caja = document.createElement("input");
                 caja.type="checkbox";
                 caja.checked=false;
-                td.appendChild(caja);
-            }
+                td.append(caja);
         } else {
             td.textContent = data[i];   
         }
