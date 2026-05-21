@@ -24,6 +24,8 @@ const ventanaPagos = document.getElementById("pagos");
 
 document.addEventListener("click", (e) => {
     const boton = e.target.closest(".cli_button");
+    if (!boton) return;
+
     const contenedorCliente = boton.closest(".cliente-cont");
     const elementoNick = contenedorCliente ? contenedorCliente.querySelector(".cli_nick") : null;
     const nickTexto = elementoNick ? elementoNick.textContent.trim() : "";
@@ -45,6 +47,7 @@ document.addEventListener("click", (e) => {
         const btnCerrar = document.createElement("button");
         btnCerrar.classList.add("button_db");
         btnCerrar.textContent = "Cerrar";
+        btnCerrar.id = "cerrarpagos";
         btnCerrar.style.marginTop = "20px";
         btnCerrar.addEventListener("click", () => {
             ventanaPagos.style.display = "none";
@@ -131,9 +134,11 @@ function renderizarClientes(clientes) {
                 modnick.value = cliente.nick;
                 modcorreo.value = cliente.email;
                 modplataforma.value = cliente.platform;
+                clienteEditable= cliente;
             } else {
                 modventana.style.display = "none";
                 modificar.value = "False";
+                clienteEditable = null;
             }
         });
 
@@ -245,9 +250,10 @@ formmod.addEventListener("submit", (e) => {
     if (!formadd.checkValidity()) return;
             
     fetch('http://localhost:8080/customers/create', {
-        method: 'POST',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+            id: clienteEditable.id,
             name: addnombre.value,
             nick: addnick.value,
             email: addcorreo.value,
@@ -351,29 +357,6 @@ document.addEventListener('DOMContentLoaded', cargarClientes);
 const headers = ["Tipo", "Descripción", "id | Numero", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Transferencia Realizada"];
 const data = ["TIpo de factura", "Descripción de factura", "ID de factura", "Fecha de factura", "precio en $", "Precio paypal$", "precio en €", "true o false"];
 
-function tablahorizontal() {
-    const table = document.createElement("table");
-    const tbody = document.createElement("tbody");
-    const trHeader = document.createElement("tr");
-    const trData = document.createElement("tr");
-
-    headers.forEach((text, i) => {
-        const th = document.createElement("th");
-        th.textContent = text;
-        trHeader.appendChild(th);
-
-        const td = document.createElement("td");
-        td.textContent = data[i];
-        trData.appendChild(td);
-    });
-
-    tbody.appendChild(trHeader);
-    tbody.appendChild(trData);
-    table.appendChild(tbody);
-    table.classList = "tablica";
-    return table;
-}
-
 function tablavertical() {
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
@@ -383,9 +366,17 @@ function tablavertical() {
         
         const th = document.createElement("th");
         th.textContent = text;
-        
         const td = document.createElement("td");
-        td.textContent = data[i];
+        if (th.textContent === "Transferencia Realizada") {
+            if (data[i] === true) {
+                const caja = document.createElement("input");
+                caja.type="checkbox";
+                caja.checked=false;
+                td.appendChild(caja);
+            }
+        } else {
+            td.textContent = data[i];   
+        }
         
         tr.appendChild(th);
         tr.appendChild(td);
@@ -393,6 +384,6 @@ function tablavertical() {
     });
 
     table.appendChild(tbody);
-    table.classList = "tablica";
+    table.classList.add("tablica");
     return table;
 }
