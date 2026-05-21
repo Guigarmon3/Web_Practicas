@@ -1,69 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <link rel="stylesheet" href="style.css">
-    <title>Gestión De Clientes</title>
-</head>
-<body>
-    <header>
-        <input placeholder="Nickname" type="search" class="input_db" id="cli_found">
-        <button class="button_db" id="gestoria">Gestoría</button>
-        <button class="button_db" id="cotizacion">Cotización</button>
-        <button class="button_db" id="cli_add">Añadir Cliente</button>
-        <button class="button_db" id="cli_pendientes">Pendientes</button> 
-        <button class="button_db" id="cli_realizados">Realizados</button>
-    </header>
-    
-    <div id="main"> 
-    </div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" href="style.css">
+        <title>Gestión De Clientes</title>
+    </head>
+    <body>
+        <header>
+            <input placeholder="Nickname" type="search" class="input_db" id="cli_found">
+            <button class="button_db" id="gestoria">Gestoría</button>
+            <button class="button_db" id="cotizacion">Cotización</button>
+            <button class="button_db" id="cli_add">Añadir Cliente</button>
+            <button class="button_db" id="cli_pendientes">Pendientes</button> 
+            <button class="button_db" id="cli_realizados">Realizados</button>
+        </header>
+        
+        <div id="main"></div>
 
-    <footer>
-        <h2>Gestión De Usuarios</h2>
-    </footer>
+        <footer>
+            <h2>Gestión De Usuarios</h2>
+        </footer>
 
-<div class="ventana" id="adduser">
-    <h1>Añadir Cliente</h1>
-    <form>
-        <center>
-            <input type="text" placeholder="(opcional) Nombre" id="add_nombre">
-            <br>
-            <input type="text" placeholder="NickName" id="add_nick" required>
-            <br>
-            <input type="email" placeholder="Email" id="add_email" required>
-            <br>
-            <input type="text" placeholder="Plataforma" id="add_plataforma" required>
-            <br>
-            <input type="submit" id="añadir" class="button_db" value="Añadir Cliente">
-        </center>
-    </form>
-</div>
+        <div class="ventana" id="adduser">
+            <button class="xbutton_db" id="cerrar_add">X</button>
+            <h1>Añadir Cliente</h1>
+            <form>
+                <center>
+                    <input type="text" placeholder="(opcional) Nombre" id="add_nombre">
+                    <br>
+                    <input type="text" placeholder="NickName" id="add_nick" required>
+                    <br>
+                    <input type="email" placeholder="Email" id="add_email" required>
+                    <br>
+                    <input type="text" placeholder="Plataforma" id="add_plataforma" required>
+                    <br>
+                    <input type="submit" id="añadir" class="button_db" value="Añadir Cliente">
+                </center>
+            </form>
+        </div>
 
-<div class="ventana" id="moduser">
-    <h1>Modificar Cliente</h1>
-    <form>
-        <center>
-            <input type="text" placeholder="(opcional) Nombre" id="mod_nombre">
-            <br>
-            <input type="text" placeholder="NickName" id="mod_nick" required>
-            <br>
-            <input type="email" placeholder="Email" id="mod_email" required>
-            <br>
-            <input type="text" placeholder="Plataforma" id="mod_plataforma" required>
-            <br>
-            <input type="submit" id="modificar" class="button_db" value="Modificar Cliente">
-        </center>
-    </form>
-</div>
+        <div class="ventana" id="moduser">
+            <h1>Modificar Cliente</h1>
+            <form>
+                <center>
+                    <input type="text" placeholder="(opcional) Nombre" id="mod_nombre">
+                    <br>
+                    <input type="text" placeholder="NickName" id="mod_nick" required>
+                    <br>
+                    <input type="email" placeholder="Email" id="mod_email" required>
+                    <br>
+                    <input type="text" placeholder="Plataforma" id="mod_plataforma" required>
+                    <br>
+                    <input type="submit" id="modificar" class="button_db" value="Modificar Cliente">
+                </center>
+            </form>
+        </div>
 
-<div class="ventana" id="pagos">
+        <div class="ventana" id="pagos"></div>
 
-</div>
+        <script src="script.js" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-<script src="script.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
-
-</body>
+    </body>
 </html>
