@@ -1,24 +1,8 @@
-/*
-============================================================
-   ÍNDICE (Usa Ctrl + F)
-============================================================
-   ESTILOS_BASE
-   ESTILOS_LAYOUT
-   COMPONENTES_HEADER
-   ESTILOS_INTERFAZ_GENERAL
-   CONTENEDOR_PRINCIPAL_Y_FOOTER
-   PLANTILLAS_CLIENTE
-   ESTILOS_TABLAS
-   VENTANAS_EMERGENTES
-   ESTILOS_TOASTS
-   PLANTILLA_TELEFONO
-============================================================
-*/
 
-/* --- ESTILOS_BASE --- */
+
 
 body, html {
-    background-color: #E7C6FF;
+    background-color: #66A9BE;
     margin: 0;
     overflow: hidden;
     height: 100vh;
@@ -26,15 +10,12 @@ body, html {
     color: #2D283E;
 }
 
-/* --- ESTILOS_LAYOUT --- */
 
 body {
     display: grid;
     grid-template-columns: auto;
     padding: 1%;
 }
-
-/* --- COMPONENTES_HEADER --- */
 
 header {
     display: flex;
@@ -44,31 +25,37 @@ header {
     top: 1;
     height: 10%;
     width: 98%;
-    margin-top: 2vh;
-    border-radius: 20px;
-    background-color: #C8B6FF;
-    border: 1px solid #B8A2FF;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: -0.3%;
+    margin-top: -0.5%;
+    border-radius: 5px;
+    background-color: #3389A9;
+    border: none;
     text-align: center;
-    box-shadow: 0px 0px 10px #636262;
+    box-shadow: 0px 0px 10px #006994;
 }
 
-/* --- ESTILOS_INTERFAZ_GENERAL --- */
 
 button:hover {cursor: pointer;}
+header * {
+    flex: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
 .input_db {
-    height: 60%;
+    height: 48%;
     width: 15%;
     font-size: 20px;
     text-align: center;
-    border-radius: 10px;
-    background-color: #FFFFFF;
-    border: 2px solid #C8B6FF;
+    border-radius: 5px;
+    border: lightblue;
     transition: all 0.3s ease;
 }
 
 .input_db::placeholder {
-    color: #B8A2FF;
+    color: lightgray;
 }
 
 .input_db:focus {
@@ -77,12 +64,12 @@ button:hover {cursor: pointer;}
 }
 
 .button_db {
-    border-radius: 20px;
+    border-radius: 5px;
     transition: all 0.3s ease;
-    background-color: #ad9ce1;
+    background-color: #66A9BE;
+    box-shadow: 0px 4px 0px #006994;
     color: white;
     border: none;
-    box-shadow: 0px 4px 0px #A084E8;
     font-size: large;
     margin: 5px;
     font-weight: bolder;
@@ -95,26 +82,24 @@ button:hover {cursor: pointer;}
 }
 .button_db:active {
     transform: translateY(2px);
-    box-shadow: 0px 2px 0px #A084E8;
+    box-shadow: 0px 2px 0px #50889a;
 }
-/* --- CONTENEDOR_PRINCIPAL_Y_FOOTER --- */
 
 #main {
     padding: 10px;
     overflow:auto;
-    background: #F3F0FF;
-    margin-top: 14vh;
-    height: 67vh;
-    margin-bottom: 2vh;
+    background: #ffffff;
+    margin-top: 11vh;
+    height: 71vh;
     border: 1px solid #C8B6FF;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px #636262;
-}
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 10px #e1e5ff;}
 
 footer {
     bottom: 0;
     margin-bottom: 20px;
-    border-radius: 20px;
+    border-radius: 5px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -122,27 +107,24 @@ footer {
     top: 1;
     height: 10%;
     width: 98%;
-    border-radius: 20px;
-    background-color: #C8B6FF;
-    border: 1px solid #B8A2FF;
+    color: white;
+    background-color: #3389A9;
+    border: none;
     text-align: center;
-    box-shadow: 0px 0px 10px #636262;
+    box-shadow: 0px 0px 10px #006994;
 }
 
-/* --- PLANTILLAS_CLIENTE --- */
 
 .cliente {
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #B8A2FF;
-    border-radius: 10px;
+    border: 2px solid #7cd1e2;
+    border-radius: 5px;
     margin: 10px;
     margin-bottom: 10px;
     margin-left: 20px;
     margin-right: 20px;
     justify-content: center;
     align-items: center;
-    box-shadow: 4px 4px 5px #C8B6FF;
+    box-shadow: 4px 4px 5px #CCE9E8;
 }
 
 .cliente-cont {
@@ -156,7 +138,7 @@ footer {
     width: auto;
     text-align: center;
 }
-.cliente-cont h3 {
+.cliente-cont h4 {
     flex: 3;
 }
 .cliente-cont button {
@@ -171,38 +153,38 @@ footer {
 .cli_button, .cli_modificar, .cli_borrar {
     border-radius: 20px;
     transition: all 0.3s ease;
-    background-color: #C8B6FF;
     color: white;
     border: none;
-    box-shadow: 0px 4px 0px #A084E8;
     font-size: large;
     margin: 5px;
     font-weight: bolder;
-    padding: 20px;
+    padding: 15px;
     align-content: center;
-}
-
-.cli_modificar{
-    background-color: rgb(177, 120, 231); 
-    box-shadow: 0px 4px 0px #7861b3;
+    background-color: #66A9BE; 
+    box-shadow: 0px 4px 0px #3389A9;
 }
 .cli_borrar {
     background-color: rgb(242, 110, 110);
     box-shadow: 0px 4px 0px rgb(224, 77, 77);
 }
-
-
-.cli_button:hover, .cli_modificar:hover, .cli_borrar:hover {
-    transform: scale(1.07);
-    font-weight: bolder;
+.cli_button {
+    background-color: #6bbc81;
+    box-shadow: 0px 4px 0px rgb(97, 154, 112);
 }
 
-.cli_button:active, .cli_modificar:active, .cli_borrar:active {
+.cli_modificar:active {
     transform: translateY(2px);
-    box-shadow: 0px 2px 0px #A084E8;
+    box-shadow: 0px 2px 0px #3389A9;
+}
+.cli_borrar:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px rgb(224, 77, 77);
+}
+.cli_button:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #96e9ac;
 }
 
-/* --- ESTILOS_TABLAS --- */
 
 #template_table {
     width: 80%;
@@ -211,36 +193,38 @@ footer {
 
 table {
     border-collapse: separate; 
-    border-spacing: 0;
+    border-spacing: 10px;
     overflow: hidden;
-    border: 3px solid #C8B6FF;
-    border-radius: 15px;
+    border-radius: 5px;
+    border: none;
     width: 100%;
+    background-color: #3389A9;
 }
 
 tr {
-    background-color: #C8B6FF;
+    background-color: #3389A9;
+    margin-right: 20px;
 }
 
 th {
     color: white;
-    border: 1px solid #C8B6FF;
-    background-color: #C8B6FF;
+    border: 1px solid #3389A9;
+    background-color: #3389A9;
     width: 1.5%;
+    margin: 10px;
 }
 
 td {
-    border-radius: 0px;
-    border:3px solid #C8B6FF;
-    background-color: #FBFBFF;
+    border-radius: 5px;
+    background-color: white;
     text-align: center;
+    padding: 10px;
 }
 
 th:last-child, td:last-child {
     border-right: none; 
 }
 
-/* --- VENTANAS_EMERGENTES --- */
 .ventana {
     display: none;
     text-align: center;
@@ -248,13 +232,12 @@ th:last-child, td:last-child {
     position: fixed;
     width: 30%;
     background-color: rgba(251, 251, 255); 
-    border: 5px solid #C8B6FF;
-    border-radius: 20px;
+    border: 2px solid #66A9BE;
+    border-radius: 5px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0px 0px 5px black;
-    animation: aparecer 0.4s forwards;
+    box-shadow: 0px 0px 10px #66A9BE;
 }
 
 .ventana form {
@@ -269,55 +252,50 @@ th:last-child, td:last-child {
     text-align: center;
     border-radius: 10px;
     background-color: #FFFFFF;
-    border: 2px solid #C8B6FF;
+    border: 2px solid #3389A9;
     height: 50px;
 }
 
 .ventana form input::placeholder {
-    color: #B8A2FF;
-    font-weight: normal;
+    color: gray;
 }
 
 .ventana form input:focus {
     font-weight: bolder;
-    border: 2px solid gray;
+    border: 2px solid #44b6df;
     outline: none;
     margin-left: 10px;
     margin-right: 10px;
 }
-
-.botonsend {
-    transition: all 0.3s ease;
-    background-color: #C8B6FF;
-    color: white;
+#añadir, #modificar {
+    background-color: #66A9BE;
     border: none;
-    box-shadow: 0px 4px 0px #A084E8;
-    font-size: large;
-    margin-bottom: 10px;
-    font-weight: bolder;
+    padding: 0px;
+}
+#moduser {
+    display: none;
 }
 
-.botonsend:hover {
-    transform: scale(1.07) rotate(2deg);
-}
-
-.botonsend:active {
-    transform: translateY(2px);
-    box-shadow: 0px 2px 0px #A084E8;
-}
-
-/* ESTILOS_TOASTS */
 .toast_nube {
-    background: #6f6f9c !important;
-    color: #cdd6f4 !important;
+    background: #66A9BE !important;
+    color: #dfe2eb !important;
     padding: 25px !important;
     font-weight: bolder;
     font-size: 25px;
     height: auto;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
-/* PLANTILLA_TELEFONO */
+.toast_nube:hover {
+    cursor:default;
+}
+
+.tablica {
+    margin: 0px auto;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
 @media screen and (max-width: 768px){
     header {
         position:relative;
@@ -360,13 +338,13 @@ th:last-child, td:last-child {
     }
 
     .toast_nube {
-        background: #6f6f9c !important;
-        color: #cdd6f4 !important;
+        background: #66A9BE !important;
+        color: #dfe2eb !important;
         padding: 10px !important;
         font-weight: bolder;
         font-size: 20px;
         height: auto;
-        border-radius: 10px;
+    border-radius: 5px;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
     }
     .ventana {
@@ -376,32 +354,26 @@ th:last-child, td:last-child {
     }
 
     .cliente {
-        padding: 10px;
         background-color: white;
-        border: 2px solid #B8A2FF;
-        border-radius:10px;
+        border-radius: 5px;
         margin: 10px;
         margin-bottom: 30px;
         margin-left: 20px;
         margin-right: 20px;
         justify-content: center;
         align-items: center;
-        box-shadow: 4px 4px 5px #C8B6FF;
     }
 
     .cliente-cont {
-        display: grid;
-        grid-template-columns: auto;
-        justify-content: center;
-        align-items: center;
+        display: list-item;
+        list-style-type: none;
         text-align: center;
         font-size: 20px;
     }
 
     .cliente-cont * {
-        border: none;
         width: 100%;
-        margin: 5px;
+        margin: 0px;
         text-align: center;
     }
 
@@ -409,33 +381,35 @@ th:last-child, td:last-child {
         border: none;
     }
 
-    .cli_button {
-        border-radius: 20px;
+    .cli_borrar, .cli_modificar, .cli_button {
+        border-radius: 5px;
         transition: all 0.3s ease;
-        background-color: #C8B6FF;
         color: white;
-        box-shadow: 0px 4px 0px #A084E8;
+        border: none;
+        color: white;
         font-size: large;
-        width: 100%;
+        width: 60%;
         margin-bottom: 10px;
     }
 
-    .cli_button:hover {
-        transform: scale(1.07);
+    .cli_button:hover, .cli_borrar:hover, .cli_modificar:hover {
         font-weight: bolder;
     }
 
-    .cli_button:active {
+    .cli_button:active, .cli_borrar:active, .cli_modificar:active {
         transform: translateY(2px);
-        box-shadow: 0px 2px 0px #A084E8;
+        box-shadow: 0px 2px 0px #50889a;
     }
 
     th {
         width: 25%;
-        border-radius: 0px;
+        border-radius: 5px;
     }
     td {
-        border-radius: 0px;
+        border-radius: 5px;
     }
-    /* Holi */
+    .tablica {
+        margin: 0px auto;
+        width: 80%;
+    }
 }

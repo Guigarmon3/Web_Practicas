@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"> <!--CSS DE LOS TOAST-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Gestión De Clientes</title>
 </head>
 <body>
     <header>
-        <input placeholder="Busqueda por nick" class="input_db" id="cli_found">
+        <input placeholder="🔎Busqueda por nick" class="input_db" id="cli_found">
+        <button class="button_db" id="gestoria">Gestoría</button>
         <button class="button_db" id="cotizacion">Cotización</button>
         <button class="button_db" id="cli_add">Añadir Cliente</button>
-        <button class="button_db" id="cli_pendientes">Pagos pendientes</button> <!-- select * from cliente where id in (select id from cliente where is_made = false)-->
+        <button class="button_db" id="cli_pendientes">Pagos pendientes</button> 
         <button class="button_db" id="cli_realizados">Pagos realizados</button>
     </header>
     
@@ -20,37 +21,8 @@
     </div>
 
     <footer>
-        <H2>Gestión De Usuarios</H2>
+        <h2>Gestión De Usuarios</h2>
     </footer>
-
-<!-- Plantillas -->
-
-<div id="template_table">
-    <table>
-        <tbody>
-            <tr>
-                <th>Tipo</th> <!--Tipo de trabajo, retrato, paisaje x-->
-                <th>Descripción</th> <!--Descripcion del trabajo-->
-                <th>id | Numero</th> <!--Id transaccion 6 caracteres-->
-                <th>Fecha</th>
-                <th>Precio USD$</th>
-                <th>Precio PayPal</th> <!-- Realizar operaciones necesarias-->
-                <th>Precio EUR€</th> <!-- Realizar operaciones necesarias-->
-                <th>Transferencia Realizada</th> <!--Boolean-->
-            </tr>
-            <tr>
-                <td>Retrato</td>
-                <td>Realizar un retrato de el perro de Manolo Escobar</td>
-                <td>971230</td>
-                <td>2026-05-14</td>
-                <td>8$</td>
-                <td>7,30$</td>
-                <td>6,86€</td>
-                <td>true</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
 <div class="ventana" id="adduser">
     <h1>Añadir Cliente</h1>
@@ -64,7 +36,7 @@
             <br>
             <input type="text" placeholder="Plataforma" id="add_plataforma" required>
             <br>
-            <input type="submit" id="añadir" class="botonsend">
+            <input type="submit" id="añadir" class="button_db" value="Añadir Cliente">
         </center>
     </form>
 </div>
@@ -81,13 +53,17 @@
             <br>
             <input type="text" placeholder="Plataforma" id="mod_plataforma" required>
             <br>
-            <input type="submit" id="modificar" class="botonsend">
+            <input type="submit" id="modificar" class="button_db" value="Modificar Cliente">
         </center>
     </form>
 </div>
 
+<div class="ventana" id="pagos">
+    
+</div>
+
 <!-- Scripts -->
         <script src="script.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script> <!--Api para los Toast-->
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script> 
 </body>
 </html>
