@@ -320,6 +320,15 @@ input[type="checkbox"] {
     transition: all 0.3s ease;
 }
 
+form {
+    h3 {
+        margin: 0px;
+        position: absolute;
+        margin-left: 10%;
+        margin-bottom: 10%;
+    }
+}
+
 @media screen and (max-width: 768px){
     body, html {
         height: 100vh;
