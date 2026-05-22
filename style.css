@@ -7,6 +7,9 @@ body, html {
     color: #2D283E;
 }
 
+a{
+    text-decoration: none;
+}
 
 body {
     display: grid;
@@ -319,6 +322,10 @@ input[type="checkbox"] {
     border-radius: 200px;
     transition: all 0.3s ease;
 }
+#pagos h2{
+    font-size: xx-large;    
+}
+
 
 form {
     h3 {
@@ -327,6 +334,45 @@ form {
         margin-left: 10%;
         margin-bottom: 10%;
     }
+}
+
+#pagos {
+    padding-top: 0px;
+}
+
+.anyo {
+    border: 2px solid #44b6df;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+.trimestre {
+    border: 2px solid #44b6df;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: large;
+
+}
+
+.mes {
+    border: 2px solid #44b6df;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: medium;
+    font-weight: lighter;
+    flex: 1;
+}
+legend {
+    font-weight: bolder;
+    text-align: center;
+}
+.contenedor-meses {
+    display: flex;
+    gap: 15px;
 }
 
 @media screen and (max-width: 768px){
@@ -340,6 +386,8 @@ form {
         width: 95%;
         height: auto;
         display: grid;
+        align-items: center;
+        justify-content: center;
         grid-template-columns: auto auto;
         margin: 0px auto;
         left: 1%;
@@ -356,7 +404,7 @@ form {
         margin-top: 10px;
         margin-left: 10px;
         margin-right: 10px;
-        height: 50px;
+        height: 30px;
     }
 
     .input_db::placeholder {
@@ -365,7 +413,7 @@ form {
 
     .button_db {
         font-size: 100%;
-        height: 50px;
+        height: 30px;
         margin: 10px;
         padding: 1px;
         text-align: center;
@@ -374,10 +422,11 @@ form {
         overflow: scroll;
         display: grid;
         grid-template-columns: auto auto;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         margin: 0px auto;
-        margin-top: 53%;
+        margin-top: 40%;
+        height: 75%;
         width: 95%;
     }
     footer {
@@ -391,7 +440,7 @@ form {
         font-weight: bolder;
         font-size: 100%;
         height: auto;
-    border-radius: 5px;
+        border-radius: 5px;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
     }
     .ventana {
@@ -401,12 +450,15 @@ form {
     }
 
     .cliente {
+        margin: 0px auto;
         font-size: 100%;
         background-color: white;
         border-radius: 5px;
-        height: 300px;
-        margin-left: 20px;
-        margin-right: 20px;
+        height:min-content;
+        width: max-content;
+        margin: 5px;
+        font-size: smaller;
+        flex:  1;
         padding: 10px;
         justify-content: center;
         align-items: center;
@@ -436,9 +488,9 @@ form {
         border: none;
         color: white;
         font-size: 80%;
- 
         width: 60%;
-        margin-bottom: 10px;
+        padding: 5px;
+        margin: 5px;
     }
 
     .cli_button:hover, .cli_borrar:hover, .cli_modificar:hover {
@@ -462,6 +514,37 @@ form {
         width: 80%;
     }
     #cerrarpagos {
-        width: 80%;
+        width: 10px;
+        height: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: xx-small;
+    }
+     #modpagos, #delpagos {
+        margin-top: -20px;
+     }
+    .lineador {
+        padding: 10px;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+    }
+    .lineador * {
+        width: 50%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    #pagos {
+        font-size: small;
+    }
+    #pagos h2 {
+        font-size: large;
+        margin-right: 20px;
     }
 }
