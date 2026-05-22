@@ -147,8 +147,8 @@ document.addEventListener("click", (e) => {
         
         centro.appendChild(btnCerrar);
         
-        const titulo = document.createElement("h1");
-        titulo.textContent = "Pagos del Cliente \n " + nickTexto;
+        const titulo = document.createElement("h2");
+        titulo.textContent = "Pagos del Cliente: " + nickTexto;
         centro.appendChild(titulo);
 
         const tabla = tablavertical();
@@ -168,7 +168,7 @@ document.addEventListener("click", (e) => {
         const btnModificarFac = document.createElement("button");
         btnModificarFac.classList.add("cli_modificar");
         btnModificarFac.textContent = "Modificar";
-        btnModificarFac.id = "addpagos";
+        btnModificarFac.id = "modpagos";
         btnModificarFac.style.marginTop = "20px";
         btnModificarFac.addEventListener("click", () => {
             ventanaPagos.style.display = "none";
@@ -178,16 +178,18 @@ document.addEventListener("click", (e) => {
         const btnEliminarFac = document.createElement("button");
         btnEliminarFac.classList.add("cli_borrar");
         btnEliminarFac.textContent = "Eliminar";
-        btnEliminarFac.id = "addpagos";
+        btnEliminarFac.id = "delpagos";
         btnEliminarFac.style.marginTop = "20px";
         btnEliminarFac.addEventListener("click", () => {
             ventanaPagos.style.display = "none";
             boton.value = "True";
         });
-
-        centro.appendChild(btnAñadirFac);
-        centro.appendChild(btnModificarFac);
-        centro.appendChild(btnEliminarFac);
+        const lineador = document.createElement("div");
+        lineador.className = "lineador";
+        lineador.appendChild(btnAñadirFac);
+        lineador.appendChild(btnModificarFac);
+        lineador.appendChild(btnEliminarFac);
+        centro.appendChild(lineador)
         ventanaPagos.appendChild(centro);
         ventanaPagos.style.display = "block";
         boton.value = "False";
