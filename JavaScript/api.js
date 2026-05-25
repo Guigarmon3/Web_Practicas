@@ -39,12 +39,6 @@ export async function borrarClienteAPI(identificador) {
     return true;
 }
 
-export async function obtenerFacturasAPI() {
-    const respuesta = await fetch(`${BASE_URL}/invoices`);
-    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
-    return await respuesta.json();
-}
-
 export async function obtenerCotizacionesAPI() {
     const respuesta = await fetch(`${QUOTE_URL}/all`);
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
@@ -59,4 +53,28 @@ export async function crearCotizacionAPI(cotizacionData) {
     });
     if (!res.ok) throw new Error(`Error en la respuesta del servidor: ${res.status}`);
     return await res.json();
+}
+
+export async function obtenerCotizacionAñoAPI(year) {
+    const respuesta = await fetch(`${QUOTE_URL}/search/${year}`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
+
+export async function editarCotizacionAPI(cotizacionData) {
+    const res = await fetch(`${QUOTE_URL}/edit`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cotizacionData)
+    });
+    if (!res.ok) throw new Error(`Error en la respuesta del servidor: ${res.status}`);
+    return await res.json();
+}
+
+export async function borrarCotizacionAPI(year, quarterly) {
+    const respuesta = await fetch(`${QUOTE_URL}/delete/${year}/${quarterly}`, { 
+        method: 'DELETE' 
+    });
+    if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);
+    return true;
 }

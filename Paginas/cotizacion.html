@@ -3,19 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <link rel="stylesheet" href="../Css/style.css">
         <link rel="stylesheet" href="/Css/Cotizacion.css">
         <title>Gestoría</title>
     </head>
     <body>
         <header>
-            <input type="number" id="month" min="1" max="12"  placeholder="mes">
             <input type="number" id="year" min="2020"  placeholder="Año">
             <button class="button_db" id="cotizacion_add">Registrar Cotización</button>
             <button class="button_db" id="cli_pendientes">Pendientes</button> 
             <button class="button_db" id="cli_realizados">Realizados</button>
             <button class="button_db" id="gestoria">Gestoría</button>
-            <a href="../index.html"><button class="button_db" id="cotizacion">Clientes</button></a>
+            <a href="../index.html" class="button_db" id="cotizacion">Clientes</a>
         </header>
         <div id="main"></div>
         <footer>
@@ -42,6 +42,21 @@
                     <input type="date" id="add_fechaPago">
                     <br>
                     <input type="submit" id="añadir" class="button_db" value="Registrar Cotización">
+                </center>
+            </form>
+        </div>
+        <div class="ventana" id="modcotizacion">
+            <h1>Modificar Cotización</h1>
+            <form>
+                <center>
+                    <h3>Cantidad pagada a la TGSS:</h3>
+                    <input type="number" id="mod_importe" required>
+                    <br>
+                    <br>
+                    <h3>Cuándo se realizó el pago (opcional):</h3>
+                    <input type="date" id="mod_fechaPago">
+                    <br>
+                    <input type="submit" id="modificar" class="button_db" value="Modificar Cotización">
                 </center>
             </form>
         </div>

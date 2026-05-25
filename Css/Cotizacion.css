@@ -11,7 +11,7 @@
     align-items: center;
     box-shadow: 4px 4px 5px #CCE9E8;
 }
-#month, #year {
+#year {
     flex: 0.5;
     text-align: center;
     border-radius: 5px;
