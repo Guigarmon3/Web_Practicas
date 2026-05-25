@@ -1,48 +1,69 @@
-const main = document.getElementById("main");
+const API_BASE_URL = 'http://localhost:8080/management';
+const CURRENT_YEAR = 2026;
 
-main.appendChild(crearEstructuraCalendario());
+document.addEventListener('DOMContentLoaded', () => {
+    cargarDatosGestoria(CURRENT_YEAR);
+});
 
-function crearEstructuraCalendario() {
-    const divAno = document.createElement('div');
-    divAno.classList.add('año');
+function cargarDatosGestoria(año) {
+    fetch(`${API_BASE_URL}/all`, {
+        method: 'GET',
+        mode: 'cors'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const registrosAño = data.filter(item => item.facYear === año);
+        generarInterfazHTML(registrosAño);
+    })
+    .catch(error => console.error("Error al cargar datos:", error));
+}
 
-    const trimestres = ['1/4', '2/4', '3/4', '4/4'];
-    const meses = ['1/3', '2/3', '3/3'];
+function generarInterfazHTML(registros) {
+    const mainContainer = document.getElementById('main');
+    mainContainer.innerHTML = '';
 
-    trimestres.forEach(textoTrimestre => {
-        const divTrimestre = document.createElement('div');
-        divTrimestre.classList.add('trimestre');
+    const anyoDiv = document.createElement('div');
+    anyoDiv.className = 'anyo';
 
-        const h3 = document.createElement('h3');
-        h3.textContent = textoTrimestre;
-        divTrimestre.appendChild(h3);
+    const tituloAño = document.createElement('h2');
+    tituloAño.textContent = `Año: ${CURRENT_YEAR}`;
+    anyoDiv.appendChild(tituloAño);
 
-        const contenedorMeses = document.createElement('div');
-        contenedorMeses.classList.add('contenedor-meses');
+    for (let q = 1; q <= 4; q++) {
+        const registroTrimestre = registros.find(item => item.quarterly === q) || {
+            performance: 0.00,
+            taxPayment: 0.00
+        };
 
-        meses.forEach(textoMes => {
-            const fieldsetMes = document.createElement('fieldset');
-            fieldsetMes.classList.add('mes');
-            
-            const legendMes = document.createElement('legend');
-            legendMes.textContent = "Mes: " +  textoMes;
-            fieldsetMes.appendChild(legendMes);
+        const trimestreDiv = document.createElement('div');
+        trimestreDiv.className = 'trimestre';
 
+        const tituloTrimestre = document.createElement('h3');
+        tituloTrimestre.textContent = `Trimestre: ${q}/4`;
+        trimestreDiv.appendChild(tituloTrimestre);
 
-            const divRendimiento = document.createElement('div');
-            divRendimiento.textContent = "Rendimiento calculado por gestoría: ";
-            fieldsetMes.appendChild(divRendimiento);
+        const mesDiv = document.createElement('div');
+        mesDiv.className = 'mes';
 
-            const divPagoHacienda = document.createElement('div');
-            divPagoHacienda.textContent = "Pago realizado a Hacienda: ";
-            fieldsetMes.appendChild(divPagoHacienda);
+        const tituloMes = document.createElement('h4');
+        tituloMes.textContent = `Datos Trimestrales`;
+        mesDiv.appendChild(tituloMes);
 
-            contenedorMeses.appendChild(fieldsetMes);
-        });
+        const pRendimiento = document.createElement('p');
+        pRendimiento.className = 'mes_contenido';
+        pRendimiento.id = `rendimiento-${q}`;
+        pRendimiento.textContent = `Rendimiento: ${registroTrimestre.performance.toFixed(2)} €`;
+        mesDiv.appendChild(pRendimiento);
 
-        divTrimestre.appendChild(contenedorMeses);
-        divAno.appendChild(divTrimestre);
-    });
+        const pPago = document.createElement('p');
+        pPago.className = 'mes_contenido';
+        pPago.id = `pago-${q}`;
+        pPago.textContent = `Pago: ${registroTrimestre.taxPayment.toFixed(2)} €`;
+        mesDiv.appendChild(pPago);
 
-    return divAno;
+        trimestreDiv.appendChild(mesDiv);
+        anyoDiv.appendChild(trimestreDiv);
+    }
+
+    mainContainer.appendChild(anyoDiv);
 }
