@@ -1,0 +1,25 @@
+.cotizacion-item {
+    padding: 10px;
+    display: flex;
+    border: 2px solid #7cd1e2;
+    border-radius: 5px;
+    margin: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content:space-around;
+    align-items: center;
+    box-shadow: 4px 4px 5px #CCE9E8;
+}
+#month, #year {
+    flex: 0.5;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: large;
+    border: none;
+    margin-left: 30px;
+}
+#year {
+    width: 160px;
+}
