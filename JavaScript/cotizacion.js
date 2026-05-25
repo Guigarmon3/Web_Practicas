@@ -10,6 +10,8 @@ const add_trimestre = document.getElementById("add_trimestre");
 const add_importe = document.getElementById("add_importe");
 const add_fechaPago = document.getElementById("add_fechaPago");
 
+let cotizaciones = [];
+
 addcotizacion.addEventListener("click", () => {
     addventana.style.display = "block";
 });
@@ -27,7 +29,7 @@ cargarCotizaciones();
 async function cargarCotizaciones() {
     console.log("Iniciando la consulta fetch...");
     try {
-        const cotizaciones = await obtenerCotizacionesAPI();
+        cotizaciones = await obtenerCotizacionesAPI();
         renderizarCotizaciones(cotizaciones);
     } catch (error) {
         console.error("Error detallado en la consulta:", error);
@@ -44,7 +46,7 @@ function renderizarCotizaciones(cotizaciones) {
         cotizacionElement.classList.add("cotizacion-item");
         cotizacionElement.innerHTML = `
             <h3>Cotización ${cotizacion.year}-${cotizacion.quarterly}</h3>
-            <p>Importe: ${cotizacion.fac_import}</p>
+            <p>Importe: ${cotizacion.fac_import}€</p>
             <p>Fecha de Pago: ${cotizacion.date_pay || 'No especificada'}</p>
         `;
         main.appendChild(cotizacionElement);
@@ -56,6 +58,16 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
     if (!formadd_cotizacion.checkValidity()) return;
 
     try {
+        const year = parseInt(add_year.value);
+        const quarterly = parseInt(add_trimestre.value);
+        const existe = cotizaciones.some(c =>
+                c.year === year &&
+                c.quarterly === quarterly
+            );
+        if (existe) {
+            Toast("Ya existe una cotización para ese año y trimestre");
+            return;
+        }
         const cotizacionData = {
             year: parseInt(add_year.value),
             quarterly: parseInt(add_trimestre.value),
