@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../Css/G.css">
-        <title>Gestoría</title>
-    </head>
-    <body>
-        <header></header>
-        <div id="main">
-             <!-- 1 año tiene 4 trimestres 1 trimestre tiene 3 meses
-             <div class="anyo">
-                <h2>Año: 2016</h2>
-                <div class="trimestre">
-                    <h3>Trimestre: 2/4</h3>
-                    <div class="mes">
-                        <h4>Mes: 1/12</h4>
-                        <p class="mes_contenido" id="rendimiento">4250,00</p>
-                        <p class="mes_contenido" id="pago">850,00</p>
-                    </div>
-                </div>
-             </div> -->
-        </div> 
-        <footer><h1>Gestoría</h1></footer>
-        <script src="./../JavaScript/G-script.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empresa - Trimestres</title>
+    <link rel="stylesheet" href="../Css/G.css">
+</head>
+<body>
+
+    <header>
+        <h1 style="color: white; margin: 0; font-size: 1.5rem;">Panel Gestoría</h1>
+        <button id="btnAnadirAnyo" class="button_db">Añadir Año</button>
+    </header>
+
+    <main id="main">
+        </main>
+
+    <footer>
+        <p>Gestión Interna © 2026</p>
+    </footer>
+
+    <div id="modalAnyo" class="ventana" style="display: none;">
+        <button class="xbutton_db" id="cerrarModalAnyo">X</button>
+        <form id="formAnyo">
+            <h3 style="margin-top: 0; margin-bottom: 20px; text-align: center;">Añadir Nuevo Año</h3>
+            <input type="number" id="inputNuevoAnyo" class="input_db" style="width: 80%; height: 40px; display: block; margin: 0 auto;" placeholder="Ej: 2027" required>
+            <button type="submit" class="button_db" style="margin-top: 20px; width: 80%; display: block; margin-left: auto; margin-right: auto;">Guardar Año</button>
+        </form>
+    </div>
+
+    <div id="modalPago" class="ventana" style="display: none;">
+        <button class="xbutton_db" id="cerrarModalPago">X</button>
+        <form id="formPago">
+            <h3 style="margin-top: 0; margin-bottom: 20px; text-align: center;">Modificar Pago Hacienda</h3>
+            <input type="hidden" id="pagoAnyo">
+            <input type="hidden" id="pagoTrimestre">
+            <input type="number" step="0.01" id="inputNuevoPago" class="input_db" style="width: 80%; height: 40px; display: block; margin: 0 auto;" placeholder="0.00" required>
+            <button type="submit" class="button_db" style="margin-top: 20px; width: 80%; display: block; margin-left: auto; margin-right: auto;">Actualizar Pago</button>
+        </form>
+    </div>
+
+    <script src="../JavaScript/G-script.js"></script>
+</body>
 </html>

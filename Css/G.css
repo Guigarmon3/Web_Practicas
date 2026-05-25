@@ -22,7 +22,7 @@ header {
     justify-content: space-around;
     align-items: center;
     position: absolute;
-    top: 1;
+    top: 1px;
     height: 10%;
     width: 98%;
     padding-left: 10px;
@@ -34,6 +34,7 @@ header {
     border: none;
     text-align: center;
     box-shadow: 0px 0px 10px #006994;
+    z-index: 10;
 }
 
 button:hover { cursor: pointer; }
@@ -50,7 +51,7 @@ header * {
     font-size: 20px;
     text-align: center;
     border-radius: 5px;
-    border: lightblue;
+    border: 1px solid lightblue;
     transition: all 0.3s ease;
 }
 
@@ -89,12 +90,11 @@ header * {
 }
 
 #main {
-    padding: 10px;
+    padding: 20px;
     overflow: auto;
     background: #ffffff;
     margin-top: 11vh;
     height: 71vh;
-    border: 1px solid #C8B6FF;
     border-radius: 5px;
     border: none;
     box-shadow: 0px 0px 10px #e1e5ff;
@@ -108,7 +108,6 @@ footer {
     justify-content: space-around;
     align-items: center;
     position: absolute;
-    top: 1;
     height: 10%;
     width: 98%;
     color: white;
@@ -120,7 +119,7 @@ footer {
 
 .anyo {
     border: 2px solid #44b6df;
-    margin: 10px;
+    margin-bottom: 25px;
     border-radius: 5px;
     padding: 15px;
     font-size: xx-large;
@@ -188,18 +187,70 @@ footer {
     font-weight: bold;
     font-size: 1.1rem;
     color: #2D283E;
-    text-align: left;
+    text-align: right;
     border: 1px solid #CCE9E8;
     width: auto;
 }
 
+/* Estilos de Modales compartidos desde tu diseño */
+.ventana {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 3px solid #3389A9;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    width: 400px;
+}
+
+.xbutton_db {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cli_borrar, .cli_button {
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    color: white;
+    border: none;
+    font-size: 80%;
+    padding: 8px 12px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.cli_borrar {
+    background-color: #e74c3c;
+}
+
+.cli_button {
+    background-color: #3498db;
+}
+
+.cli_button:hover, .cli_borrar:hover {
+    font-weight: bolder;
+    filter: brightness(0.9);
+}
+
 @media screen and (min-width: 769px) {
-    .anyo {
+    .contenedor-horizontal-trimestres {
+        display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .trimestre {
-        margin: 0;
+        gap: 15px;
+        width: 100%;
     }
 }
 
@@ -207,78 +258,25 @@ footer {
     body, html {
         height: 100vh;
     }
-    * {
-        overflow: hidden;
-    }
     header {
         width: 95%;
         height: auto;
         display: grid;
-        align-items: center;
-        justify-content: center;
         grid-template-columns: auto auto;
         margin: 0px auto;
         left: 1%;
     }
-
-    header * {
-        width: 150px;
-        flex: 1;
-        margin: 0px auto;
-        margin-top: 10px;
-    }
-    .input_db {
-        font-size: 100%;
-        margin-top: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
-        height: 30px;
-    }
-
-    .input_db::placeholder {
-        color: transparent;
-    }
-
-    .button_db {
-        font-size: 100%;
-        height: 30px;
-        margin: 10px;
-        padding: 1px;
-        text-align: center;
-    }
     #main {
         overflow: scroll;
-        display: block;
-        margin: 0px auto;
         margin-top: 40%;
         height: 75%;
         width: 95%;
     }
-    
-    .anyo {
-        flex-direction: column;
-    }
-
-    .trimestre {
+    .contenedor-horizontal-trimestres {
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        margin-bottom: 15px;
+        gap: 15px;
     }
-    
-    .mes {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 0;
-        gap: 10px;
-    }
-    
-    .mes_contenido {
-        width: auto;
-    }
-
     footer {
         display: none;
     }
