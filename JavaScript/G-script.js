@@ -39,10 +39,17 @@ function obtenerTrimestre(mes) {
     if (mes >= 7 && mes <= 9) return 3;
     return 4;
 }
+const mainContainer = document.getElementById('main');
+mainContainer.innerHTML = '';
+
+const botoncete = document.createElement("button");
+botoncete.id = "btnAnadirAnyo";
+botoncete.className = "button_db";
+botoncete.textContent="Añadir Año"
+mainContainer.appendChild(botoncete)
 
 function procesarYRenderizar(management, bills) {
-    const mainContainer = document.getElementById('main');
-    mainContainer.innerHTML = '';
+
 
     const anyosConFacturas = bills
         .map(bill => bill.billDate ? new Date(bill.billDate).getFullYear() : null)
@@ -50,8 +57,9 @@ function procesarYRenderizar(management, bills) {
 
     const anyosConManagement = management.map(item => item.facYear);
 
-    const anyosUnicos = [...new Set([...anyosConFacturas, ...anyosConManagement])].sort((a, b) => b - a);
-
+    const todasLasFechas = anyosConFacturas.concat(anyosConManagement);
+    const anyosUnicos = Array.from(new Set(todasLasFechas));
+    
     anyosUnicos.forEach(anyo => {
         const anyoDiv = document.createElement('div');
         anyoDiv.className = 'anyo';

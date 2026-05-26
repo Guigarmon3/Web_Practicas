@@ -29,26 +29,27 @@ cerrar_add_cotizacion.addEventListener("click", () => {
     addventana.style.display = "none";
 });
 
+document.getElementById("cerrar_mod_cotizacion").addEventListener("click", () => {
+    modventana.style.display = "none";
+});
+
 add_year.value = new Date().getFullYear();
 add_trimestre.value = Math.ceil((new Date().getMonth() + 1) / 3);
-add_importe.value = "";
 
-cargarCotizaciones();
+document.addEventListener('DOMContentLoaded', cargarCotizaciones);
 
 async function cargarCotizaciones() {
-    console.log("Iniciando la consulta fetch...");
     try {
         cotizaciones = await obtenerCotizacionesAPI();
         renderizarCotizaciones(cotizaciones);
     } catch (error) {
-        console.error("Error detallado en la consulta:", error);
+        console.error("Error al cargar las cotizaciones:", error);
     }
 }
 
-function renderizarCotizaciones(cotizaciones) {
-    const main = document.getElementById("main");
-    if (!main) return;
-    main.innerHTML = ''; 
+function renderizarCotizaciones(lista) {
+    const contenedorCotizaciones = document.getElementById('contenedor-cotizaciones');
+    contenedorCotizaciones.innerHTML = '';
 
     cotizaciones.forEach(cotizacion => {
         const cotizacionElement = document.createElement("div");
@@ -91,10 +92,16 @@ function renderizarCotizaciones(cotizaciones) {
                     Toast("No se pudo eliminar la cotización");
                 }
             }
+
+            divBotones.appendChild(btnMod);
+            divBotones.appendChild(btnDel);
+            divCot.appendChild(divBotones);
+
+            divListado.appendChild(divCot);
         });
-        cotizacionElement.appendChild(modificar);
-        cotizacionElement.appendChild(borrar);
-        main.appendChild(cotizacionElement);
+
+        divAnio.appendChild(divListado);
+        contenedorCotizaciones.appendChild(divAnio);
     });
 }
 
@@ -161,15 +168,9 @@ formmod_cotizacion.addEventListener("submit", async (e) => {
         });
         console.log('Cotización actualizada:', cotizacionData);
         Toast("Cotización actualizada correctamente");
-        cargarCotizaciones();
-        
-        formmod_cotizacion.reset();
         modventana.style.display = "none";
-        cotizacionEditable = null;
-    } catch (err) {
-        console.error('Error:', err);
-        Toast("No se pudo actualizar la cotización");
+        cargarCotizaciones();
+    } catch (error) {
+        console.error("Error", error);
     }
-    modventana.style.display = "none";
-    cargarCotizaciones();
 });
