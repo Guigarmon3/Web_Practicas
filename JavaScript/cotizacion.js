@@ -54,9 +54,9 @@ function renderizarCotizaciones(cotizaciones) {
         const cotizacionElement = document.createElement("div");
         cotizacionElement.classList.add("cotizacion-item");
         cotizacionElement.innerHTML = `
-            <h3>Cotización ${cotizacion.year}-${cotizacion.quarterly}</h3>
-            <p>Importe: ${cotizacion.fac_import}€</p>
-            <p>Fecha de Pago: ${cotizacion.date_pay ? cotizacion.date_pay.split('T')[0] : 'aún no se ha pagado'}</p>
+            <h3>Cotización ${cotizacion.quoteYear}-${cotizacion.quarterly}</h3>
+            <p>Importe: ${cotizacion.facImport}€</p>
+            <p>Fecha de Pago: ${cotizacion.datePay ? cotizacion.datePay.split('T')[0] : 'aún no se ha pagado'}</p>
         `;
         const modificar = document.createElement("button");
         modificar.classList.add("cli_modificar");
@@ -67,8 +67,8 @@ function renderizarCotizaciones(cotizaciones) {
             if (modificar.value === "False") {
                 modventana.style.display = "block";
                 modificar.value = "True";
-                mod_importe.value = cotizacion.fac_import || '';
-                mod_fechaPago.value = cotizacion.date_pay ? cotizacion.date_pay.split('T')[0] : '';
+                mod_importe.value = cotizacion.facImport || '';
+                mod_fechaPago.value = cotizacion.datePay ? cotizacion.datePay.split('T')[0] : '';
                 cotizacionEditable = cotizacion;
             } else {
                 modventana.style.display = "none";
@@ -81,9 +81,9 @@ function renderizarCotizaciones(cotizaciones) {
         borrar.classList.add("cli_borrar");
         borrar.textContent = "Eliminar";
         borrar.addEventListener("click", async () => {
-            if (confirm(`¿Estás seguro de que quieres eliminar el  ${cotizacion.year}-${cotizacion.quarterly}?`)) {
+            if (confirm(`¿Estás seguro de que quieres eliminar el  ${cotizacion.quoteYear}-${cotizacion.quarterly}?`)) {
                 try {
-                    await borrarCotizacionAPI(cotizacion.year, cotizacion.quarterly);
+                    await borrarCotizacionAPI(cotizacion.quoteYear, cotizacion.quarterly);
                     Toast("Cotización eliminada correctamente");
                     cargarCotizaciones();
                 } catch (error) {
@@ -106,7 +106,7 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
         const year = parseInt(add_year.value);
         const quarterly = parseInt(add_trimestre.value);
         const existe = cotizaciones.some(c =>
-                c.year === year &&
+                c.quoteYear === year &&
                 c.quarterly === quarterly
             );
         if (existe) {
@@ -114,10 +114,10 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
             return;
         }
         const cotizacionData = {
-            year: parseInt(add_year.value),
+            quoteYear: parseInt(add_year.value),
             quarterly: parseInt(add_trimestre.value),
-            fac_import: parseFloat(add_importe.value),
-            date_pay: add_fechaPago.value ? add_fechaPago.value : null
+            facImport: parseFloat(add_importe.value),
+            datePay: add_fechaPago.value ? add_fechaPago.value : null
         };
         const data = await crearCotizacionAPI(cotizacionData);
         console.log('Cotización registrada:', data);
@@ -154,10 +154,10 @@ formmod_cotizacion.addEventListener("submit", async (e) => {
 
     try {
         const cotizacionData = await editarCotizacionAPI({
-            year: cotizacionEditable.year,
+            quoteYear: cotizacionEditable.quoteYear,
             quarterly: cotizacionEditable.quarterly,
-            fac_import: mod_importe.value,
-            date_pay: mod_fechaPago.value
+            facImport: mod_importe.value,
+            datePay: mod_fechaPago.value
         });
         console.log('Cotización actualizada:', cotizacionData);
         Toast("Cotización actualizada correctamente");

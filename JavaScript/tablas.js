@@ -1,5 +1,4 @@
-export const headers = ["id | Numero", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Transferencia Realizada"];
-export const data = ["ID de factura", "Fecha de factura", "precio en $", "Precio paypal$", "precio en €", "true o false"];
+export const headers = ["id | Numero", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Transferencia Realizada"];
 
 export function tablavertical() {
     const table = document.createElement("table");
@@ -24,8 +23,6 @@ export function tablavertical() {
                     }
                 });
                 td.append(caja)
-        } else {
-            td.textContent = data[i];
         }
 
         tr.appendChild(th);

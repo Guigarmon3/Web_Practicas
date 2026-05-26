@@ -1,4 +1,5 @@
 const CUSTOMER_URL = 'http://localhost:8080/customers';
+const BILL_URL = 'http://localhost:8080/bill';
 const QUOTE_URL = 'http://localhost:8080/quotes';
 
 export async function obtenerTodosLosClientes() {
@@ -37,6 +38,22 @@ export async function borrarClienteAPI(identificador) {
     const respuesta = await fetch(`${CUSTOMER_URL}/delete?id=${identificador}`, { method: 'DELETE' });
     if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);
     return true;
+}
+
+export async function obtenerPagosCliente(idCustomer) {
+    const respuesta = await fetch(`${BILL_URL}/customer/${idCustomer}`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
+
+export async function crearPagoAPI(pagoData) {
+    const res = await fetch(`${BILL_URL}/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pagoData)
+    });
+    if (!res.ok) throw new Error(`Error en la respuesta del servidor: ${res.status}`);
+    return await res.json();
 }
 
 export async function obtenerCotizacionesAPI() {

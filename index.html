@@ -58,6 +58,28 @@
             </form>
         </div>
 
+        <div class="ventana" id="addpago">
+            <button class="xbutton_db" id="cerrar_addPago">X</button>
+            <h1>Añadir Pago</h1>
+            <form>
+                <center>
+                    <input type="text" placeholder="Tipo" id="add_tipo_pago" required>
+                    <br>
+                    <input type="text" placeholder="Titulo" id="add_titulo_pago" required>
+                    <br>
+                    <input type="date" placeholder="Fecha" id="add_fecha_pago" required>
+                    <br>
+                    <input type="number" placeholder="Precio USD$" id="add_precio_pago" required>
+                    <br>
+                    <input type="number" placeholder="Precio PayPal" id="add_precio_paypal" required>
+                    <br>
+                    <input type="number" placeholder="Precio EUR€" id="add_precio_eur" required>
+                    <br>
+                    <input type="submit" id="añadirPago" class="button_db" value="Añadir Pago">
+                </center>
+            </form>
+        </div>
+
         <div class="ventana" id="pagos"></div>
 
         <script src="JavaScript/script.js" type="module"></script>

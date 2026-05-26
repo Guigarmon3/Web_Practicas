@@ -3,12 +3,15 @@ import {
     buscarClienteAPI, 
     crearClienteAPI, 
     editarClienteAPI, 
-    borrarClienteAPI 
+    borrarClienteAPI,
+    obtenerPagosCliente,
+    crearPagoAPI,
 } from './api.js';
 
 import { tablavertical, Toast } from './tablas.js';
 
 let clienteEditable = null;
+let clientePagos = null;
 
 const adduser = document.getElementById("cli_add");
 const addventana = document.getElementById("adduser");
@@ -32,6 +35,18 @@ const ventanaPagos = document.getElementById("pagos");
 const inputbuscat = document.getElementById("cli_found");
 const MostrarPendientes = document.getElementById("cli_pendientes");
 const MostrarRealizados = document.getElementById("cli_realizados");
+
+const addventanaPagos = document.getElementById("addpago");
+const cerrar_addpagos = document.getElementById("cerrar_addPago");
+const formaddpagos = document.querySelector("#addpago form");
+
+const add_tipo_pago = document.getElementById("add_tipo_pago");
+const add_titulo_pago = document.getElementById("add_titulo_pago");
+const add_fecha_pago = document.getElementById("add_fecha_pago");
+const add_precio_pago = document.getElementById("add_precio_pago");
+const add_precio_paypal = document.getElementById("add_precio_paypal");
+const add_precio_eur = document.getElementById("add_precio_eur");
+const añadirPago = document.getElementById("añadirPago");
 
 adduser.value = "False";
 document.addEventListener('DOMContentLoaded', cargarClientes);
@@ -116,6 +131,9 @@ function renderizarClientes(clientes) {
         botonPagos.classList.add("cli_button");
         botonPagos.value = "True";
         botonPagos.textContent = "Pagos";
+        botonPagos.addEventListener("click", async () => {
+            clientePagos = cliente;
+        });
 
         newdiv2.append(nombre, nickname, correo, plataforma, modificar, borrar, botonPagos);
         newdiv.appendChild(newdiv2);
@@ -123,7 +141,7 @@ function renderizarClientes(clientes) {
     });
 }
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
     const boton = e.target.closest(".cli_button");
     if (!boton) return;
 
@@ -153,6 +171,37 @@ document.addEventListener("click", (e) => {
 
         const tabla = tablavertical();
         tabla.style.width = "100%";
+
+        try {
+            let tbody = tabla.querySelector("tbody");
+            if (!tbody) {
+                tbody = document.createElement("tbody");
+                tabla.appendChild(tbody);
+            }
+
+            const pagos = await obtenerPagosCliente(clientePagos.id);
+
+            if (pagos.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
+            } else {
+                pagos.forEach(pago => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${pago.facturaType}</td>
+                        <td>${pago.title}</td>
+                        <td>${pago.billDate}</td>
+                        <td>$${pago.priceUs}</td>
+                        <td>€${pago.priceEu}</td>
+                        <td><input type="checkbox" ${pago.is_made ? 'checked' : ''} disabled></td>
+                    `;
+                    tbody.appendChild(fila);
+                });
+            }
+        } catch (error) {
+            console.error("Error al cargar los pagos:", error);
+            Toast("Error al cargar la lista de pagos.");
+        }
+
         centro.appendChild(tabla);
 
         const btnAñadirFac = document.createElement("button");
@@ -161,10 +210,14 @@ document.addEventListener("click", (e) => {
         btnAñadirFac.id = "addpagos";
         btnAñadirFac.style.marginTop = "20px";
         btnAñadirFac.addEventListener("click", () => {
-            ventanaPagos.style.display = "none";
+            addventanaPagos.style.display = "block";
+            boton.value = "False";
+        });
+        cerrar_addpagos.addEventListener("click", () => {
+            addventanaPagos.style.display = "none";
             boton.value = "True";
         });
-
+        
         const btnModificarFac = document.createElement("button");
         btnModificarFac.classList.add("cli_modificar");
         btnModificarFac.textContent = "Modificar";
@@ -252,11 +305,39 @@ formadd.addEventListener("submit", async (e) => {
         cargarClientes(); 
     } catch (err) {
         console.error('Error:', err);
+        Toast("No se pudo añadir el cliente. Inténtalo de nuevo.");
     }
         
     formadd.reset();
     addventana.style.display = "none";
     adduser.value = "False";
+});
+
+formaddpagos.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!formaddpagos.checkValidity()) return;
+
+    try {
+        const data = await crearPagoAPI({
+            facturaType: add_tipo_pago.value,
+            title: add_titulo_pago.value,
+            billDate: add_fecha_pago.value,
+            priceUs: add_precio_pago.value,
+            pricePaypal: add_precio_paypal.value,
+            priceEu: add_precio_eur.value,
+            isMade: true,
+            customer: {
+                id: clientePagos.id
+            }
+        });
+        console.log('Pago añadido:', data);
+        Toast("Pago añadido correctamente");
+    } catch (err) {
+        console.error('Error al añadir pago:', err);
+        Toast("No se pudo añadir el pago. Inténtalo de nuevo.");
+    }
+    formaddpagos.reset();
+    addventanaPagos.style.display = "none";
 });
 
 formmod.addEventListener("submit", async (e) => {
