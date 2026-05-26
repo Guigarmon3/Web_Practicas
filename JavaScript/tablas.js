@@ -1,37 +1,21 @@
-export const headers = ["id | Numero", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Transferencia Realizada"];
+export const headers = ["id | Numero", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Transferencia Realizada", ""];
 
-export function tablavertical() {
+export function tablaHorizontal() {
     const table = document.createElement("table");
-    const tbody = document.createElement("tbody");
+    table.classList.add("tablica");
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
 
-    headers.forEach((text, i) => {
-        const tr = document.createElement("tr");
-
+    headers.forEach(text => {
         const th = document.createElement("th");
         th.textContent = text;
-        const td = document.createElement("td");
-        if (th.textContent === "Transferencia Realizada") {
-                const caja = document.createElement("input");
-                caja.type="checkbox";
-                caja.classList.add="checkmate"
-                td.style.backgroundColor="red"
-                td.addEventListener("click", (e)=>{
-                    if (caja.checked) {
-                        td.style.backgroundColor="green";
-                    } else {
-                        td.style.backgroundColor="red"
-                    }
-                });
-                td.append(caja)
-        }
-
-        tr.appendChild(th);
-        tr.appendChild(td);
-        tbody.appendChild(tr);
+        headerRow.appendChild(th);
     });
-
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    const tbody = document.createElement("tbody");
     table.appendChild(tbody);
-    table.classList.add("tablica");
+
     return table;
 }
 

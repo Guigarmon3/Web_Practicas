@@ -153,7 +153,6 @@ footer {
     border: none;
 }
 
-
 .cli_button, .cli_modificar, .cli_borrar {
     border-radius: 5px;
     transition: all 0.3s ease;
@@ -198,7 +197,6 @@ footer {
 table {
     border-collapse: separate; 
     border-spacing: 10px;
-    overflow: hidden;
     border-radius: 5px;
     border: none;
     width: 100%;
@@ -222,7 +220,6 @@ td {
     border-radius: 5px;
     background-color: white;
     text-align: center;
-    padding: 10px;
 }
 
 th:last-child, td:last-child {
@@ -295,9 +292,12 @@ th:last-child, td:last-child {
 }
 
 .tablica {
+    overflow: auto;
+    max-height: 60vh;
     margin: 0px auto;
     margin-bottom: 10px;
     width: 80%;
+    display: block;
 }
 
 input[type="checkbox"] {
@@ -326,7 +326,6 @@ input[type="checkbox"] {
     font-size: xx-large;    
 }
 
-
 form {
     h3 {
         margin: 0px;
@@ -337,7 +336,16 @@ form {
 }
 
 #pagos {
+    height: 80vh;
+    width: 80%;
     padding-top: 0px;
+}
+
+.botones-pago {
+    display: flex;
+    justify-content: center;
+    width: 150px;
+    background-color: transparent;
 }
 
 .anyo {

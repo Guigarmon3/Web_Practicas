@@ -79,8 +79,31 @@
                 </center>
             </form>
         </div>
-
+        
         <div class="ventana" id="pagos"></div>
+
+        <div class="ventana" id="modpago">
+            <h1>Modificar Pago</h1>
+            <form>
+                <center>
+                    <input type="text" placeholder="Tipo" id="mod_tipo_pago" required>
+                    <br>
+                    <input type="text" placeholder="Titulo" id="mod_titulo_pago" required>
+                    <br>
+                    <input type="date" placeholder="Fecha" id="mod_fecha_pago" required>
+                    <br>
+                    <input type="number" placeholder="Precio USD$" id="mod_precio_pago" required>
+                    <br>
+                    <input type="number" placeholder="Precio PayPal" id="mod_precio_paypal" required>
+                    <br>
+                    <input type="number" placeholder="Precio EUR€" id="mod_precio_eur" required>
+                    <h4 class="modal-label">Transferencia:</h4>
+                    <input type="checkbox" id="mod_transferencia" required>
+                    <br>
+                    <input type="submit" id="modificarPago" class="button_db" value="Modificar Pago">
+                </center>
+            </form>
+        </div>
 
         <script src="JavaScript/script.js" type="module"></script>
         <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

@@ -1,5 +1,5 @@
 import { obtenerCotizacionesAPI, crearCotizacionAPI, obtenerCotizacionAñoAPI, editarCotizacionAPI, borrarCotizacionAPI} from "./api.js";
-import { tablavertical, Toast } from './tablas.js';
+import { Toast } from './tablas.js';
 const addcotizacion = document.getElementById("cotizacion_add");
 const addventana = document.getElementById("addcotizacion");
 const cerrar_add_cotizacion = document.getElementById("cerrar_add_cotizacion");
@@ -50,6 +50,7 @@ async function cargarCotizaciones() {
 function renderizarCotizaciones(lista) {
     const contenedorCotizaciones = document.getElementById('contenedor-cotizaciones');
     contenedorCotizaciones.innerHTML = '';
+
     const cotizacionesAgrupadas = {};
     lista.forEach(cot => {
         if (!cotizacionesAgrupadas[cot.quoteYear]) {
@@ -149,25 +150,14 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
     if (!formadd_cotizacion.checkValidity()) return;
 
     try {
-        const year = parseInt(add_year.value);
-        const quarterly = parseInt(add_trimestre.value);
-        const existe = cotizaciones.some(c =>
-                c.quoteYear === year &&
-                c.quarterly === quarterly
-            );
-        if (existe) {
-            Toast("Ya existe una cotización para ese año y trimestre");
-            return;
-        }
-        const cotizacionData = {
-            quoteYear: parseInt(add_year.value),
-            quarterly: parseInt(add_trimestre.value),
-            facImport: parseFloat(add_importe.value),
-            datePay: add_fechaPago.value ? add_fechaPago.value : null
-        };
-        const data = await crearCotizacionAPI(cotizacionData);
-        console.log('Cotización registrada:', data);
-        Toast("Cotización registrada correctamente");
+        const data = await crearCotizacionAPI({
+            quoteYear: add_year.value,
+            quarterly: add_trimestre.value,
+            facImport: add_importe.value,
+            datePay: add_fechaPago.value || null
+        });
+        console.log('Guardado:', data);
+        Toast("Cotización añadida correctamente");
     } catch (err) {
         console.error('Error:', err);
     }
@@ -203,7 +193,7 @@ formmod_cotizacion.addEventListener("submit", async (e) => {
             quoteYear: cotizacionEditable.quoteYear,
             quarterly: cotizacionEditable.quarterly,
             facImport: mod_importe.value,
-            datePay: mod_fechaPago.value
+            datePay: mod_fechaPago.value || null
         });
         console.log('Cotización actualizada:', cotizacionData);
         Toast("Cotización actualizada correctamente");

@@ -8,7 +8,7 @@ import {
     crearPagoAPI,
 } from './api.js';
 
-import { tablavertical, Toast } from './tablas.js';
+import { tablaHorizontal, Toast } from './tablas.js';
 
 let clienteEditable = null;
 let clientePagos = null;
@@ -47,6 +47,18 @@ const add_precio_pago = document.getElementById("add_precio_pago");
 const add_precio_paypal = document.getElementById("add_precio_paypal");
 const add_precio_eur = document.getElementById("add_precio_eur");
 const añadirPago = document.getElementById("añadirPago");
+
+const modventanaPagos = document.getElementById("modpago");
+const formmodpagos = document.querySelector("#modpago form");
+
+const mod_tipo_pago = document.getElementById("mod_tipo_pago");
+const mod_titulo_pago = document.getElementById("mod_titulo_pago");
+const mod_fecha_pago = document.getElementById("mod_fecha_pago");
+const mod_precio_pago = document.getElementById("mod_precio_pago");
+const mod_precio_paypal = document.getElementById("mod_precio_paypal");
+const mod_precio_eur = document.getElementById("mod_precio_eur");
+const mod_transferencia = document.getElementById("mod_transferencia");
+const modificarPago = document.getElementById("modificarPago");
 
 adduser.value = "False";
 document.addEventListener('DOMContentLoaded', cargarClientes);
@@ -99,10 +111,10 @@ function renderizarClientes(clientes) {
                 modventana.style.display = "block";
                 modificar.value = "True";
 
-                modnombre.value = cliente.name || '';
-                modnick.value = cliente.nick || '';
-                modcorreo.value = cliente.email || '';
-                modplataforma.value = cliente.platform || '';
+                modnombre.value = cliente.name;
+                modnick.value = cliente.nick;
+                modcorreo.value = cliente.email;
+                modplataforma.value = cliente.platform;
                 clienteEditable = cliente;
             } else {
                 modventana.style.display = "none";
@@ -169,31 +181,57 @@ document.addEventListener("click", async (e) => {
         titulo.textContent = "Pagos del Cliente: " + nickTexto;
         centro.appendChild(titulo);
 
-        const tabla = tablavertical();
+        const tabla = tablaHorizontal();
         tabla.style.width = "100%";
 
         try {
-            let tbody = tabla.querySelector("tbody");
-            if (!tbody) {
-                tbody = document.createElement("tbody");
-                tabla.appendChild(tbody);
-            }
-
+            const tbody = tabla.querySelector("tbody");
             const pagos = await obtenerPagosCliente(clientePagos.id);
 
             if (pagos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${headers.length}" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
             } else {
                 pagos.forEach(pago => {
                     const fila = document.createElement("tr");
                     fila.innerHTML = `
+                        <td>${pago.idNumber || pago.id}</td>
                         <td>${pago.facturaType}</td>
                         <td>${pago.title}</td>
                         <td>${pago.billDate}</td>
                         <td>$${pago.priceUs}</td>
+                        <td>€${pago.pricePaypal}</td>
                         <td>€${pago.priceEu}</td>
-                        <td><input type="checkbox" ${pago.is_made ? 'checked' : ''} disabled></td>
                     `;
+                    const tdCheck = document.createElement("td");
+                    const caja = document.createElement("input");
+                    caja.type = "checkbox";
+                    caja.checked = pago.is_made;
+                    caja.disabled = true;
+                    tdCheck.style.backgroundColor = "transparent";
+
+                    const botones = document.createElement("td");
+                    botones.classList.add("botones-pago");
+                    
+                    const btnModificarFac = document.createElement("button");
+                    btnModificarFac.classList.add("cli_modificar");
+                    btnModificarFac.textContent = "Modificar";
+                    btnModificarFac.id = "modpagosButton";
+                    btnModificarFac.addEventListener("click", async () => {
+                        modventanaPagos.style.display = "block";
+
+                    });
+
+                    const btnEliminarFac = document.createElement("button");
+                    btnEliminarFac.classList.add("cli_borrar");
+                    btnEliminarFac.textContent = "Eliminar";
+                    btnEliminarFac.id = "delpagosButton";
+                    btnEliminarFac.style.marginRight = "-50%";
+
+                    botones.appendChild(btnModificarFac);
+                    botones.appendChild(btnEliminarFac);
+                    tdCheck.appendChild(caja);
+                    fila.appendChild(tdCheck);
+                    fila.appendChild(botones);
                     tbody.appendChild(fila);
                 });
             }
@@ -218,30 +256,9 @@ document.addEventListener("click", async (e) => {
             boton.value = "True";
         });
         
-        const btnModificarFac = document.createElement("button");
-        btnModificarFac.classList.add("cli_modificar");
-        btnModificarFac.textContent = "Modificar";
-        btnModificarFac.id = "modpagos";
-        btnModificarFac.style.marginTop = "20px";
-        btnModificarFac.addEventListener("click", () => {
-            ventanaPagos.style.display = "none";
-            boton.value = "True";
-        });
-
-        const btnEliminarFac = document.createElement("button");
-        btnEliminarFac.classList.add("cli_borrar");
-        btnEliminarFac.textContent = "Eliminar";
-        btnEliminarFac.id = "delpagos";
-        btnEliminarFac.style.marginTop = "20px";
-        btnEliminarFac.addEventListener("click", () => {
-            ventanaPagos.style.display = "none";
-            boton.value = "True";
-        });
         const lineador = document.createElement("div");
         lineador.className = "lineador";
         lineador.appendChild(btnAñadirFac);
-        lineador.appendChild(btnModificarFac);
-        lineador.appendChild(btnEliminarFac);
         centro.appendChild(lineador)
         ventanaPagos.appendChild(centro);
         ventanaPagos.style.display = "block";
