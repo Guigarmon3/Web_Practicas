@@ -57,8 +57,9 @@ function procesarYRenderizar(management, bills) {
 
     const anyosConManagement = management.map(item => item.facYear);
 
-    const anyosUnicos = [...new Set([...anyosConFacturas, ...anyosConManagement])].sort((a, b) => b - a);
-
+    const todasLasFechas = anyosConFacturas.concat(anyosConManagement);
+    const anyosUnicos = Array.from(new Set(todasLasFechas));
+    
     anyosUnicos.forEach(anyo => {
         const anyoDiv = document.createElement('div');
         anyoDiv.className = 'anyo';

@@ -29,72 +29,118 @@ cerrar_add_cotizacion.addEventListener("click", () => {
     addventana.style.display = "none";
 });
 
+document.getElementById("cerrar_mod_cotizacion").addEventListener("click", () => {
+    modventana.style.display = "none";
+});
+
 add_year.value = new Date().getFullYear();
 add_trimestre.value = Math.ceil((new Date().getMonth() + 1) / 3);
-add_importe.value = "";
 
-cargarCotizaciones();
+document.addEventListener('DOMContentLoaded', cargarCotizaciones);
 
 async function cargarCotizaciones() {
-    console.log("Iniciando la consulta fetch...");
     try {
         cotizaciones = await obtenerCotizacionesAPI();
         renderizarCotizaciones(cotizaciones);
     } catch (error) {
-        console.error("Error detallado en la consulta:", error);
+        console.error("Error al cargar las cotizaciones:", error);
     }
 }
 
-function renderizarCotizaciones(cotizaciones) {
-    const main = document.getElementById("main");
-    if (!main) return;
-    main.innerHTML = ''; 
+function renderizarCotizaciones(lista) {
+    const contenedorCotizaciones = document.getElementById('contenedor-cotizaciones');
+    contenedorCotizaciones.innerHTML = '';
 
-    cotizaciones.forEach(cotizacion => {
-        const cotizacionElement = document.createElement("div");
-        cotizacionElement.classList.add("cotizacion-item");
-        cotizacionElement.innerHTML = `
-            <h3>Cotización ${cotizacion.year}-${cotizacion.quarterly}</h3>
-            <p>Importe: ${cotizacion.fac_import}€</p>
-            <p>Fecha de Pago: ${cotizacion.date_pay ? cotizacion.date_pay.split('T')[0] : 'aún no se ha pagado'}</p>
-        `;
-        const modificar = document.createElement("button");
-        modificar.classList.add("cli_modificar");
-        modificar.textContent = "Modificar";
-        modificar.value = "False";
-        
-        modificar.addEventListener("click", () => {
-            if (modificar.value === "False") {
-                modventana.style.display = "block";
-                modificar.value = "True";
-                mod_importe.value = cotizacion.fac_import || '';
-                mod_fechaPago.value = cotizacion.date_pay ? cotizacion.date_pay.split('T')[0] : '';
-                cotizacionEditable = cotizacion;
-            } else {
-                modventana.style.display = "none";
-                modificar.value = "False";
-                cotizacionEditable = null;
-            }
-        });
-        
-        const borrar = document.createElement("button");
-        borrar.classList.add("cli_borrar");
-        borrar.textContent = "Eliminar";
-        borrar.addEventListener("click", async () => {
-            if (confirm(`¿Estás seguro de que quieres eliminar el  ${cotizacion.year}-${cotizacion.quarterly}?`)) {
-                try {
-                    await borrarCotizacionAPI(cotizacion.year, cotizacion.quarterly);
-                    Toast("Cotización eliminada correctamente");
-                    cargarCotizaciones();
-                } catch (error) {
-                    console.error(error);
-                    Toast("No se pudo eliminar la cotización");
+    const cotizacionesAgrupadas = {};
+    lista.forEach(cot => {
+        if (!cotizacionesAgrupadas[cot.quoteYear]) {
+            cotizacionesAgrupadas[cot.quoteYear] = [];
+        }
+        cotizacionesAgrupadas[cot.quoteYear].push(cot);
+    });
+
+    const aniosOrdenados = Object.keys(cotizacionesAgrupadas).sort((a, b) => b - a);
+
+    aniosOrdenados.forEach(anyo => {
+        const divAnio = document.createElement('div');
+        divAnio.className = 'contenedor-anio';
+
+        const h2Anio = document.createElement('h2');
+        h2Anio.textContent = `Año ${anyo}`;
+        divAnio.appendChild(h2Anio);
+
+        const divListado = document.createElement('div');
+        divListado.className = 'listado-cotizaciones-anio';
+
+        const cotsAnio = cotizacionesAgrupadas[anyo].sort((a, b) => a.quarterly - b.quarterly);
+
+        cotsAnio.forEach(cot => {
+            const divCot = document.createElement('div');
+            divCot.className = 'cotizacion-item';
+
+            const h3Trim = document.createElement('h3');
+            h3Trim.textContent = `Trimestre ${cot.quarterly}`;
+            divCot.appendChild(h3Trim);
+
+            const divInfoImporte = document.createElement('div');
+            divInfoImporte.className = 'cotizacion-info';
+            const h4Importe = document.createElement('h4');
+            h4Importe.textContent = 'Importe TGSS:';
+            const divValImporte = document.createElement('div');
+            divValImporte.className = 'cotizacion-valor';
+            divValImporte.textContent = `${cot.facImport.toFixed(2)} €`;
+            divInfoImporte.appendChild(h4Importe);
+            divInfoImporte.appendChild(divValImporte);
+            divCot.appendChild(divInfoImporte);
+
+            const divInfoFecha = document.createElement('div');
+            divInfoFecha.className = 'cotizacion-info cotizacion-info-fecha';
+            const h4Fecha = document.createElement('h4');
+            h4Fecha.textContent = 'Fecha de Pago:';
+            const divValFecha = document.createElement('div');
+            divValFecha.className = 'cotizacion-valor';
+            divValFecha.textContent = cot.datePay ? new Date(cot.datePay).toLocaleDateString('es-ES') : 'Pendiente';
+            divInfoFecha.appendChild(h4Fecha);
+            divInfoFecha.appendChild(divValFecha);
+            divCot.appendChild(divInfoFecha);
+
+            const divBotones = document.createElement('div');
+            divBotones.className = 'cotizacion-botones';
+
+            const btnMod = document.createElement('button');
+            btnMod.className = 'cli_button';
+            btnMod.textContent = 'Modificar';
+            btnMod.addEventListener('click', () => {
+                cotizacionEditable = cot;
+                mod_importe.value = cot.facImport;
+                mod_fechaPago.value = cot.datePay ? cot.datePay.substring(0, 10) : '';
+                modventana.style.display = 'block';
+            });
+
+            const btnDel = document.createElement('button');
+            btnDel.className = 'cli_borrar';
+            btnDel.textContent = 'Borrar';
+            btnDel.addEventListener('click', async () => {
+                if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
+                    try {
+                        await borrarCotizacionAPI(cot.quoteYear, cot.quarterly);
+                        Toast("Cotización eliminada correctamente");
+                        cargarCotizaciones();
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
-            }
+            });
+
+            divBotones.appendChild(btnMod);
+            divBotones.appendChild(btnDel);
+            divCot.appendChild(divBotones);
+
+            divListado.appendChild(divCot);
         });
-        cotizacionElement.appendChild(modificar);
-        cotizacionElement.appendChild(borrar);
-        main.appendChild(cotizacionElement);
+
+        divAnio.appendChild(divListado);
+        contenedorCotizaciones.appendChild(divAnio);
     });
 }
 
@@ -103,25 +149,14 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
     if (!formadd_cotizacion.checkValidity()) return;
 
     try {
-        const year = parseInt(add_year.value);
-        const quarterly = parseInt(add_trimestre.value);
-        const existe = cotizaciones.some(c =>
-                c.year === year &&
-                c.quarterly === quarterly
-            );
-        if (existe) {
-            Toast("Ya existe una cotización para ese año y trimestre");
-            return;
-        }
-        const cotizacionData = {
-            year: parseInt(add_year.value),
-            quarterly: parseInt(add_trimestre.value),
-            fac_import: parseFloat(add_importe.value),
-            date_pay: add_fechaPago.value ? add_fechaPago.value : null
-        };
-        const data = await crearCotizacionAPI(cotizacionData);
-        console.log('Cotización registrada:', data);
-        Toast("Cotización registrada correctamente");
+        const data = await crearCotizacionAPI({
+            quoteYear: add_year.value,
+            quarterly: add_trimestre.value,
+            facImport: add_importe.value,
+            datePay: add_fechaPago.value || null
+        });
+        console.log('Guardado:', data);
+        Toast("Cotización añadida correctamente");
     } catch (err) {
         console.error('Error:', err);
     }
@@ -154,22 +189,16 @@ formmod_cotizacion.addEventListener("submit", async (e) => {
 
     try {
         const cotizacionData = await editarCotizacionAPI({
-            year: cotizacionEditable.year,
+            quoteYear: cotizacionEditable.quoteYear,
             quarterly: cotizacionEditable.quarterly,
-            fac_import: mod_importe.value,
-            date_pay: mod_fechaPago.value
+            facImport: mod_importe.value,
+            datePay: mod_fechaPago.value || null
         });
         console.log('Cotización actualizada:', cotizacionData);
         Toast("Cotización actualizada correctamente");
-        cargarCotizaciones();
-        
-        formmod_cotizacion.reset();
         modventana.style.display = "none";
-        cotizacionEditable = null;
-    } catch (err) {
-        console.error('Error:', err);
-        Toast("No se pudo actualizar la cotización");
+        cargarCotizaciones();
+    } catch (error) {
+        console.error("Error", error);
     }
-    modventana.style.display = "none";
-    cargarCotizaciones();
 });
