@@ -94,7 +94,8 @@ function renderizarCotizaciones(lista) {
             divCot.appendChild(divInfoImporte);
 
             const divInfoFecha = document.createElement('div');
-            divInfoFecha.className = 'cotizacion-info cotizacion-info-fecha';
+            divInfoFecha.className = 'cotizacion-info';
+            divInfoFecha.style.marginTop = '10px';
             const h4Fecha = document.createElement('h4');
             h4Fecha.textContent = 'Fecha de Pago:';
             const divValFecha = document.createElement('div');
