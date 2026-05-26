@@ -6,12 +6,14 @@ import {
     borrarClienteAPI,
     obtenerPagosCliente,
     crearPagoAPI,
+    editarPagoAPI
 } from './api.js';
 
 import { tablaHorizontal, Toast } from './tablas.js';
 
 let clienteEditable = null;
 let clientePagos = null;
+let pagoEditable = null;
 
 const adduser = document.getElementById("cli_add");
 const addventana = document.getElementById("adduser");
@@ -46,7 +48,6 @@ const add_fecha_pago = document.getElementById("add_fecha_pago");
 const add_precio_pago = document.getElementById("add_precio_pago");
 const add_precio_paypal = document.getElementById("add_precio_paypal");
 const add_precio_eur = document.getElementById("add_precio_eur");
-const añadirPago = document.getElementById("añadirPago");
 
 const modventanaPagos = document.getElementById("modpago");
 const formmodpagos = document.querySelector("#modpago form");
@@ -58,7 +59,6 @@ const mod_precio_pago = document.getElementById("mod_precio_pago");
 const mod_precio_paypal = document.getElementById("mod_precio_paypal");
 const mod_precio_eur = document.getElementById("mod_precio_eur");
 const mod_transferencia = document.getElementById("mod_transferencia");
-const modificarPago = document.getElementById("modificarPago");
 
 adduser.value = "False";
 document.addEventListener('DOMContentLoaded', cargarClientes);
@@ -205,7 +205,7 @@ document.addEventListener("click", async (e) => {
                     const tdCheck = document.createElement("td");
                     const caja = document.createElement("input");
                     caja.type = "checkbox";
-                    caja.checked = pago.is_made;
+                    caja.checked = pago.isMade;
                     caja.disabled = true;
                     tdCheck.style.backgroundColor = "transparent";
 
@@ -218,7 +218,14 @@ document.addEventListener("click", async (e) => {
                     btnModificarFac.id = "modpagosButton";
                     btnModificarFac.addEventListener("click", async () => {
                         modventanaPagos.style.display = "block";
-
+                        mod_tipo_pago.value = pago.facturaType;
+                        mod_titulo_pago.value = pago.title;
+                        mod_fecha_pago.value = pago.billDate;
+                        mod_precio_pago.value = pago.priceUs;
+                        mod_precio_paypal.value = pago.pricePaypal;
+                        mod_precio_eur.value = pago.priceEu;
+                        mod_transferencia.checked = pago.is_made;
+                        pagoEditable = pago;
                     });
 
                     const btnEliminarFac = document.createElement("button");
@@ -376,6 +383,31 @@ formmod.addEventListener("submit", async (e) => {
         formmod.reset();
         modventana.style.display = "none";
         clienteEditable = null;
+    } catch (error) {
+        console.error("Error", error);
+        Toast("No se pudieron guardar los cambios. Inténtalo de nuevo.");
+    }
+});
+
+formmodpagos.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!formmodpagos.checkValidity()) return;
+
+    try {
+        const data = await editarPagoAPI({
+            idNumber: pagoEditable.idNumber,
+            facturaType: mod_tipo_pago.value,
+            title: mod_titulo_pago.value,
+            billDate: mod_fecha_pago.value,
+            priceUs: mod_precio_pago.value,
+            pricePaypal: mod_precio_paypal.value,
+            priceEu: mod_precio_eur.value,
+            isMade: mod_transferencia.checked
+        });
+        console.log('Pago modificado:', data);
+        Toast("Pago modificado correctamente");
+        pagoEditable = null;
+        modventanaPagos.style.display = "none";
     } catch (error) {
         console.error("Error", error);
         Toast("No se pudieron guardar los cambios. Inténtalo de nuevo.");

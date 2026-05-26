@@ -56,6 +56,16 @@ export async function crearPagoAPI(pagoData) {
     return await res.json();
 }
 
+export async function editarPagoAPI(pagoData) {
+    const res = await fetch(`${BILL_URL}/edit`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pagoData)
+    });
+    if (!res.ok) throw new Error(`Error en la respuesta del servidor: ${res.status}`);
+    return await res.json();
+}
+
 export async function obtenerCotizacionesAPI() {
     const respuesta = await fetch(`${QUOTE_URL}/all`);
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
