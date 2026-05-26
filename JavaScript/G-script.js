@@ -42,12 +42,6 @@ function obtenerTrimestre(mes) {
 const mainContainer = document.getElementById('main');
 mainContainer.innerHTML = '';
 
-const botoncete = document.createElement("button");
-botoncete.id = "btnAnadirAnyo";
-botoncete.className = "button_db";
-botoncete.textContent="Añadir Año"
-mainContainer.appendChild(botoncete)
-
 function procesarYRenderizar(management, bills) {
 
 
