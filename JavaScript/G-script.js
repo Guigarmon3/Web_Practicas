@@ -1,5 +1,5 @@
 const API_MANAGEMENT = 'http://localhost:8080/management';
-const API_BILL = 'http://localhost:8080/bill';
+const API_BILL = 'http://localhost:8080/bill/all';
 
 document.addEventListener('DOMContentLoaded', () => {
     inicializarEventos();
