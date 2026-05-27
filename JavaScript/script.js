@@ -154,135 +154,132 @@ function renderizarClientes(clientes) {
     });
 }
 
-document.addEventListener("click", async (e) => {
-    const boton = e.target.closest(".cli_button");
-    if (!boton) return;
+async function renderizarVentanaPagos() {
+    if (!clientePagos) return;
 
-    const contenedorCliente = boton.closest(".cliente-cont");
-    const elementoNick = contenedorCliente ? contenedorCliente.querySelector(".cli_nick") : null;
-    const nickTexto = elementoNick ? elementoNick.textContent.trim() : "";
+    ventanaPagos.innerHTML = "";
+    const centro = document.createElement("center");
+
+    const btnCerrar = document.createElement("button");
+    btnCerrar.classList.add("xbutton_db");
+    btnCerrar.textContent = "X";
+    btnCerrar.id = "cerrarpagos";
+    btnCerrar.style.marginTop = "20px";
+    btnCerrar.addEventListener("click", () => {
+        ventanaPagos.style.display = "none";
+        document.querySelectorAll("#main .cli_button").forEach(b => b.value = "True");
+    });
+    
+    centro.appendChild(btnCerrar);
+    
+    const titulo = document.createElement("h2");
+    titulo.textContent = "Pagos del Cliente: " + clientePagos.nick;
+    centro.appendChild(titulo);
+
+    const tabla = tablaHorizontal();
+    tabla.style.width = "100%";
+
+    try {
+        const tbody = tabla.querySelector("tbody");
+        const pagos = await obtenerPagosCliente(clientePagos.id);
+
+        if (pagos.length === 0) {
+            const totalColumnas = tabla.querySelectorAll("th").length;
+            tbody.innerHTML = `<tr><td colspan="${totalColumnas}" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
+        } else {
+            pagos.forEach(pago => {
+                const fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td>${pago.idNumber || pago.id}</td>
+                    <td>${pago.facturaType}</td>
+                    <td>${pago.title}</td>
+                    <td>${pago.billDate}</td>
+                    <td>$${pago.priceUs}</td>
+                    <td>€${pago.pricePaypal}</td>
+                    <td>€${pago.priceEu}</td>
+                `;
+                const tdCheck = document.createElement("td");
+                const caja = document.createElement("input");
+                caja.type = "checkbox";
+                caja.checked = pago.made;
+                caja.disabled = true;
+                tdCheck.style.backgroundColor = "transparent";
+
+                const botones = document.createElement("td");
+                botones.classList.add("botones-pago");
+                
+                const btnModificarFac = document.createElement("button");
+                btnModificarFac.classList.add("cli_modificar");
+                btnModificarFac.textContent = "Modificar";
+                btnModificarFac.id = "modpagosButton";
+                btnModificarFac.addEventListener("click", async () => {
+                    modventanaPagos.style.display = "block";
+                    mod_tipo_pago.value = pago.facturaType;
+                    mod_titulo_pago.value = pago.title;
+                    mod_fecha_pago.value = pago.billDate;
+                    mod_precio_pago.value = pago.priceUs;
+                    mod_precio_paypal.value = pago.pricePaypal;
+                    mod_precio_eur.value = pago.priceEu;
+                    mod_transferencia.checked = pago.made;
+                    pagoEditable = pago;
+                });
+
+                const btnEliminarFac = document.createElement("button");
+                btnEliminarFac.classList.add("cli_borrar");
+                btnEliminarFac.textContent = "Eliminar";
+                btnEliminarFac.id = "delpagosButton";
+                btnEliminarFac.style.marginRight = "-50%";
+                btnEliminarFac.addEventListener("click", async () => {
+                    if (confirm(`¿Estás seguro de que quieres eliminar el pago "${pago.facturaType}"?`)) {
+                        try {
+                            await borrarPagoAPI(pago.idNumber);
+                            Toast("Pago eliminado correctamente");
+                            renderizarVentanaPagos();
+                        } catch (error) {
+                            console.error(error);
+                            Toast("No se pudo eliminar el pago");
+                        }
+                    }
+                });
+
+                botones.appendChild(btnModificarFac);
+                botones.appendChild(btnEliminarFac);
+                tdCheck.appendChild(caja);
+                fila.appendChild(tdCheck);
+                fila.appendChild(botones);
+                tbody.appendChild(fila);
+            });
+        }
+    } catch (error) {
+        console.error("Error al cargar los pagos:", error);
+        Toast("Error al cargar la lista de pagos.");
+    }
+
+    centro.appendChild(tabla);
+
+    const btnAñadirFac = document.createElement("button");
+    btnAñadirFac.classList.add("cli_button");
+    btnAñadirFac.textContent = "Añadir";
+    btnAñadirFac.id = "addpagos";
+    btnAñadirFac.style.marginTop = "20px";
+    btnAñadirFac.addEventListener("click", () => {
+        addventanaPagos.style.display = "block";
+    });
+    
+    const lineador = document.createElement("div");
+    lineador.className = "lineador";
+    lineador.appendChild(btnAñadirFac);
+    centro.appendChild(lineador);
+    ventanaPagos.appendChild(centro);
+    ventanaPagos.style.display = "block";
+}
+
+document.addEventListener("click", async (e) => {
+    const boton = e.target.closest("#main .cli_button");
+    if (!boton) return;
     
     if (boton.value === "True") {
-        ventanaPagos.innerHTML = "";
-        const centro = document.createElement("center");
-
-        const btnCerrar = document.createElement("button");
-        btnCerrar.classList.add("xbutton_db");
-        btnCerrar.textContent = "X";
-        btnCerrar.id = "cerrarpagos";
-        btnCerrar.style.marginTop = "20px";
-        btnCerrar.addEventListener("click", () => {
-            ventanaPagos.style.display = "none";
-            boton.value = "True";
-        });
-        
-        centro.appendChild(btnCerrar);
-        
-        const titulo = document.createElement("h2");
-        titulo.textContent = "Pagos del Cliente: " + nickTexto;
-        centro.appendChild(titulo);
-
-        const tabla = tablaHorizontal();
-        tabla.style.width = "100%";
-
-        try {
-            const tbody = tabla.querySelector("tbody");
-            const pagos = await obtenerPagosCliente(clientePagos.id);
-
-            if (pagos.length === 0) {
-                const totalColumnas = tabla.querySelectorAll("th").length;
-                tbody.innerHTML = `<tr><td colspan="${totalColumnas}" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
-            } else {
-                pagos.forEach(pago => {
-                    const fila = document.createElement("tr");
-                    fila.innerHTML = `
-                        <td>${pago.idNumber || pago.id}</td>
-                        <td>${pago.facturaType}</td>
-                        <td>${pago.title}</td>
-                        <td>${pago.billDate}</td>
-                        <td>$${pago.priceUs}</td>
-                        <td>€${pago.pricePaypal}</td>
-                        <td>€${pago.priceEu}</td>
-                    `;
-                    const tdCheck = document.createElement("td");
-                    const caja = document.createElement("input");
-                    caja.type = "checkbox";
-                    caja.checked = pago.isMade;
-                    caja.disabled = true;
-                    tdCheck.style.backgroundColor = "transparent";
-
-                    const botones = document.createElement("td");
-                    botones.classList.add("botones-pago");
-                    
-                    const btnModificarFac = document.createElement("button");
-                    btnModificarFac.classList.add("cli_modificar");
-                    btnModificarFac.textContent = "Modificar";
-                    btnModificarFac.id = "modpagosButton";
-                    btnModificarFac.addEventListener("click", async () => {
-                        modventanaPagos.style.display = "block";
-                        mod_tipo_pago.value = pago.facturaType;
-                        mod_titulo_pago.value = pago.title;
-                        mod_fecha_pago.value = pago.billDate;
-                        mod_precio_pago.value = pago.priceUs;
-                        mod_precio_paypal.value = pago.pricePaypal;
-                        mod_precio_eur.value = pago.priceEu;
-                        mod_transferencia.checked = pago.isMade;
-                        pagoEditable = pago;
-                    });
-
-                    const btnEliminarFac = document.createElement("button");
-                    btnEliminarFac.classList.add("cli_borrar");
-                    btnEliminarFac.textContent = "Eliminar";
-                    btnEliminarFac.id = "delpagosButton";
-                    btnEliminarFac.style.marginRight = "-50%";
-                    btnEliminarFac.addEventListener("click", async () => {
-                        if (confirm(`¿Estás seguro de que quieres eliminar el pago "${pago.facturaType}"?`)) {
-                            try {
-                                await borrarPagoAPI(pago.idNumber);
-                                Toast("Pago eliminado correctamente");
-                                btnEliminarFac.closest("tr").remove();
-                            } catch (error) {
-                                console.error(error);
-                                Toast("No se pudo eliminar el pago");
-                            }
-                        }
-                    });
-
-                    botones.appendChild(btnModificarFac);
-                    botones.appendChild(btnEliminarFac);
-                    tdCheck.appendChild(caja);
-                    fila.appendChild(tdCheck);
-                    fila.appendChild(botones);
-                    tbody.appendChild(fila);
-                });
-            }
-        } catch (error) {
-            console.error("Error al cargar los pagos:", error);
-            Toast("Error al cargar la lista de pagos.");
-        }
-
-        centro.appendChild(tabla);
-
-        const btnAñadirFac = document.createElement("button");
-        btnAñadirFac.classList.add("cli_button");
-        btnAñadirFac.textContent = "Añadir";
-        btnAñadirFac.id = "addpagos";
-        btnAñadirFac.style.marginTop = "20px";
-        btnAñadirFac.addEventListener("click", () => {
-            addventanaPagos.style.display = "block";
-            boton.value = "False";
-        });
-        cerrar_addpagos.addEventListener("click", () => {
-            addventanaPagos.style.display = "none";
-            boton.value = "True";
-        });
-        
-        const lineador = document.createElement("div");
-        lineador.className = "lineador";
-        lineador.appendChild(btnAñadirFac);
-        centro.appendChild(lineador)
-        ventanaPagos.appendChild(centro);
-        ventanaPagos.style.display = "block";
+        await renderizarVentanaPagos();
         boton.value = "False";
     } else {
         ventanaPagos.style.display = "none";
@@ -363,13 +360,14 @@ formaddpagos.addEventListener("submit", async (e) => {
             priceUs: add_precio_pago.value,
             pricePaypal: add_precio_paypal.value,
             priceEu: add_precio_eur.value,
-            isMade: true,
+            isMade: false,
             customer: {
                 id: clientePagos.id
             }
         });
         console.log('Pago añadido:', data);
         Toast("Pago añadido correctamente");
+        await renderizarVentanaPagos();
     } catch (err) {
         console.error('Error al añadir pago:', err);
         Toast("No se pudo añadir el pago. Inténtalo de nuevo.");
@@ -425,6 +423,7 @@ formmodpagos.addEventListener("submit", async (e) => {
         Toast("Pago modificado correctamente");
         pagoEditable = null;
         modventanaPagos.style.display = "none";
+        await renderizarVentanaPagos();
     } catch (error) {
         console.error("Error", error);
         Toast("No se pudieron guardar los cambios. Inténtalo de nuevo.");

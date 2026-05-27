@@ -35,7 +35,7 @@ export async function editarClienteAPI(clienteData) {
 }
 
 export async function borrarClienteAPI(identificador) {
-    const respuesta = await fetch(`${CUSTOMER_URL}/delete?id=${identificador}`, { method: 'DELETE' });
+    const respuesta = await fetch(`${CUSTOMER_URL}/delete/${identificador}`, { method: 'DELETE' });
     if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);
     return true;
 }
