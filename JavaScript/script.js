@@ -429,6 +429,3 @@ formmodpagos.addEventListener("submit", async (e) => {
         Toast("No se pudieron guardar los cambios. Inténtalo de nuevo.");
     }
 });
-
-MostrarPendientes.addEventListener("click", () => Toast("Mostrando pagos pendientes"));
-MostrarRealizados.addEventListener("click", () => Toast("Mostrando pagos realizados"));

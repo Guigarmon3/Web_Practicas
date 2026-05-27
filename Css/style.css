@@ -36,7 +36,16 @@ header {
     box-shadow: 0px 0px 10px #006994;
 }
 
-
+#tablitaAcciones{
+    background-color: transparent;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+#tablitaAcciones * {
+    width: 100%;
+}
 button:hover {cursor: pointer;}
 header * {
     margin-left: 5px;
