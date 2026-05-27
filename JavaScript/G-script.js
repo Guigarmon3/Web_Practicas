@@ -113,7 +113,7 @@ function procesarYRenderizar(management, bills) {
             mesDiv.appendChild(pPago);
 
             const btnEditarPago = document.createElement('button');
-            btnEditarPago.className = 'cli_button';
+            btnEditarPago.className = 'cli_modificar';
             btnEditarPago.textContent = 'Modificar Pago';
             btnEditarPago.addEventListener('click', () => abrirModalPago(anyo, q, pagoHacienda));
             mesDiv.appendChild(btnEditarPago);

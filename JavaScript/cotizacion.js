@@ -109,7 +109,7 @@ function renderizarCotizaciones(lista) {
             divBotones.className = 'cotizacion-botones';
 
             const btnMod = document.createElement('button');
-            btnMod.className = 'cli_button';
+            btnMod.className = 'cli_modificar';
             btnMod.textContent = 'Modificar';
             btnMod.addEventListener('click', () => {
                 cotizacionEditable = cot;
@@ -124,7 +124,8 @@ function renderizarCotizaciones(lista) {
             btnDel.addEventListener('click', async () => {
                 if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
                     try {
-                        await borrarCotizacionAPI(cot.quoteYear, cot.quarterly);
+                        const response = await borrarCotizacionAPI(cot.quoteYear, cot.quarterly);
+                        console.log(response);
                         Toast("Cotización eliminada correctamente");
                         cargarCotizaciones();
                     } catch (error) {

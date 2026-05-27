@@ -9,15 +9,20 @@
     </head>
     <body>
         <header>
-            <input placeholder="Nickname" type="search" class="input_db" id="cli_found">
-            <a href="./Paginas/gestoria.html" class="button_db" id="gestoria">Gestoría</a>
-            <a href="./Paginas/cotizacion.html" class="button_db" id="cotizacion">Cotización</a>
-            <button class="button_db" id="cli_add">Añadir Cliente</button>
-            <a href="./Paginas/realizados.html" class="button_db" id="cli_pendientes">Realizados</a> 
-            <a href="./Paginas/pendientes.html" class="button_db">Pendientes</a>
+            <a href="/index.html" class="button_db">Clientes</a>
+            <a href="/Paginas/gestoria.html" class="button_db" id="gestoria">Gestoría</a>
+            <a href="/Paginas/cotizacion.html" class="button_db" id="cotizacion">Cotización</a>
+            <a href="/Paginas/realizados.html" class="button_db" id="cli_pendientes">Realizados</a> 
+            <a href="/Paginas/pendientes.html" class="button_db">Pendientes</a>
         </header>
         
-        <div id="main"></div>
+        <div id="main">
+            <div class="header-acciones">
+                <input placeholder="Nickname" type="search" class="input_db" id="cli_found">
+                <button class="button_db" id="cli_add">Añadir Cliente</button>
+            </div>
+            <div id="contenedor-clientes"></div>
+        </div>
 
         <footer>
             <h2>Gestión De Usuarios</h2>
@@ -71,11 +76,11 @@
                     <br>
                     <input type="date" placeholder="Fecha" id="add_fecha_pago" required>
                     <br>
-                    <input type="number" placeholder="Precio USD$" id="add_precio_pago" required>
+                    <input type="number" step="0.01" placeholder="Precio USD$" id="add_precio_pago" required>
                     <br>
-                    <input type="number" placeholder="Precio PayPal" id="add_precio_paypal" required>
+                    <input type="number" step="0.01" placeholder="Precio PayPal" id="add_precio_paypal" required>
                     <br>
-                    <input type="number" placeholder="Precio EUR€" id="add_precio_eur" required>
+                    <input type="number" step="0.01" placeholder="Precio EUR€" id="add_precio_eur" required>
                     <br>
                     <input type="submit" id="añadirPago" class="button_db" value="Añadir Pago">
                 </center>
@@ -92,11 +97,11 @@
                     <br>
                     <input type="date" placeholder="Fecha" id="mod_fecha_pago" required>
                     <br>
-                    <input type="number" placeholder="Precio USD$" id="mod_precio_pago" required>
+                    <input type="number" step="0.01" placeholder="Precio USD$" id="mod_precio_pago" required>
                     <br>
-                    <input type="number" placeholder="Precio PayPal" id="mod_precio_paypal" required>
+                    <input type="number" step="0.01" placeholder="Precio PayPal" id="mod_precio_paypal" required>
                     <br>
-                    <input type="number" placeholder="Precio EUR€" id="mod_precio_eur" required>
+                    <input type="number" step="0.01" placeholder="Precio EUR€" id="mod_precio_eur" required>
                     <h4 class="modal-label">Transferencia:</h4>
                     <input type="checkbox" id="mod_transferencia">
                     <br>

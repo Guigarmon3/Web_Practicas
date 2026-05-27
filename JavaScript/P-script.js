@@ -24,6 +24,8 @@ async function cargarTodosLosPagosPendientes() {
     const tbody = document.createElement("tbody");
     table.appendChild(tbody);
 
+    table.style.width = "100%";
+
     try {
         const clientes = await obtenerTodosLosClientes();
         let tienePagosPendientesGlobal = false;
@@ -32,7 +34,7 @@ async function cargarTodosLosPagosPendientes() {
             const pagos = await obtenerPagosCliente(cliente.id);
             
             const pagosPendientes = pagos.filter(pago => {
-                return !pago.isMade;
+                return !pago.made;
             });
 
             if (pagosPendientes.length > 0) {

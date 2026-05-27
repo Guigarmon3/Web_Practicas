@@ -13,7 +13,7 @@ async function cargarTodosLosPagosPendientes() {
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
 
-    const cabeceras = ["Cliente", "id | Numero", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", ""];
+    const cabeceras = ["Cliente", "id | Numero", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€"];
     cabeceras.forEach(text => {
         const th = document.createElement("th");
         th.textContent = text;
@@ -34,7 +34,7 @@ async function cargarTodosLosPagosPendientes() {
             const pagos = await obtenerPagosCliente(cliente.id);
             
             const pagosPendientes = pagos.filter(pago => {
-                return pago.isMade;
+                return pago.made;
             });
 
             if (pagosPendientes.length > 0) {
@@ -52,32 +52,6 @@ async function cargarTodosLosPagosPendientes() {
                         <td>€${pago.pricePaypal}</td>
                         <td>€${pago.priceEu}</td>
                     `;
-
-                    const tdAcciones = document.createElement("td");
-                    const btnEliminar = document.createElement("button");
-                    btnEliminar.className = "cli_borrar";
-                    btnEliminar.textContent = "Eliminar";
-                    btnEliminar.addEventListener("click", async () => {
-                        if (confirm(`¿Estás seguro de que quieres eliminar el pago pendiente "${pago.title}" del cliente ${cliente.nick}?`)) {
-                            try {
-                                await borrarPagoAPI(pago.idNumber);
-                                Toast("Pago eliminado correctamente");
-                                fila.remove();
-                                
-                                if (tbody.children.length === 0) {
-                                    mostrarMensajeVacio(tbody, table.querySelectorAll("th").length);
-                                }
-                            } catch (error) {
-                                console.error(error);
-                                Toast("No se pudo eliminar el pago");
-                            }
-                        }
-                    });
-                    tdAcciones.style.backgroundColor = "transparent";
-                    tdAcciones.id = "tablitaAcciones";
-                    tdAcciones.appendChild(btnEliminar);
-                    fila.appendChild(tdAcciones);
-
                     tbody.appendChild(fila);
                 });
             }

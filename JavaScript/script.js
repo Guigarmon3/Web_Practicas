@@ -75,9 +75,8 @@ async function cargarClientes() {
 }
 
 function renderizarClientes(clientes) {
-    const main = document.getElementById("main");
-    if (!main) return;
-    main.innerHTML = ''; 
+    const contenedorClientes = document.getElementById("contenedor-clientes");
+    contenedorClientes.innerHTML = '';
 
     clientes.forEach(cliente => {
         const newdiv = document.createElement("div");
@@ -150,7 +149,7 @@ function renderizarClientes(clientes) {
 
         newdiv2.append(nombre, nickname, correo, plataforma, modificar, borrar, botonPagos);
         newdiv.appendChild(newdiv2);
-        main.appendChild(newdiv);
+        contenedorClientes.appendChild(newdiv);
     });
 }
 
@@ -167,7 +166,7 @@ async function renderizarVentanaPagos() {
     btnCerrar.style.marginTop = "20px";
     btnCerrar.addEventListener("click", () => {
         ventanaPagos.style.display = "none";
-        document.querySelectorAll("#main .cli_button").forEach(b => b.value = "True");
+        document.querySelectorAll("#contenedor-clientes .cli_button").forEach(b => b.value = "True");
     });
     
     centro.appendChild(btnCerrar);
@@ -202,8 +201,30 @@ async function renderizarVentanaPagos() {
                 const caja = document.createElement("input");
                 caja.type = "checkbox";
                 caja.checked = pago.made;
-                caja.disabled = true;
                 tdCheck.style.backgroundColor = "transparent";
+                caja.addEventListener("change", async () => {
+                    try {
+                        const resultado = await editarPagoAPI({
+                            idNumber: pago.idNumber,
+                            facturaType: pago.facturaType,
+                            title: pago.title,
+                            billDate: pago.billDate,
+                            priceUs: pago.priceUs,
+                            pricePaypal: pago.pricePaypal,
+                            priceEu: pago.priceEu,
+                            isMade: pago.made ? false : true,
+                            customer: {
+                                id: clientePagos.id
+                            }
+                        });
+                        console.log("Estado del pago actualizado:", resultado);
+                        Toast("Estado del pago actualizado correctamente.");
+                        renderizarVentanaPagos();
+                    } catch (error) {
+                        console.error("Error al actualizar el estado del pago:", error);
+                        Toast("Error al actualizar el estado del pago.");
+                    }
+                });
 
                 const botones = document.createElement("td");
                 botones.classList.add("botones-pago");
@@ -232,9 +253,11 @@ async function renderizarVentanaPagos() {
                 btnEliminarFac.addEventListener("click", async () => {
                     if (confirm(`¿Estás seguro de que quieres eliminar el pago "${pago.facturaType}"?`)) {
                         try {
-                            await borrarPagoAPI(pago.idNumber);
+                            const response = await borrarPagoAPI(pago.idNumber);
                             Toast("Pago eliminado correctamente");
                             renderizarVentanaPagos();
+                            console.log(response);
+                            Toast("Pago eliminado correctamente");
                         } catch (error) {
                             console.error(error);
                             Toast("No se pudo eliminar el pago");
