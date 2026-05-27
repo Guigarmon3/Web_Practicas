@@ -66,6 +66,12 @@ export async function editarPagoAPI(pagoData) {
     return await res.json();
 }
 
+export async function borrarPagoAPI(id) {
+    const respuesta = await fetch(`${BILL_URL}/delete/${id}`, { method: 'DELETE' });
+    if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);
+    return true;
+}
+
 export async function obtenerCotizacionesAPI() {
     const respuesta = await fetch(`${QUOTE_URL}/all`);
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);

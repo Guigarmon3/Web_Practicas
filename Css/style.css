@@ -383,6 +383,27 @@ legend {
     gap: 15px;
 }
 
+#mod_transferencia {
+    transform: scale(1);
+    margin: 0px;
+}
+#modificarPago {
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background-color: #66A9BE;
+    box-shadow: 0px 4px 0px #006994;
+    color: white;
+    border: none;
+    font-size: large;
+    margin: 5px;
+    flex: 1;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-weight: bolder;
+    padding: 20px;
+    align-content: center;
+}
+
 @media screen and (max-width: 768px){
     body, html {
         height: 100vh;

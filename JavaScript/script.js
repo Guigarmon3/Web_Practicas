@@ -6,7 +6,8 @@ import {
     borrarClienteAPI,
     obtenerPagosCliente,
     crearPagoAPI,
-    editarPagoAPI
+    editarPagoAPI,
+    borrarPagoAPI
 } from './api.js';
 
 import { tablaHorizontal, Toast } from './tablas.js';
@@ -189,7 +190,8 @@ document.addEventListener("click", async (e) => {
             const pagos = await obtenerPagosCliente(clientePagos.id);
 
             if (pagos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="${headers.length}" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
+                const totalColumnas = tabla.querySelectorAll("th").length;
+                tbody.innerHTML = `<tr><td colspan="${totalColumnas}" style="text-align:center;">Este cliente no tiene pagos registrados.</td></tr>`;
             } else {
                 pagos.forEach(pago => {
                     const fila = document.createElement("tr");
@@ -224,7 +226,7 @@ document.addEventListener("click", async (e) => {
                         mod_precio_pago.value = pago.priceUs;
                         mod_precio_paypal.value = pago.pricePaypal;
                         mod_precio_eur.value = pago.priceEu;
-                        mod_transferencia.checked = pago.is_made;
+                        mod_transferencia.checked = pago.isMade;
                         pagoEditable = pago;
                     });
 
@@ -233,6 +235,18 @@ document.addEventListener("click", async (e) => {
                     btnEliminarFac.textContent = "Eliminar";
                     btnEliminarFac.id = "delpagosButton";
                     btnEliminarFac.style.marginRight = "-50%";
+                    btnEliminarFac.addEventListener("click", async () => {
+                        if (confirm(`¿Estás seguro de que quieres eliminar el pago "${pago.facturaType}"?`)) {
+                            try {
+                                await borrarPagoAPI(pago.idNumber);
+                                Toast("Pago eliminado correctamente");
+                                btnEliminarFac.closest("tr").remove();
+                            } catch (error) {
+                                console.error(error);
+                                Toast("No se pudo eliminar el pago");
+                            }
+                        }
+                    });
 
                     botones.appendChild(btnModificarFac);
                     botones.appendChild(btnEliminarFac);
@@ -402,7 +416,10 @@ formmodpagos.addEventListener("submit", async (e) => {
             priceUs: mod_precio_pago.value,
             pricePaypal: mod_precio_paypal.value,
             priceEu: mod_precio_eur.value,
-            isMade: mod_transferencia.checked
+            isMade: mod_transferencia.checked,
+            customer: {
+                id: clientePagos.id
+            }
         });
         console.log('Pago modificado:', data);
         Toast("Pago modificado correctamente");
