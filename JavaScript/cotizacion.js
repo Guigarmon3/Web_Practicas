@@ -69,6 +69,12 @@ function renderizarCotizaciones(lista) {
         h2Anio.textContent = `Año ${anyo}`;
         divAnio.appendChild(h2Anio);
 
+        const totalcotizacionesAnio = cotizacionesAgrupadas[anyo].reduce((total, cot) => total + cot.facImport, 0);
+        const h3Total = document.createElement('h3');
+        h3Total.textContent = `Total TGSS: ${totalcotizacionesAnio.toFixed(2)} €`;
+        divAnio.appendChild(h3Total);
+
+
         const divListado = document.createElement('div');
         divListado.className = 'listado-cotizaciones-anio';
 

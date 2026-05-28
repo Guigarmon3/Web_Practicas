@@ -329,6 +329,10 @@ cerrar_add.addEventListener("click", () => {
     adduser.value = "False";
 });
 
+cerrar_addpagos.addEventListener("click", () => {
+    addventanaPagos.style.display = "none";
+});
+
 adduser.addEventListener("click", () => {
     if (adduser.value === "False") {
         addventana.style.display = "block";

@@ -104,6 +104,15 @@ header * {
     box-shadow: 0px 2px 0px #50889a;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 #main {
     padding: 10px;
     overflow:auto;
@@ -283,7 +292,7 @@ th:last-child, td:last-child {
     margin-left: 10px;
     margin-right: 10px;
 }
-#añadir, #modificar {
+#añadir, #modificar, #añadirPago, #modificarPago {
     background-color: #66A9BE;
     border: none;
     padding: 0px;
