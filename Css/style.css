@@ -14,7 +14,7 @@ a{
 body {
     display: grid;
     grid-template-columns: auto;
-    padding: 1%;
+    padding: 1vh;
 }
 
 header {
@@ -22,13 +22,10 @@ header {
     justify-content: space-around;
     align-items: center;
     position: absolute;
-    top: 1;
     height: 10%;
-    width: 98%;
+    width: 98vw;
     padding-left: 10px;
     padding-right: 10px;
-    margin-left: -0.3%;
-    margin-top: -0.5%;
     border-radius: 5px;
     background-color: #3389A9;
     border: none;
@@ -133,30 +130,11 @@ input[type=number] {
     overflow:auto;
     background: #ffffff;
     margin-top: 11vh;
-    height: 71vh;
+    height: 85vh;
     border: 1px solid #C8B6FF;
     border-radius: 5px;
     border: none;
     box-shadow: 0px 0px 10px #e1e5ff;}
-
-footer {
-    bottom: 0;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: absolute;
-    top: 1;
-    height: 10%;
-    width: 98%;
-    color: white;
-    background-color: #3389A9;
-    border: none;
-    text-align: center;
-    box-shadow: 0px 0px 10px #006994;
-}
-
 
 .cliente {
     border: 2px solid #7cd1e2;
@@ -494,9 +472,6 @@ legend {
         margin-top: 40%;
         height: 75%;
         width: 95%;
-    }
-    footer {
-        display: none;
     }
 
     .toast_nube {
