@@ -17,6 +17,12 @@ body {
     padding: 1vh;
 }
 
+.white{
+    background-color: #8ccbdf !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
 header {
     display: flex;
     justify-content: space-around;
