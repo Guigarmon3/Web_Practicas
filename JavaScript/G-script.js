@@ -40,16 +40,16 @@ function obtenerTrimestre(mes) {
     return 4;
 }
 const mainContainer = document.getElementById('main');
-mainContainer.innerHTML = '';
 
 function procesarYRenderizar(management, bills) {
+    mainContainer.innerHTML = '';
 
 
     const anyosConFacturas = bills
         .map(bill => bill.billDate ? new Date(bill.billDate).getFullYear() : null)
         .filter(Boolean);
 
-    const anyosConManagement = management.map(item => item.facYear);
+    const anyosConManagement = management.map(item => item.facYear ?? item.fac_year);
 
     const todasLasFechas = anyosConFacturas.concat(anyosConManagement);
     const anyosUnicos = Array.from(new Set(todasLasFechas));
@@ -85,8 +85,8 @@ function procesarYRenderizar(management, bills) {
                 return suma;
             }, 0);
 
-            const regMg = management.find(item => item.facYear === anyo && item.quarterly === q);
-            const pagoHacienda = regMg ? regMg.taxPayment : 0.00;
+            const regMg = management.find(item => (item.facYear ?? item.fac_year) === anyo && item.quarterly === q);
+            const pagoHacienda = regMg ? (regMg.taxPayment ?? regMg.tax_payment ?? 0.00) : 0.00;
 
             const trimestreDiv = document.createElement('div');
             trimestreDiv.className = 'trimestre';
@@ -138,13 +138,13 @@ function guardarPagoHacienda(anyo, q, nuevoPago) {
     fetch(`${API_MANAGEMENT}/all`)
     .then(res => res.json())
     .then(management => {
-        const regMg = management.find(item => item.facYear === anyo && item.quarterly === q);
+        const regMg = management.find(item => (item.facYear ?? item.fac_year) === anyo && item.quarterly === q);
         const existe = !!regMg;
         
         const bodyData = {
             facYear: anyo,
             quarterly: q,
-            performance: regMg ? regMg.performance : 0.00,
+            performance: regMg ? (regMg.performance ?? regMg.performance ?? 0.00) : 0.00,
             taxPayment: nuevoPago
         };
 

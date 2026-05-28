@@ -119,11 +119,26 @@ footer {
     background-color: #ff4d4d;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 200px;
     padding: 5px 10px;
     font-weight: bold;
     cursor: pointer;
 }
+#modalPago {
+    display: block;
+    height: 25vh;
+}
+#formPago{
+    display: grid;
+    grid-template-columns: auto;
+    border: 1px solid; 
+}
+form h3 {
+    text-align: center !important;
+}
+#inputNuevoPago {margin-top: 50px !important; }
+
+
 
 @media screen and (min-width: 769px) {
     .contenedor-horizontal-trimestres {
