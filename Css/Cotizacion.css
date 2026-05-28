@@ -156,7 +156,12 @@ form input {
 .modal-titulo {
     display: none;
 }
-
+#totalTGB {
+    border:1px solid #44b6df;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
 @media screen and (max-width: 768px) {
     .listado-cotizaciones-anio {
         flex-direction: column;
