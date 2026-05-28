@@ -17,6 +17,7 @@ const mod_importe = document.getElementById("mod_importe");
 const mod_fechaPago = document.getElementById("mod_fechaPago");
 
 const search_year = document.getElementById("year");
+const search_trimestre = document.getElementById("quarterly ");
 
 let cotizaciones = [];
 let cotizacionEditable = null;

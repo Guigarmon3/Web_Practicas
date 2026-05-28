@@ -117,3 +117,9 @@ export async function obtenerCotizacionesAgrupadasPorAnyo(year) {
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
     return await respuesta.json();
 }
+
+export async function obtenerManagementAPI() {
+    const respuesta = await fetch(`${API_MANAGEMENT}/all`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}

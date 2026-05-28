@@ -1,6 +1,9 @@
 const API_MANAGEMENT = 'http://localhost:8080/management';
 const API_BILL = 'http://localhost:8080/bill/all';
 
+const search_year = document.getElementById("year");
+const search_trimestre = document.getElementById("quarterly ");
+
 document.addEventListener('DOMContentLoaded', () => {
     inicializarEventos();
     cargarTodo();
@@ -39,7 +42,7 @@ function obtenerTrimestre(mes) {
     if (mes >= 7 && mes <= 9) return 3;
     return 4;
 }
-const mainContainer = document.getElementById('main');
+const mainContainer = document.getElementById('contenedor-cotizaciones');
 
 function procesarYRenderizar(management, bills) {
     mainContainer.innerHTML = '';
@@ -104,12 +107,12 @@ function procesarYRenderizar(management, bills) {
 
             const pRendimiento = document.createElement('p');
             pRendimiento.className = 'mes_contenido';
-            pRendimiento.textContent = `Rendimiento: ${rendimientoCalculado.toFixed(2)}€`;
+            pRendimiento.textContent = `Facturación total: ${rendimientoCalculado.toFixed(2)}€`;
             mesDiv.appendChild(pRendimiento);
 
             const pPago = document.createElement('p');
             pPago.className = 'mes_contenido';
-            pPago.textContent = `Pago: ${pagoHacienda.toFixed(2)}€`;
+            pPago.textContent = `Pago a Hacienda: ${pagoHacienda.toFixed(2)}€`;
             mesDiv.appendChild(pPago);
 
             const btnEditarPago = document.createElement('button');
@@ -163,3 +166,24 @@ function guardarPagoHacienda(anyo, q, nuevoPago) {
     })
     .catch(error => console.error(error));
 }
+
+search_year.addEventListener("input", async () => {
+    const busqueda = search_year.value.trim();
+    if (busqueda === "") {
+        cargarTodo();
+        return;
+    }
+    if (busqueda.length < 4 ) {
+        return; 
+    }
+    if (search_trimestre.value && (search_trimestre.value < 1 || search_trimestre.value > 4)) {
+        return; 
+    }
+
+    try {
+        const resultados = await obtenerCotizacionAñoAPI(busqueda);
+        renderizarCotizaciones(resultados);
+    } catch (error) {
+        console.error("Error en la búsqueda:", error);
+    }
+});

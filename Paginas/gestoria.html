@@ -18,15 +18,12 @@
     </header>
 
     <div id="main">
-    </div>
-
-    <div id="modalAnyo" class="ventana" style="display: none;">
-        <button class="xbutton_db" id="cerrarModalAnyo">X</button>
-        <form id="formAnyo">
-            <h3>Añadir Nuevo Año</h3>
-            <input type="number" id="inputNuevoAnyo" class="input_db" style="width: 80%; height: 40px; display: block; margin: 0 auto;" placeholder="Ej: 2027" required>
-            <button type="submit" class="button_db" style="margin-top: 20px; width: 80%; display: block; margin-left: auto; margin-right: auto;">Guardar Año</button>
-        </form>
+        <div class="header-acciones">
+                <input type="number" step="0.01"id="quarterly" min="1" max="4" class="input_db" placeholder="Trimestre">
+                <input type="number" step="0.01"id="year" min="2020" class="input_db" placeholder="Año">
+                <button class="button_db" id="cotizacion_add">Registrar Gestoría</button>
+            </div>
+        <div id="contenedor-cotizaciones"></div>
     </div>
 
     <div id="modalPago" class="ventana" style="display: none;">
