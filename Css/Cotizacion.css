@@ -16,6 +16,14 @@
     max-width: max-content;
 }
 
+#modificar {
+    margin: 0px auto;
+}
+form input {
+    margin: 0px auto;
+    margin-bottom: 20px;
+}
+
 .contenedor-anio {
     border: 2px solid #44b6df;
     margin-bottom: 25px;
@@ -138,6 +146,15 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#modcotizacion form{
+    display: grid;
+    text-align: center;
+    grid-template-columns: auto;
+}
+.modal-titulo {
+    display: none;
 }
 
 @media screen and (max-width: 768px) {
