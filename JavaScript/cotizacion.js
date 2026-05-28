@@ -1,4 +1,4 @@
-import { obtenerCotizacionesAPI, crearCotizacionAPI, obtenerCotizacionAñoAPI, editarCotizacionAPI, borrarCotizacionAPI} from "./api.js";
+import { obtenerCotizacionesAPI, crearCotizacionAPI, obtenerCotizacionAñoAPI, editarCotizacionAPI, borrarCotizacionAPI, obtenerCotizacionesAgrupadasPorAnyo} from "./api.js";
 import { Toast } from './tablas.js';
 const addcotizacion = document.getElementById("cotizacion_add");
 const addventana = document.getElementById("addcotizacion");
@@ -47,7 +47,7 @@ async function cargarCotizaciones() {
     }
 }
 
-function renderizarCotizaciones(lista) {
+async function renderizarCotizaciones(lista) {
     const contenedorCotizaciones = document.getElementById('contenedor-cotizaciones');
     contenedorCotizaciones.innerHTML = '';
 
@@ -61,19 +61,13 @@ function renderizarCotizaciones(lista) {
 
     const aniosOrdenados = Object.keys(cotizacionesAgrupadas).sort((a, b) => b - a);
 
-    aniosOrdenados.forEach(anyo => {
+    for (const anyo of aniosOrdenados) {
         const divAnio = document.createElement('div');
         divAnio.className = 'contenedor-anio';
 
         const h2Anio = document.createElement('h2');
         h2Anio.textContent = `Año ${anyo}`;
         divAnio.appendChild(h2Anio);
-
-        const totalcotizacionesAnio = cotizacionesAgrupadas[anyo].reduce((total, cot) => total + cot.facImport, 0);
-        const h3Total = document.createElement('h3');
-        h3Total.textContent = `Total TGSS: ${totalcotizacionesAnio.toFixed(2)} €`;
-        divAnio.appendChild(h3Total);
-
 
         const divListado = document.createElement('div');
         divListado.className = 'listado-cotizaciones-anio';
@@ -148,13 +142,35 @@ function renderizarCotizaciones(lista) {
         });
 
         divAnio.appendChild(divListado);
+
+        try {
+            const totalanio = await obtenerCotizacionesAgrupadasPorAnyo(anyo);
+            const h3total = document.createElement('h3');
+            h3total.textContent = `Total TGSS: ${totalanio.toFixed(2)} €`;
+            divAnio.appendChild(h3total);
+        } catch (error) {
+            console.error(`Error al obtener cotizaciones para el año ${anyo}:`, error);
+            return;
+        }
+        
         contenedorCotizaciones.appendChild(divAnio);
-    });
+    };
 }
 
 formadd_cotizacion.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!formadd_cotizacion.checkValidity()) return;
+    const anio = parseInt(add_year.value);
+    const trimestre = parseInt(add_trimestre.value);
+    const existe = cotizaciones.some(cot => 
+        cot.quoteYear === anio && 
+        cot.quarterly === trimestre
+    );
+
+    if (existe) {
+        Toast("Ya existe una cotización para este trimestre.");
+        return;
+    }
 
     try {
         const data = await crearCotizacionAPI({

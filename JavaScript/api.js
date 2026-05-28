@@ -111,3 +111,9 @@ export async function borrarCotizacionAPI(year, quarterly) {
     if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);
     return true;
 }
+
+export async function obtenerCotizacionesAgrupadasPorAnyo(year) {
+    const respuesta = await fetch(`${QUOTE_URL}/yearly/${year}`, { method: 'GET' });
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
