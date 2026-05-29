@@ -121,7 +121,7 @@ async function renderizarCotizaciones(lista) {
 
             const btnDel = document.createElement('button');
             btnDel.className = 'cli_borrar';
-            btnDel.textContent = 'Borrar';
+            btnDel.textContent = 'Eliminar';
             btnDel.addEventListener('click', async () => {
                 if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
                     try {

@@ -1,171 +1,206 @@
-const API_MANAGEMENT = 'http://localhost:8080/management';
-const API_BILL = 'http://localhost:8080/bill/all';
+import { obtenerPagoTrimestreAPI, obtenerManagementAPI, obtenerManagementAñoAPI, crearManagementAPI, editarManagementAPI, borrarManagementAPI } from "./api.js";
+import { Toast } from './tablas.js';
 
-const search_year = document.getElementById("year");
-const search_trimestre = document.getElementById("quarterly ");
+let managementData = [];
+let billsData = [];
+
+const search_year = document.getElementById("search_year");
+const search_trimestre = document.getElementById("search_trimestre");
+
+const addgestion = document.getElementById("gestoria_add");
+const addventana = document.getElementById("addgestion");
+const cerrar_add_gestion = document.getElementById("cerrar_add_gestion");
+const formadd_gestion = document.querySelector("#addgestion form");
+
+const add_year_gestion = document.getElementById("add_year_gestion");
+const add_quarterly_gestion = document.getElementById("add_quarterly_gestion");
+const add_performance_gestion = document.getElementById("add_performance_gestion");
+const add_importe_gestion = document.getElementById("add_importe_gestion");
+
+const modventana = document.getElementById("modgestion");
+const formmod_gestion = document.querySelector("#modgestion form");
+
+const mod_performance_gestion = document.getElementById("mod_performance_gestion");
+const mod_importe_gestion = document.getElementById("mod_importe_gestion");
+
+let gestionEditable = null;
+
+addgestion.addEventListener("click", () => {
+    addventana.style.display = "block";
+});
+
+cerrar_add_gestion.addEventListener("click", () => {
+    addventana.style.display = "none";
+});
 
 document.addEventListener('DOMContentLoaded', () => {
-    inicializarEventos();
     cargarTodo();
 });
 
-function inicializarEventos() {
-    document.getElementById('cerrarModalPago').addEventListener('click', () => {
-        document.getElementById('modalPago').style.display = 'none';
+add_year_gestion.value = new Date().getFullYear();
+add_quarterly_gestion.value = Math.ceil((new Date().getMonth() + 1) / 3);
+
+async function cargarTodo() {
+    try {
+        managementData = await obtenerManagementAPI();
+        // billsData = await obtenerPagosAPI();
+        await renderizarGestoria(managementData);
+    } catch (error) {
+        console.error("Error al cargar los datos:", error);
+    }
+}
+
+async function renderizarGestoria(management) {
+    const contenedorGestoria = document.getElementById('contenedor-gestoria');
+    contenedorGestoria.innerHTML = '';
+
+    const gestoriasAgrupadas = {};
+    management.forEach(man => {
+        if (!gestoriasAgrupadas[man.facYear]) {
+            gestoriasAgrupadas[man.facYear] = [];
+        }
+        gestoriasAgrupadas[man.facYear].push(man);
     });
 
-    document.getElementById('formPago').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const anyo = parseInt(document.getElementById('pagoAnyo').value);
-        const q = parseInt(document.getElementById('pagoTrimestre').value);
-        const nuevoPago = parseFloat(document.getElementById('inputNuevoPago').value);
-        guardarPagoHacienda(anyo, q, nuevoPago);
-    });
-}
-
-function cargarTodo() {
-    Promise.all([
-        fetch(`${API_MANAGEMENT}/all`).then(res => res.json()),
-        fetch(API_BILL).then(res => res.json())
-    ])
-    .then(([dataManagement, dataBills]) => {
-        const mgmtArray = Array.isArray(dataManagement) ? dataManagement : [];
-        const billsArray = Array.isArray(dataBills) ? dataBills : [];
-        procesarYRenderizar(mgmtArray, billsArray);
-    })
-    .catch(error => console.error(error));
-}
-
-function obtenerTrimestre(mes) {
-    if (mes >= 1 && mes <= 3) return 1;
-    if (mes >= 4 && mes <= 6) return 2;
-    if (mes >= 7 && mes <= 9) return 3;
-    return 4;
-}
-const mainContainer = document.getElementById('contenedor-cotizaciones');
-
-function procesarYRenderizar(management, bills) {
-    mainContainer.innerHTML = '';
-
-
-    const anyosConFacturas = bills
-        .map(bill => bill.billDate ? new Date(bill.billDate).getFullYear() : null)
-        .filter(Boolean);
+    const aniosOrdenados = Object.keys(gestoriasAgrupadas).sort((a, b) => b - a);
 
     const anyosConManagement = management.map(item => item.facYear ?? item.fac_year);
 
-    const todasLasFechas = anyosConFacturas.concat(anyosConManagement);
-    const anyosUnicos = Array.from(new Set(todasLasFechas));
-    
-    anyosUnicos.forEach(anyo => {
+    for (const anyo of aniosOrdenados) {
         const anyoDiv = document.createElement('div');
-        anyoDiv.className = 'anyo';
+        anyoDiv.className = 'contenedor-anio';
 
-        const cabeceraAnyo = document.createElement('div');
-        cabeceraAnyo.style.display = 'flex';
-        cabeceraAnyo.style.justifyContent = 'space-between';
-        cabeceraAnyo.style.alignItems = 'center';
-        cabeceraAnyo.style.width = '100%';
-
-        const tituloAño = document.createElement('h2');
-        tituloAño.textContent = `Año: ${anyo}`;
-        tituloAño.style.border = 'none';
-        tituloAño.style.margin = '0';
-        
-        cabeceraAnyo.appendChild(tituloAño);
+        const cabeceraAnyo = document.createElement('h2');
+        cabeceraAnyo.textContent = `Año: ${anyo}`;
         anyoDiv.appendChild(cabeceraAnyo);
 
         const contenedorHorizontal = document.createElement('div');
-        contenedorHorizontal.className = 'contenedor-horizontal-trimestres';
+        contenedorHorizontal.className = 'listado-cotizaciones-anio';
 
-        for (let q = 1; q <= 4; q++) {
-            const rendimientoCalculado = bills.reduce((suma, bill) => {
-                if (!bill.billDate) return suma;
-                const fecha = new Date(bill.billDate);
-                if (fecha.getFullYear() === anyo && obtenerTrimestre(fecha.getMonth() + 1) === q) {
-                    return suma + (bill.priceEu || 0);
-                }
-                return suma;
-            }, 0);
+        const cotsAnio = gestoriasAgrupadas[anyo].sort((a, b) => a.quarterly - b.quarterly);
 
-            const regMg = management.find(item => (item.facYear ?? item.fac_year) === anyo && item.quarterly === q);
-            const pagoHacienda = regMg ? (regMg.taxPayment ?? regMg.tax_payment ?? 0.00) : 0.00;
-
+        cotsAnio.forEach(cot => {
             const trimestreDiv = document.createElement('div');
-            trimestreDiv.className = 'trimestre';
+            trimestreDiv.className = 'cotizacion-item';
 
             const tituloTrimestre = document.createElement('h3');
-            tituloTrimestre.textContent = `Trimestre: ${q}/4`;
+            tituloTrimestre.textContent = `Trimestre: ${cot.quarterly}/4`;
             trimestreDiv.appendChild(tituloTrimestre);
 
-            const mesDiv = document.createElement('div');
-            mesDiv.className = 'mes';
+            const divInfoTotalFacturado = document.createElement('div');
+            divInfoTotalFacturado.className = 'cotizacion-info';
+            const totalfacturadoText = document.createElement('h4');
+            totalfacturadoText.textContent = 'Total Facturado:';
+            const totalfacturado = document.createElement('p');
+            totalfacturado.className = 'cotizacion-valor';
+            totalfacturado.textContent = `0.00 €`;
+            divInfoTotalFacturado.appendChild(totalfacturadoText);
+            divInfoTotalFacturado.appendChild(totalfacturado);
+            trimestreDiv.appendChild(divInfoTotalFacturado);
 
-            const tituloMes = document.createElement('h4');
-            tituloMes.textContent = `Datos Trimestrales`;
-            mesDiv.appendChild(tituloMes);
+            const divInfoGanancia = document.createElement('div');
+            divInfoGanancia.className = 'cotizacion-info';
+            const gananciaText = document.createElement('h4');
+            gananciaText.textContent = 'Ganancia:';
+            const ganancia = document.createElement('p');
+            ganancia.className = 'cotizacion-valor';
+            ganancia.textContent = `0.00 €`;
+            divInfoGanancia.appendChild(gananciaText);
+            divInfoGanancia.appendChild(ganancia);
+            trimestreDiv.appendChild(divInfoGanancia);
 
-            const pRendimiento = document.createElement('p');
-            pRendimiento.className = 'mes_contenido';
-            pRendimiento.textContent = `Facturación total: ${rendimientoCalculado.toFixed(2)}€`;
-            mesDiv.appendChild(pRendimiento);
+            const divInfoRendimiento = document.createElement('div');
+            divInfoRendimiento.className = 'cotizacion-info';
+            const rendimientoText = document.createElement('h4');
+            rendimientoText.textContent = 'Rendimiento:';
+            const rendimiento = document.createElement('p');
+            rendimiento.className = 'cotizacion-valor';
+            rendimiento.textContent = `${cot.performance.toFixed(2)} %`;
+            divInfoRendimiento.appendChild(rendimientoText);
+            divInfoRendimiento.appendChild(rendimiento);
+            trimestreDiv.appendChild(divInfoRendimiento);
 
-            const pPago = document.createElement('p');
-            pPago.className = 'mes_contenido';
-            pPago.textContent = `Pago a Hacienda: ${pagoHacienda.toFixed(2)}€`;
-            mesDiv.appendChild(pPago);
+            const divInfoPagoHacienda = document.createElement('div');
+            divInfoPagoHacienda.className = 'cotizacion-info';
+            const pagoHaciendaText = document.createElement('h4');
+            pagoHaciendaText.textContent = 'Pago a Hacienda:';
+            divInfoPagoHacienda.appendChild(pagoHaciendaText);
+            const pagoHaciendaP = document.createElement('p');
+            pagoHaciendaP.className = 'cotizacion-valor';
+            pagoHaciendaP.textContent = `${cot.taxPayment.toFixed(2)} €`;
+            divInfoPagoHacienda.appendChild(pagoHaciendaP);
+            trimestreDiv.appendChild(divInfoPagoHacienda);
 
-            const btnEditarPago = document.createElement('button');
-            btnEditarPago.className = 'cli_modificar';
-            btnEditarPago.textContent = 'Modificar Pago';
-            btnEditarPago.addEventListener('click', () => abrirModalPago(anyo, q, pagoHacienda));
-            mesDiv.appendChild(btnEditarPago);
+            const divBotones = document.createElement('div');
+            divBotones.className = 'cotizacion-botones';
+            
+            const modificar = document.createElement('button');
+            modificar.textContent = 'Modificar';
+            modificar.className = 'cli_modificar';
+            divBotones.appendChild(modificar);
+            modificar.addEventListener('click', () => {
+                gestionEditable = cot;
+                mod_performance_gestion.value = cot.performance;
+                mod_importe_gestion.value = cot.taxPayment;
+                modventana.style.display = "block";
+            });
 
-            trimestreDiv.appendChild(mesDiv);
+            const eliminar = document.createElement('button');
+            eliminar.textContent = 'Eliminar';
+            eliminar.className = 'cli_borrar';
+            divBotones.appendChild(eliminar);
+            eliminar.addEventListener('click', async () => {
+                if (confirm('¿Seguro que deseas eliminar esta gestoría?')) {
+                    try {
+                        const respuesta = await borrarManagementAPI(cot.facYear, cot.quarterly);
+                        Toast("Gestoría eliminada correctamente");
+                        console.log(respuesta);
+                        cargarTodo();
+                    } catch (error) {
+                        console.error("Error al eliminar la gestoría:", error);
+                        Toast("Error al eliminar la gestoría");
+                    }
+                }
+            });
+
+            const mostrarMes = document.createElement('button');
+            mostrarMes.textContent = 'Meses';
+            mostrarMes.className = 'cli_button';
+            divBotones.appendChild(mostrarMes);
+
+            trimestreDiv.appendChild(divBotones);
             contenedorHorizontal.appendChild(trimestreDiv);
-        }
-
-        anyoDiv.appendChild(contenedorHorizontal);
-        mainContainer.appendChild(anyoDiv);
-    });
-}
-
-function abrirModalPago(anyo, trimestre, pagoActual) {
-    document.getElementById('pagoAnyo').value = anyo;
-    document.getElementById('pagoTrimestre').value = trimestre;
-    document.getElementById('inputNuevoPago').value = pagoActual;
-    document.getElementById('modalPago').style.display = 'block';
-}
-
-function guardarPagoHacienda(anyo, q, nuevoPago) {
-    fetch(`${API_MANAGEMENT}/all`)
-    .then(res => res.json())
-    .then(management => {
-        const regMg = management.find(item => (item.facYear ?? item.fac_year) === anyo && item.quarterly === q);
-        const existe = !!regMg;
-        
-        const bodyData = {
-            facYear: anyo,
-            quarterly: q,
-            performance: regMg ? (regMg.performance ?? regMg.performance ?? 0.00) : 0.00,
-            taxPayment: nuevoPago
-        };
-
-        const url = existe ? `${API_MANAGEMENT}/edit/${anyo}/${q}` : `${API_MANAGEMENT}/create`;
-        const metodo = existe ? 'PUT' : 'POST';
-
-        return fetch(url, {
-            method: metodo,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyData)
         });
-    })
-    .then(() => {
-        document.getElementById('modalPago').style.display = 'none';
-        cargarTodo();
-    })
-    .catch(error => console.error(error));
+        anyoDiv.appendChild(contenedorHorizontal);
+        contenedorGestoria.appendChild(anyoDiv);
+
+    }
 }
+
+search_trimestre.addEventListener("input", async () => {
+    const busqueda = search_trimestre.value.trim();
+    if (busqueda === "") {
+        cargarTodo();
+        return;
+    }
+    if (busqueda > 4) {
+        search_trimestre.value = 4;
+    }
+    if (busqueda < 1) {
+        search_trimestre.value = 1;
+    }
+    if (search_year.value === "") {
+        search_year.value = new Date().getFullYear();
+    }
+
+    try {
+        const resultados = await obtenerManagementAñoAPI(search_year.value, busqueda);
+        const datosParaRenderizar = Array.isArray(resultados) ? resultados : (resultados ? [resultados] : []);
+        renderizarGestoria(datosParaRenderizar);
+    } catch (error) {
+        console.error("Error en la búsqueda:", error);
+    }
+});
 
 search_year.addEventListener("input", async () => {
     const busqueda = search_year.value.trim();
@@ -173,17 +208,73 @@ search_year.addEventListener("input", async () => {
         cargarTodo();
         return;
     }
-    if (busqueda.length < 4 ) {
-        return; 
+    if (busqueda.length < 4) {
+        return;
     }
-    if (search_trimestre.value && (search_trimestre.value < 1 || search_trimestre.value > 4)) {
-        return; 
+    if (search_trimestre.value === "") {
+        search_trimestre.value =  Math.ceil((new Date().getMonth() + 1) / 3);
+    }
+    if (search_trimestre.value > 4) {
+        search_trimestre.value = 4;
+    }
+    if (search_trimestre.value < 1) {
+        search_trimestre.value = 1;
     }
 
     try {
-        const resultados = await obtenerCotizacionAñoAPI(busqueda);
-        renderizarCotizaciones(resultados);
+        const resultados = await obtenerManagementAñoAPI(busqueda, search_trimestre.value);
+        const datosParaRenderizar = Array.isArray(resultados) ? resultados : (resultados ? [resultados] : []);
+        renderizarGestoria(datosParaRenderizar);
     } catch (error) {
         console.error("Error en la búsqueda:", error);
     }
+});
+
+formadd_gestion.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!formadd_gestion.checkValidity()) return;
+    const anio = parseInt(add_year_gestion.value);
+    const trimestre = parseInt(add_quarterly_gestion.value);
+    const existe = managementData.some(item => (item.facYear ?? item.fac_year) === anio && item.quarterly === trimestre);
+    if (existe) {
+        Toast("Ya existe una gestoría para ese año y trimestre");
+        return;
+    }
+
+    try {
+        const newGestion = await crearManagementAPI({
+            facYear: add_year_gestion.value,
+            quarterly: add_quarterly_gestion.value,
+            taxPayment: add_importe_gestion.value,
+            performance: add_performance_gestion.value
+        });
+        console.log("Gestoría creada:", newGestion);
+        Toast("Gestoría creada correctamente");
+    } catch (error) {
+        console.error("Error al crear la gestoría:", error);
+        Toast("Error al crear la gestoría");
+    }
+    addventana.style.display = "none";
+    add_importe_gestion.value = "";
+    add_performance_gestion.value = "";
+    cargarTodo();
+});
+
+formmod_gestion.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!formmod_gestion.checkValidity()) return;
+    try {        const updatedGestion = await editarManagementAPI({
+            facYear: gestionEditable.facYear,
+            quarterly: gestionEditable.quarterly,
+            taxPayment: mod_importe_gestion.value,
+            performance: mod_performance_gestion.value
+        });
+        console.log("Gestoría actualizada:", updatedGestion);
+        Toast("Gestoría actualizada correctamente");
+    } catch (error) {
+        console.error("Error al actualizar la gestoría:", error);
+        Toast("Error al actualizar la gestoría");
+    }
+    modventana.style.display = "none";
+    cargarTodo();
 });
