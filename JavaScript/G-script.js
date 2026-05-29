@@ -1,8 +1,7 @@
-import { obtenerPagoTrimestreAPI, obtenerManagementAPI, obtenerManagementAñoAPI, crearManagementAPI, editarManagementAPI, borrarManagementAPI } from "./api.js";
+import { obtenerPagoTrimestreAPI, obtenerPagoTrimestreRealAPI, obtenerPagosAñoAPI,obtenerManagementAPI, obtenerManagementAñoAPI, crearManagementAPI, editarManagementAPI, borrarManagementAPI } from "./api.js";
 import { Toast } from './tablas.js';
 
 let managementData = [];
-let billsData = [];
 
 const search_year = document.getElementById("search_year");
 const search_trimestre = document.getElementById("search_trimestre");
@@ -43,7 +42,6 @@ add_quarterly_gestion.value = Math.ceil((new Date().getMonth() + 1) / 3);
 async function cargarTodo() {
     try {
         managementData = await obtenerManagementAPI();
-        // billsData = await obtenerPagosAPI();
         await renderizarGestoria(managementData);
     } catch (error) {
         console.error("Error al cargar los datos:", error);
@@ -79,7 +77,7 @@ async function renderizarGestoria(management) {
 
         const cotsAnio = gestoriasAgrupadas[anyo].sort((a, b) => a.quarterly - b.quarterly);
 
-        cotsAnio.forEach(cot => {
+        for (const cot of cotsAnio) {
             const trimestreDiv = document.createElement('div');
             trimestreDiv.className = 'cotizacion-item';
 
@@ -87,16 +85,40 @@ async function renderizarGestoria(management) {
             tituloTrimestre.textContent = `Trimestre: ${cot.quarterly}/4`;
             trimestreDiv.appendChild(tituloTrimestre);
 
+            let pagosTrimestre = 0;
+            try{
+                pagosTrimestre = await obtenerPagoTrimestreAPI({
+                    startMonth: (cot.quarterly - 1) * 3 + 1,
+                    endMonth: cot.quarterly * 3,
+                    year: cot.facYear
+                });
+            } catch (error) {
+                console.error("Error al obtener los pagos del trimestre:", error);
+            }
+            console.log("Pagos del trimestre:", pagosTrimestre);
+
             const divInfoTotalFacturado = document.createElement('div');
             divInfoTotalFacturado.className = 'cotizacion-info';
             const totalfacturadoText = document.createElement('h4');
             totalfacturadoText.textContent = 'Total Facturado:';
             const totalfacturado = document.createElement('p');
             totalfacturado.className = 'cotizacion-valor';
-            totalfacturado.textContent = `0.00 €`;
+            totalfacturado.textContent = `${pagosTrimestre ? pagosTrimestre.toFixed(2) : '0.00'} €`;
             divInfoTotalFacturado.appendChild(totalfacturadoText);
             divInfoTotalFacturado.appendChild(totalfacturado);
             trimestreDiv.appendChild(divInfoTotalFacturado);
+
+            let pagosTrimestreReal = 0;
+            try{
+                pagosTrimestreReal = await obtenerPagoTrimestreRealAPI({
+                    startMonth: (cot.quarterly - 1) * 3 + 1,
+                    endMonth: cot.quarterly * 3,
+                    year: cot.facYear
+                });
+            } catch (error) {
+                console.error("Error al obtener los pagos reales del trimestre:", error);
+            }
+            console.log("Pagos reales del trimestre:", pagosTrimestreReal);
 
             const divInfoGanancia = document.createElement('div');
             divInfoGanancia.className = 'cotizacion-info';
@@ -104,7 +126,7 @@ async function renderizarGestoria(management) {
             gananciaText.textContent = 'Ganancia:';
             const ganancia = document.createElement('p');
             ganancia.className = 'cotizacion-valor';
-            ganancia.textContent = `0.00 €`;
+            ganancia.textContent = `${pagosTrimestreReal ? pagosTrimestreReal.toFixed(2) : '0.00'} €`;
             divInfoGanancia.appendChild(gananciaText);
             divInfoGanancia.appendChild(ganancia);
             trimestreDiv.appendChild(divInfoGanancia);
@@ -170,7 +192,19 @@ async function renderizarGestoria(management) {
 
             trimestreDiv.appendChild(divBotones);
             contenedorHorizontal.appendChild(trimestreDiv);
-        });
+
+            //Seguir por aquí para mostrar el total anual
+            let pagosAnuales = 0;
+            try {
+                pagosAnuales = await obtenerPagosAñoAPI({
+                    year: cot.facYear
+                });
+                console.log("Total Facturado:", pagosAnuales);
+            } catch (error) {
+                console.error("Error al obtener los pagos por año:", error);
+            }
+            
+        };
         anyoDiv.appendChild(contenedorHorizontal);
         contenedorGestoria.appendChild(anyoDiv);
 

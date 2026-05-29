@@ -47,8 +47,20 @@ export async function obtenerPagosAPI() {
     return await respuesta.json();
 }
 
-export async function obtenerPagoTrimestreAPI(year, quarter) {
-    const respuesta = await fetch(`${BILL_URL}/quarterly`);
+export async function obtenerPagoTrimestreAPI({ startMonth, endMonth, year }) {
+    const respuesta = await fetch(`${BILL_URL}/quarterly?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
+
+export async function obtenerPagoTrimestreRealAPI({ startMonth, endMonth, year }) {
+    const respuesta = await fetch(`${BILL_URL}/quarterlyReal?startMonth=${startMonth}&endMonth=${endMonth}&year=${year}`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
+
+export async function obtenerPagosAñoAPI(year) {
+    const respuesta = await fetch(`${BILL_URL}/yearly?year=${year}`);
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
     return await respuesta.json();
 }
