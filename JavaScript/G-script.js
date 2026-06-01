@@ -17,6 +17,7 @@ const add_performance_gestion = document.getElementById("add_performance_gestion
 const add_importe_gestion = document.getElementById("add_importe_gestion");
 
 const modventana = document.getElementById("modgestion");
+const cerrarModgestion = document.getElementById("cerrarModgestion");
 const formmod_gestion = document.querySelector("#modgestion form");
 
 const mod_performance_gestion = document.getElementById("mod_performance_gestion");
@@ -165,6 +166,12 @@ async function renderizarGestoria(management) {
                 mod_performance_gestion.value = cot.performance;
                 mod_importe_gestion.value = cot.taxPayment;
                 modventana.style.display = "block";
+            });
+
+            const cerrarModgestion = document.getElementById("cerrarModgestion");
+            cerrarModgestion.addEventListener("click", () => {
+                modventana.style.display = "none";
+                gestionEditable = null;
             });
 
             const eliminar = document.createElement('button');
