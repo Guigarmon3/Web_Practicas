@@ -1,4 +1,4 @@
-import { obtenerPagoTrimestreAPI, obtenerPagoTrimestreRealAPI, obtenerPagosAñoAPI,obtenerManagementAPI, obtenerManagementAñoAPI, crearManagementAPI, editarManagementAPI, borrarManagementAPI } from "./api.js";
+import { obtenerPagoTrimestreAPI, obtenerPagoTrimestreRealAPI, obtenerPagosAñoRealAPI, obtenerPagosAñoAPI,obtenerManagementAPI, obtenerManagementAñoAPI, crearManagementAPI, editarManagementAPI, borrarManagementAPI } from "./api.js";
 import { Toast } from './tablas.js';
 
 let managementData = [];
@@ -73,6 +73,44 @@ async function renderizarGestoria(management) {
         cabeceraAnyo.textContent = `Año: ${anyo}`;
         anyoDiv.appendChild(cabeceraAnyo);
 
+        let pagosAnuales = 0;
+        try {
+            pagosAnuales = await obtenerPagosAñoAPI({ year: anyo });
+            console.log(`Total Facturado para el año ${anyo}:`, pagosAnuales);
+        } catch (error) {
+            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
+        }
+
+        const divInfoGananciaAnual = document.createElement('div');
+        divInfoGananciaAnual.className = 'cotizacion-info';
+        const gananciaAnualText = document.createElement('h3');
+        gananciaAnualText.textContent = 'Ganancia Anual:';
+        const gananciaAnual = document.createElement('p');
+        gananciaAnual.className = 'cotizacion-valor';
+        gananciaAnual.textContent = `${pagosAnuales ? pagosAnuales.toFixed(2) : '0.00'} €`;
+        divInfoGananciaAnual.appendChild(gananciaAnualText);
+        divInfoGananciaAnual.appendChild(gananciaAnual);
+        anyoDiv.appendChild(divInfoGananciaAnual);
+
+        let pagosAnualesReal = 0;
+        try {
+            pagosAnualesReal = await obtenerPagosAñoRealAPI({ year: anyo });
+            console.log(`Total Real para el año ${anyo}:`, pagosAnualesReal);
+        } catch (error) {
+            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
+        }
+
+        const divInfoGananciaAnualReal = document.createElement('div');
+        divInfoGananciaAnualReal.className = 'cotizacion-info';
+        const gananciaAnualRealText = document.createElement('h3');
+        gananciaAnualRealText.textContent = 'Ganancia Anual Real:';
+        const gananciaAnualReal = document.createElement('p');
+        gananciaAnualReal.className = 'cotizacion-valor';
+        gananciaAnualReal.textContent = `${pagosAnualesReal ? pagosAnualesReal.toFixed(2) : '0.00'} €`;
+        divInfoGananciaAnualReal.appendChild(gananciaAnualRealText);
+        divInfoGananciaAnualReal.appendChild(gananciaAnualReal);
+        anyoDiv.appendChild(divInfoGananciaAnualReal);
+
         const contenedorHorizontal = document.createElement('div');
         contenedorHorizontal.className = 'listado-cotizaciones-anio';
 
@@ -96,7 +134,6 @@ async function renderizarGestoria(management) {
             } catch (error) {
                 console.error("Error al obtener los pagos del trimestre:", error);
             }
-            console.log("Pagos del trimestre:", pagosTrimestre);
 
             const divInfoTotalFacturado = document.createElement('div');
             divInfoTotalFacturado.className = 'cotizacion-info';
@@ -119,7 +156,6 @@ async function renderizarGestoria(management) {
             } catch (error) {
                 console.error("Error al obtener los pagos reales del trimestre:", error);
             }
-            console.log("Pagos reales del trimestre:", pagosTrimestreReal);
 
             const divInfoGanancia = document.createElement('div');
             divInfoGanancia.className = 'cotizacion-info';

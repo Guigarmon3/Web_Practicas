@@ -59,8 +59,14 @@ export async function obtenerPagoTrimestreRealAPI({ startMonth, endMonth, year }
     return await respuesta.json();
 }
 
-export async function obtenerPagosAñoAPI(year) {
-    const respuesta = await fetch(`${BILL_URL}/yearly?year=${year}`);
+export async function obtenerPagosAñoAPI({ year }) {
+    const respuesta = await fetch(`${BILL_URL}/annually?year=${year}`);
+    if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
+    return await respuesta.json();
+}
+
+export async function obtenerPagosAñoRealAPI({ year }) {
+    const respuesta = await fetch(`${BILL_URL}/annuallyReal?year=${year}`);
     if (!respuesta.ok) throw new Error(`Error en la petición: ${respuesta.status}`);
     return await respuesta.json();
 }
