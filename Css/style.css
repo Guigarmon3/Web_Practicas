@@ -315,7 +315,6 @@ th:last-child, td:last-child {
 
 .tablica {
     overflow: auto;
-    max-height: 60vh;
     margin: 0px auto;
     margin-bottom: 10px;
     width: 80%;
@@ -526,7 +525,7 @@ legend {
         background-color: white;
         border-radius: 5px;
         height:min-content;
-        width: max-content;
+        width: 350px;
         margin: 5px;
         flex:  1;
         padding: 5px;
@@ -583,6 +582,10 @@ legend {
         margin: 0px auto;
         width: 80%;
     }
+    #addpagos {
+        margin: 0px auto;
+    } 
+
     #cerrarpagos {
         width: 10px;
         height: 10px;

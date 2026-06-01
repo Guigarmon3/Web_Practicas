@@ -32,33 +32,41 @@ async function cargarTodosLosPagosPendientes() {
 
         for (const cliente of clientes) {
             const pagos = await obtenerPagosCliente(cliente.id);
-            
-            const pagosPendientes = pagos.filter(pago => {
-                return !pago.made;
-            });
+            console.log('Pagos de', cliente.nick, pagos); // ← depuración
+
+            const pagosPendientes = pagos.filter(pago => !pago.made);
 
             if (pagosPendientes.length > 0) {
                 tienePagosPendientesGlobal = true;
 
                 pagosPendientes.forEach(pago => {
                     const fila = document.createElement("tr");
-                    fila.innerHTML = `
-                        <td>${cliente.nick}</td>
-                        <td>${pago.idNumber || pago.id}</td>
-                        <td>${pago.facturaType}</td>
-                        <td>${pago.title}</td>
-                        <td>${pago.billDate}</td>
-                        <td>$${pago.priceUs}</td>
-                        <td>€${pago.pricePaypal}</td>
-                        <td>€${pago.priceEu}</td>
-                    `;
+
+                    const celdas = [
+                        { label: "Cliente",       valor: cliente.nick },
+                        { label: "id | Numero",   valor: pago.idNumber || pago.id },
+                        { label: "Tipo",          valor: pago.facturaType },
+                        { label: "Titulo",        valor: pago.title },
+                        { label: "Fecha",         valor: pago.billDate },
+                        { label: "Precio USD$",   valor: `$${pago.priceUs}` },
+                        { label: "Precio PayPal", valor: `€${pago.pricePaypal}` },
+                        { label: "Precio EUR€",   valor: `€${pago.priceEu}` },
+                    ];
+
+                    celdas.forEach(({ label, valor }) => {
+                        const td = document.createElement("td");
+                        td.setAttribute("data-label", label);
+                        td.textContent = valor;
+                        fila.appendChild(td);
+                    });
+
                     tbody.appendChild(fila);
                 });
             }
         }
 
         if (!tienePagosPendientesGlobal) {
-            mostrarMensajeVacio(tbody, table.querySelectorAll("th").length);
+            mostrarMensajeVacio(tbody, cabeceras.length);
         }
 
         mainContainer.appendChild(table);
