@@ -336,16 +336,18 @@ async function renderizarGestoria(management) {
 }
 
 search_trimestre.addEventListener("input", async () => {
-    const busqueda = search_trimestre.value.trim();
-    if (busqueda === "") {
+    let busqueda = parseInt(search_trimestre.value.trim(), 10);
+    if (isNaN(busqueda)) {
         cargarTodo();
         return;
     }
     if (busqueda > 4) {
         search_trimestre.value = 4;
+        busqueda = 4;
     }
     if (busqueda < 1) {
         search_trimestre.value = 1;
+        busqueda = 1;
     }
     if (search_year.value === "") {
         search_year.value = new Date().getFullYear();
@@ -361,7 +363,7 @@ search_trimestre.addEventListener("input", async () => {
 });
 
 search_year.addEventListener("input", async () => {
-    const busqueda = search_year.value.trim();
+    let busqueda = search_year.value.trim();
     if (busqueda === "") {
         cargarTodo();
         return;
