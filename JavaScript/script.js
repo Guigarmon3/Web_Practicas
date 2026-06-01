@@ -33,6 +33,7 @@ const modnombre = document.getElementById("mod_nombre");
 const modnick = document.getElementById("mod_nick");
 const modcorreo = document.getElementById("mod_email");
 const modplataforma = document.getElementById("mod_plataforma");
+const cerrar_mod = document.getElementById("cerrar_mod");
 
 const ventanaPagos = document.getElementById("pagos");
 const inputbuscat = document.getElementById("cli_found");
@@ -52,6 +53,7 @@ const add_precio_eur = document.getElementById("add_precio_eur");
 
 const modventanaPagos = document.getElementById("modpago");
 const formmodpagos = document.querySelector("#modpago form");
+const cerrar_modPago = document.getElementById("cerrar_modPago");
 
 const mod_tipo_pago = document.getElementById("mod_tipo_pago");
 const mod_titulo_pago = document.getElementById("mod_titulo_pago");
@@ -121,6 +123,12 @@ function renderizarClientes(clientes) {
                 modificar.value = "False";
                 clienteEditable = null;
             }
+        });
+
+        cerrar_mod.addEventListener("click", () => {
+            modventana.style.display = "none";
+            modificar.value = "False";
+            clienteEditable = null;
         });
 
         const borrar = document.createElement("button");
@@ -243,6 +251,12 @@ async function renderizarVentanaPagos() {
                     mod_precio_eur.value = pago.priceEu;
                     mod_transferencia.checked = pago.made;
                     pagoEditable = pago;
+                });
+
+                cerrar_modPago.addEventListener("click", () => {
+                    modventanaPagos.style.display = "none";
+                    btnModificarFac.value = "False";
+                    pagoEditable = null;
                 });
 
                 const btnEliminarFac = document.createElement("button");
