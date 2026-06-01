@@ -12,8 +12,14 @@
 }
 
 #cotizacion_add {
-    margin: 0;
-    max-width: max-content;
+    border-radius: 200px;
+    background-color: #6bbc81;
+    box-shadow: 0px 4px 0px rgb(97, 154, 112);
+    margin: 10px;
+    min-width: none;
+    max-width: 40px;
+    width: 40px;
+    height: 40px;
 }
 
 #modificar {
@@ -173,7 +179,7 @@ form input {
     }
     #listadomeses {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: auto;
     }
     .tablica thead {
         display: none;
