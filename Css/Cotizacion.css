@@ -167,4 +167,8 @@ form input {
         flex-direction: column;
         gap: 15px;
     }
+    #listadomeses {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
 }

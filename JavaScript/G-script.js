@@ -249,6 +249,7 @@ async function renderizarGestoria(management) {
                 mesesContenedor.appendChild(textoMeses);
                 const contenedorHorizontalMes = document.createElement('div');
                 contenedorHorizontalMes.className = 'listado-cotizaciones-anio';
+                contenedorHorizontalMes.id = "listadomeses";
                 for (let i = 0; i < 3; i++) {   
                     const indiceMes = startMonth + i;
                     const nombreMes = nombresMeses[indiceMes];
