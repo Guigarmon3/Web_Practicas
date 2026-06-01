@@ -448,6 +448,10 @@ legend {
         flex: 1;
         margin: 0px auto;
         margin-top: 10px;
+        font-size: smaller;
+    }
+    header .button_db {
+        font-size: smaller;
     }
     .input_db {
         font-size: 100%;
@@ -469,15 +473,29 @@ legend {
         text-align: center;
     }
     #main {
-        overflow: scroll;
-        display: grid;
-        grid-template-columns: auto auto;
-        align-items: center;
-        justify-content: center;
         margin: 0px auto;
         margin-top: 40%;
         height: 75%;
         width: 95%;
+    }
+
+    #header-acciones {
+        display: block;
+    }
+    #contenedor-clientes {
+        overflow: scroll;
+        display: grid;
+        grid-template-columns: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #cli_found {
+        border: 1px solid;
+    }
+    #cli_add {
+        padding: 5px;
+        height: max-content;
     }
 
     .toast_nube {
@@ -498,15 +516,13 @@ legend {
 
     .cliente {
         margin: 0px auto;
-        font-size: 100%;
         background-color: white;
         border-radius: 5px;
         height:min-content;
         width: max-content;
         margin: 5px;
-        font-size: smaller;
         flex:  1;
-        padding: 10px;
+        padding: 5px;
         justify-content: center;
         align-items: center;
     }
@@ -593,5 +609,19 @@ legend {
     #pagos h2 {
         font-size: large;
         margin-right: 20px;
+    }
+    .tablica-card {
+        border: 1px solid #3389A9;
+        border-radius: 5px;
+        margin: 10px; 
+        padding: 10px; 
+    }
+    .tablica-card__value {
+        width: 100%;
+        border: 1 px red;
+    }
+    #delpagosButton, #modpagosButton {
+        width: 100%;
+        margin: 5px !important;
     }
 }
