@@ -29,7 +29,7 @@ header {
     align-items: center;
     position: absolute;
     height: 10%;
-    width: 98vw;
+    width: 98%;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 5px;
@@ -37,6 +37,7 @@ header {
     border: none;
     text-align: center;
     box-shadow: 0px 0px 10px #006994;
+    overflow-y: auto;
 }
 
 #tablitaAcciones{
@@ -425,6 +426,12 @@ legend {
     align-content: center;
 }
 
+    #gestoria_add {
+        background-color: #6bbc81;
+        box-shadow: 0px 4px 0px rgb(97, 154, 112);
+        margin: 0px auto;
+        border-radius: 5px;
+    }
 @media screen and (max-width: 768px){
     body, html {
         height: 100vh;
@@ -474,7 +481,7 @@ legend {
     }
     #main {
         margin: 0px auto;
-        margin-top: 40%;
+        margin-top: 20vh;
         height: 75%;
         width: 95%;
     }
@@ -616,12 +623,22 @@ legend {
         margin: 10px; 
         padding: 10px; 
     }
-    .tablica-card__value {
-        width: 100%;
-        border: 1 px red;
-    }
+
     #delpagosButton, #modpagosButton {
         width: 100%;
         margin: 5px !important;
+    }
+
+    #gestoria_add {
+        border-radius: 200px;
+        width: 900px !important;
+        height: 25px;
+        background-color: #6bbc81;
+        box-shadow: 0px 4px 0px rgb(97, 154, 112);
+        margin: 0px auto;
+    }
+    #formAddGestion {margin-top: 20px;}
+    #add_year_gestion {
+        margin-top: 20px;
     }
 }

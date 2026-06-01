@@ -167,6 +167,7 @@ form h3 {
         height: 75%;
         width: 95%;
     }
+
     .contenedor-horizontal-trimestres {
         display: flex;
         flex-direction: column;
@@ -174,5 +175,8 @@ form h3 {
     }
     footer {
         display: none;
+    }
+    #add_gestion_button {
+        background-color: red;
     }
 }
