@@ -23,6 +23,10 @@ const formmod_gestion = document.querySelector("#modgestion form");
 const mod_performance_gestion = document.getElementById("mod_performance_gestion");
 const mod_importe_gestion = document.getElementById("mod_importe_gestion");
 
+const meses = document.getElementById("meses");
+const cerrarMeses = document.getElementById("cerrarMeses");
+const mesesContenedor = document.getElementById("meses-contenedor");    
+
 let gestionEditable = null;
 
 addgestion.addEventListener("click", () => {
@@ -232,6 +236,83 @@ async function renderizarGestoria(management) {
             mostrarMes.textContent = 'Meses';
             mostrarMes.className = 'cli_button';
             divBotones.appendChild(mostrarMes);
+
+            mostrarMes.addEventListener('click', async () => {
+                mesesContenedor.innerHTML = '';
+                const nombresMeses = [
+                    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                ];
+                const startMonth = (cot.quarterly - 1) * 3;
+                const textoMeses = document.createElement('h2');
+                textoMeses.textContent = `Meses del ${cot.quarterly}º Trimestre del ${cot.facYear}`;
+                mesesContenedor.appendChild(textoMeses);
+                const contenedorHorizontalMes = document.createElement('div');
+                contenedorHorizontalMes.className = 'listado-cotizaciones-anio';
+                for (let i = 0; i < 3; i++) {   
+                    const indiceMes = startMonth + i;
+                    const nombreMes = nombresMeses[indiceMes];
+                    const cardMes = document.createElement('div');
+                    cardMes.className = 'cotizacion-item';
+                    const tituloMes = document.createElement('h3');
+                    tituloMes.textContent = nombreMes;
+
+                    let pagosMes = 0;
+                    const infoTotalFacturadoMes = document.createElement('div');
+                    infoTotalFacturadoMes.className = 'cotizacion-info';
+                    const totalFacturadoMesText = document.createElement('h4');
+                    totalFacturadoMesText.textContent = 'Total Facturado:';
+                    infoTotalFacturadoMes.appendChild(totalFacturadoMesText);
+                    const totalFacturadoMes = document.createElement('p');
+                    totalFacturadoMes.className = 'cotizacion-valor';
+                    try {                        
+                        pagosMes = await obtenerPagoTrimestreAPI({
+                            startMonth: indiceMes + 1,
+                            endMonth: indiceMes + 1,
+                            year: cot.facYear
+                        });
+                        totalFacturadoMes.textContent = `${pagosMes ? pagosMes.toFixed(2) : '0.00'} €`;
+                    } catch (error) {
+                        console.error(`Error al obtener los pagos del mes ${nombreMes}:`, error);
+                        totalFacturadoMes.textContent = `Total Facturado: 0.00 €`;
+                    }
+                    infoTotalFacturadoMes.appendChild(totalFacturadoMes);
+                    
+                    let IRPFMes = pagosMes * 0.20;
+                    const infoIRPF = document.createElement('div');
+                    infoIRPF.className = 'cotizacion-info';
+                    const IRPFText = document.createElement('h4');
+                    IRPFText.textContent = 'IRPF  retenido (20%):';
+                    infoIRPF.appendChild(IRPFText);
+                    const IRPF = document.createElement('p');
+                    IRPF.className = 'cotizacion-valor';
+                    IRPF.textContent = `${IRPFMes ? IRPFMes.toFixed(2) : '0.00'} €`;
+                    infoIRPF.appendChild(IRPF);
+
+                    let ganaciaMes = pagosMes - IRPFMes;
+                    const infoGanacia = document.createElement('div');
+                    infoGanacia.className = 'cotizacion-info';
+                    const ganaciaText = document.createElement('h4');
+                    ganaciaText.textContent = 'Ganancia:';
+                    infoGanacia.appendChild(ganaciaText);
+                    const ganacia = document.createElement('p');
+                    ganacia.className = 'cotizacion-valor';
+                    ganacia.textContent = `${ganaciaMes ? ganaciaMes.toFixed(2) : '0.00'} €`;
+                    infoGanacia.appendChild(ganacia);
+
+                    cardMes.appendChild(tituloMes);
+                    cardMes.appendChild(infoTotalFacturadoMes);
+                    cardMes.appendChild(infoIRPF);
+                    cardMes.appendChild(infoGanacia);
+                    contenedorHorizontalMes.appendChild(cardMes);
+                    mesesContenedor.appendChild(contenedorHorizontalMes);
+                }
+                meses.style.display = "block";
+            });
+
+            cerrarMeses.addEventListener("click", () => {
+                meses.style.display = "none";
+            });
 
             trimestreDiv.appendChild(divBotones);
             contenedorHorizontal.appendChild(trimestreDiv);
