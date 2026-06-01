@@ -51,6 +51,10 @@ async function cargarTodo() {
     } catch (error) {
         console.error("Error al cargar los datos:", error);
     }
+
+    if (window.innerWidth <= 768) {
+        addgestion.textContent = "+";
+    }
 }
 
 async function renderizarGestoria(management) {
@@ -249,6 +253,7 @@ async function renderizarGestoria(management) {
                 mesesContenedor.appendChild(textoMeses);
                 const contenedorHorizontalMes = document.createElement('div');
                 contenedorHorizontalMes.className = 'listado-cotizaciones-anio';
+                contenedorHorizontalMes.id = "listadomeses";
                 for (let i = 0; i < 3; i++) {   
                     const indiceMes = startMonth + i;
                     const nombreMes = nombresMeses[indiceMes];

@@ -1,3 +1,59 @@
 td {
     height: 5vh;
 }
+
+@media (max-width: 768px) {
+
+    .tablica {
+        max-height: max-content;
+        height: max-content;
+    }
+
+    .tablica thead {
+        display: none;
+    }
+
+    .tablica,
+    .tablica tr,
+    .tablica tbody,
+    .tablica td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: transparent;
+    }
+    .tablica tbody {
+        margin: 0px auto;
+        height:max-content;
+    }
+
+    .tablica tr {
+        margin-bottom: 15px;
+        border: 2px solid #44b6df;
+        border-radius: 5px;
+        background-color: #fcfdfe;
+        overflow: hidden;
+    }
+
+    .tablica td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 15px;
+        border-bottom: 1px solid #CCE9E8;
+        font-size: medium;
+        gap: 10px;
+    }
+
+    .tablica td:last-child {
+        border-bottom: none;
+    }
+
+    .tablica td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #3389A9;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}

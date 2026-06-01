@@ -74,6 +74,10 @@ async function cargarClientes() {
     } catch (error) {
         console.error("Error detallado en la consulta:", error);
     }
+    
+    if (window.innerWidth <= 768) {
+        adduser.textContent = "+";
+    }
 }
 
 function renderizarClientes(clientes) {
@@ -202,7 +206,7 @@ async function renderizarVentanaPagos() {
                     <td>${pago.title}</td>
                     <td>${pago.billDate}</td>
                     <td>$${pago.priceUs}</td>
-                    <td>€${pago.pricePaypal}</td>
+                    <td>$${pago.pricePaypal}</td>
                     <td>€${pago.priceEu}</td>
                 `;
                 const tdCheck = document.createElement("td");

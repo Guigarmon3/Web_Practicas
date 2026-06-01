@@ -29,7 +29,7 @@ header {
     align-items: center;
     position: absolute;
     height: 10%;
-    width: 98vw;
+    width: 98%;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 5px;
@@ -37,6 +37,7 @@ header {
     border: none;
     text-align: center;
     box-shadow: 0px 0px 10px #006994;
+    overflow-y: auto;
 }
 
 #tablitaAcciones{
@@ -57,9 +58,9 @@ header {
     color: white;
     border: none;
     font-size: large;
-    margin: 5px;
-    margin-left: 40px;
-    margin-right: 40px;
+    margin: 0px auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-weight: bolder;
     padding: 20px;
     align-content: center;
@@ -262,6 +263,7 @@ th:last-child, td:last-child {
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0px 0px 10px #66A9BE;
+    overflow: auto;
 }
 
 .ventana form {
@@ -314,7 +316,6 @@ th:last-child, td:last-child {
 
 .tablica {
     overflow: auto;
-    max-height: 60vh;
     margin: 0px auto;
     margin-bottom: 10px;
     width: 100%;
@@ -429,6 +430,7 @@ legend {
 @media screen and (max-width: 768px){
     body, html {
         height: 100vh;
+        overflow:hidden;
     }
     * {
         overflow: hidden;
@@ -475,7 +477,7 @@ legend {
     }
     #main {
         margin: 0px auto;
-        margin-top: 40%;
+        margin-top: 20vh;
         height: 75%;
         width: 95%;
     }
@@ -494,9 +496,35 @@ legend {
     #cli_found {
         border: 1px solid;
     }
+
     #cli_add {
         padding: 5px;
         height: max-content;
+        background-color: #6bbc81;
+        box-shadow: 0px 4px 0px rgb(97, 154, 112);
+        border-radius: 100%;
+        max-width: 40px;
+        height: 40px;
+    }
+
+    #gestoria_add {
+        padding: 5px;
+        height: max-content;
+        background-color: #6bbc81;
+        box-shadow: 0px 4px 0px rgb(97, 154, 112);
+        border-radius: 100%;
+        max-width: 40px;
+        height: 40px;
+    }
+
+    #cotizacion_add {
+        padding: 5px;
+        height: max-content;
+        background-color: #6bbc81;
+        box-shadow: 0px 4px 0px rgb(97, 154, 112);
+        border-radius: 100%;
+        max-width: 40px;
+        height: 40px;
     }
 
     .toast_nube {
@@ -520,7 +548,7 @@ legend {
         background-color: white;
         border-radius: 5px;
         height:min-content;
-        width: max-content;
+        width: 350px;
         margin: 5px;
         flex:  1;
         padding: 5px;
@@ -577,6 +605,10 @@ legend {
         margin: 0px auto;
         width: 80%;
     }
+    #addpagos {
+        margin: 0px auto;
+    } 
+
     #cerrarpagos {
         width: 10px;
         height: 10px;
@@ -617,12 +649,13 @@ legend {
         margin: 10px; 
         padding: 10px; 
     }
-    .tablica-card__value {
-        width: 100%;
-        border: 1 px red;
-    }
+
     #delpagosButton, #modpagosButton {
         width: 100%;
         margin: 5px !important;
+    }
+    #formAddGestion {margin-top: 20px;}
+    #add_year_gestion {
+        margin-top: 20px;
     }
 }

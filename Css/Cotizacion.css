@@ -1,8 +1,3 @@
-#cotizacion_add {
-    margin: 0;
-    max-width: max-content;
-}
-
 #modificar {
     margin: 0px auto;
 }
@@ -135,23 +130,73 @@ form input {
     margin-right: auto;
 }
 
-#modcotizacion form{
+#modcotizacion form {
     display: grid;
     text-align: center;
     grid-template-columns: auto;
 }
+
 .modal-titulo {
     display: none;
 }
+
 #totalTGB {
-    border:1px solid #44b6df;
+    border: 1px solid #44b6df;
     text-align: center;
     padding: 10px;
     border-radius: 5px;
 }
-@media screen and (max-width: 768px) {
+
+
+@media (orientation: portrait) and (max-width: 768px) {
     .listado-cotizaciones-anio {
         flex-direction: column;
         gap: 15px;
+    }
+    #listadomeses {
+        display: grid;
+        grid-template-columns: auto;
+    }
+    .tablica thead {
+        display: none;
+    }
+
+    .tablica,
+    .tablica tbody,
+    .tablica tr,
+    .tablica td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .tablica tr {
+        margin-bottom: 15px;
+        border: 2px solid #44b6df;
+        border-radius: 5px;
+        background-color: #fcfdfe;
+        overflow: hidden;
+    }
+
+    .tablica td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 15px;
+        border-bottom: 1px solid #CCE9E8;
+        font-size: medium;
+        gap: 10px;
+    }
+
+    .tablica td:last-child {
+        border-bottom: none;
+    }
+
+    .tablica td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #3389A9;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 }
