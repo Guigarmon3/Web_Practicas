@@ -22,17 +22,6 @@
                 <button class="button_db" id="cli_add">Añadir Cliente</button>
             </div>
             <div class="cliente-cont">
-                <h4>|</h4>
-                <h4>Nombre</h4>
-                <h4>|</h4>
-                <h4>Nickname</h4>
-                <h4>|</h4>
-                <h4>Email</h4>
-                <h4>|</h4>
-                <h4>Plataforma</h4>
-                <h4>|</h4>
-                <h4>Acciones</h4>
-                <h4>|</h4>
             </div>
             <div id="contenedor-clientes">
 
@@ -62,14 +51,14 @@
             <h1>Modificar Cliente</h1>
             <form>
                 <center>
+                    <h4>Nombre:</h4>
                     <input type="text" placeholder="(opcional) Nombre" id="mod_nombre">
-                    <br>
+                    <h4>NickName:</h4>
                     <input type="text" placeholder="NickName" id="mod_nick" required>
-                    <br>
+                    <h4>Email:</h4>
                     <input type="email" placeholder="Email" id="mod_email" required>
-                    <br>
+                    <h4>Plataforma:</h4>
                     <input type="text" placeholder="Plataforma" id="mod_plataforma" required>
-                    <br>
                     <input type="submit" id="modificar" class="button_db" value="Modificar Cliente">
                 </center>
             </form>
@@ -82,6 +71,7 @@
             <h1>Añadir Pago</h1>
             <form>
                 <center>
+                    <h4>Cantidad pagada a la TGSS:</h4>
                     <input type="text" placeholder="Tipo" id="add_tipo_pago" required>
                     <br>
                     <input type="text" placeholder="Titulo" id="add_titulo_pago" required>

@@ -351,11 +351,11 @@ input[type="checkbox"] {
 }
 
 form {
-    h3 {
-        margin: 0px;
-        position: absolute;
+    h4 {
+        display: flex;
+        justify-content: left;
         margin-left: 10%;
-        margin-bottom: 10%;
+        margin-bottom: 0px;
     }
 }
 
