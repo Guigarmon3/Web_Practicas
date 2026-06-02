@@ -125,11 +125,17 @@ async function renderizarCotizaciones(lista) {
             btnDel.addEventListener('click', async () => {
                 if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
                     try {
-                        const response = await borrarCotizacionAPI(cot.quoteYear, cot.quarterly);
+                        const response = await editarCotizacionAPI({
+                            quoteYear: cot.quoteYear,
+                            quarterly: cot.quarterly,
+                            facImport: 0.00,
+                            datePay: null
+                        });
                         console.log(response);
-                        Toast("Cotización eliminada correctamente");
+                        Toast("TGSS eliminada correctamente");
                         cargarCotizaciones();
                     } catch (error) {
+                        Toast("No se pudo eliminar la TGSS");
                         console.error(error);
                     }
                 }
@@ -182,8 +188,10 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
                 datePay: null
             });
             console.log('Guardado:', data);
+            Toast("TGSS creada correctamente");
         } catch (err) {
             console.error('Error:', err);
+            Toast("Error al crear la TGSS");
         }
     }
     addventana.style.display = "none";
@@ -220,10 +228,11 @@ formmod_cotizacion.addEventListener("submit", async (e) => {
             datePay: mod_fechaPago.value || null
         });
         console.log('Cotización actualizada:', cotizacionData);
-        Toast("Cotización actualizada correctamente");
+        Toast("TGSS actualizada correctamente");
         modventana.style.display = "none";
         cargarCotizaciones();
     } catch (error) {
         console.error("Error", error);
+        Toast("No se pudo actualizar la TGSS");
     }
 });

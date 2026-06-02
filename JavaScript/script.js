@@ -1,6 +1,8 @@
 import { 
     obtenerTodosLosClientes, 
-    buscarClienteAPI, 
+    buscarClienteNombreAPI,
+    buscarClienteNickAPI,
+    buscarClienteEmailAPI,
     crearClienteAPI, 
     editarClienteAPI, 
     borrarClienteAPI,
@@ -338,10 +340,10 @@ inputbuscat.addEventListener("input", async (e) => {
        return;
    }
    try {
-       const clientesFiltrados = await buscarClienteAPI(terminoBusqueda);
+       const clientesFiltrados = await buscarClienteNombreAPI(terminoBusqueda);
+       console.log("Clientes filtrados por nombre:", clientesFiltrados);
        renderizarClientes(clientesFiltrados);
    } catch (error) {
-       console.error("Error al buscar cliente:", error);
    }
 });
 
@@ -352,10 +354,10 @@ inputbuscarnick.addEventListener("input", async (e) => {
         return;
     }
     try {
-        const clientesFiltrados = await buscarClienteAPI(terminoBusqueda);
+        const clientesFiltrados = await buscarClienteNickAPI(terminoBusqueda);
+        console.log("Clientes filtrados por nickname:", clientesFiltrados);
         renderizarClientes(clientesFiltrados);
     } catch (error) {
-        console.error("Error al buscar cliente:", error);
     }
 });
 
@@ -366,10 +368,10 @@ inputbuscaemail.addEventListener("input", async (e) => {
         return;
     }
     try {
-        const clientesFiltrados = await buscarClienteAPI(terminoBusqueda);
+        const clientesFiltrados = await buscarClienteEmailAPI(terminoBusqueda);
+        console.log("Clientes filtrados por email:", clientesFiltrados);
         renderizarClientes(clientesFiltrados);
     } catch (error) {
-        console.error("Error al buscar cliente:", error);
     }
 });
 

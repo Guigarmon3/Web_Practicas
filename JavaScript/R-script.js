@@ -28,60 +28,67 @@ async function cargarTodosLosPagosPendientes() {
 
     try {
         const clientes = await obtenerTodosLosClientes();
-        let tienePagosPendientesGlobal = false;
-
+        let listaPagosPendientes = [];
+    
         for (const cliente of clientes) {
             const pagos = await obtenerPagosCliente(cliente.id);
-            console.log('Pagos de', cliente.nick, pagos); // ← depuración
-
+            console.log('Pagos de', cliente.nick, pagos);
+    
             const pagosPendientes = pagos.filter(pago => pago.made);
-
-            if (pagosPendientes.length > 0) {
-                tienePagosPendientesGlobal = true;
-
-                pagosPendientes.forEach(pago => {
-                    const fila = document.createElement("tr");
-
-                    const celdas = [
-                        { label: "NickName",      valor: cliente.nick },
-                        { label: "Cliente",       valor: cliente.name || "Sin Nombre" },
-                        { label: "Tipo",          valor: pago.facturaType },
-                        { label: "Titulo",        valor: pago.title },
-                        { label: "Fecha",         valor: pago.billDate },
-                        { label: "Precio USD$",   valor: `$${pago.priceUs}` },
-                        { label: "Precio PayPal", valor: `€${pago.pricePaypal}` },
-                        { label: "Precio EUR€",   valor: `€${pago.priceEu}` }
-                    ];
-
-                    celdas.forEach(({ label, valor }) => {
-                        const td = document.createElement("td");
-                        td.setAttribute("data-label", label);
-                        td.textContent = valor;
-                        fila.appendChild(td);
-                    });
-
-                    const tdAccion = document.createElement("td");
-                    tdAccion.setAttribute("data-label", "Acciones");
-
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.checked = pago.made;
-
-                    checkbox.addEventListener("change", async () => {
-                        try {
-                            const resultado = await editarPagoAPI({
-                                idNumber: pago.idNumber,
-                                facturaType: pago.facturaType,
-                                title: pago.title,
-                                billDate: pago.billDate,
-                                priceUs: pago.priceUs,
-                                pricePaypal: pago.pricePaypal,
-                                priceEu: pago.priceEu,
-                                isMade: pago.made ? false : true,
-                                customer: {
-                                    id: cliente.id
-                                }
-                            });
+    
+            pagosPendientes.forEach(pago => {
+                listaPagosPendientes.push({
+                    cliente,
+                    pago
+                });
+            });
+        }
+        listaPagosPendientes.sort((a, b) => new Date(a.pago.billDate) - new Date(b.pago.billDate)).reverse();
+    
+        if (listaPagosPendientes.length > 0) {
+            listaPagosPendientes.forEach(({ cliente, pago }) => {
+                const fila = document.createElement("tr");
+    
+                const celdas = [
+                    { label: "NickName",      valor: cliente.nick },
+                    { label: "Cliente",       valor: cliente.name || "Sin Nombre" },
+                    { label: "Tipo",          valor: pago.facturaType },
+                    { label: "Titulo",        valor: pago.title },
+                    { label: "Fecha",         valor: pago.billDate },
+                    { label: "Precio USD$",   valor: `$${pago.priceUs}` },
+                    { label: "Precio PayPal", valor: `€${pago.pricePaypal}` },
+                    { label: "Precio EUR€",   valor: `€${pago.priceEu}` }
+                ];
+    
+                celdas.forEach(({ label, valor }) => {
+                    const td = document.createElement("td");
+                    td.setAttribute("data-label", label);
+                    td.textContent = valor;
+                    fila.appendChild(td);
+                });
+    
+                const tdAccion = document.createElement("td");
+                tdAccion.setAttribute("data-label", "Acciones");
+    
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = pago.made;
+    
+                checkbox.addEventListener("change", async () => {
+                    try {
+                        const resultado = await editarPagoAPI({
+                            idNumber: pago.idNumber,
+                            facturaType: pago.facturaType,
+                            title: pago.title,
+                            billDate: pago.billDate,
+                            priceUs: pago.priceUs,
+                            pricePaypal: pago.pricePaypal,
+                            priceEu: pago.priceEu,
+                            isMade: pago.made ? false : true,
+                            customer: {
+                                id: cliente.id
+                            }
+                        });
                             console.log("Estado del pago actualizado:", resultado);
                             Toast("Estado del pago actualizado correctamente.");
                             cargarTodosLosPagosPendientes();
@@ -90,24 +97,21 @@ async function cargarTodosLosPagosPendientes() {
                             Toast("Error al actualizar el estado del pago.");
                         }
                     });
-
+    
                     tdAccion.appendChild(checkbox);
                     fila.appendChild(tdAccion);
-
+    
                     tbody.appendChild(fila);
                 });
+            } else {
+                mostrarMensajeVacio(tbody, cabeceras.length);
             }
+    
+            mainContainer.appendChild(table);
+    
+        } catch (error) {
+            console.error(error);
         }
-
-        if (!tienePagosPendientesGlobal) {
-            mostrarMensajeVacio(tbody, cabeceras.length);
-        }
-
-        mainContainer.appendChild(table);
-
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 function mostrarMensajeVacio(tbody, totalColumnas) {

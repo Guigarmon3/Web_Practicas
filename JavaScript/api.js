@@ -9,8 +9,20 @@ export async function obtenerTodosLosClientes() {
     return await respuesta.json();
 }
 
-export async function buscarClienteAPI(termino) {
-    const respuesta = await fetch(`${CUSTOMER_URL}/search/${termino}`);
+export async function buscarClienteNombreAPI(termino) {
+    const respuesta = await fetch(`${CUSTOMER_URL}/search/name/${termino}`);
+    if (!respuesta.ok) throw new Error("Error en la búsqueda");
+    return await respuesta.json();
+}
+
+export async function buscarClienteNickAPI(termino) {
+    const respuesta = await fetch(`${CUSTOMER_URL}/search/nick/${termino}`);
+    if (!respuesta.ok) throw new Error("Error en la búsqueda");
+    return await respuesta.json();
+}
+
+export async function buscarClienteEmailAPI(termino) {
+    const respuesta = await fetch(`${CUSTOMER_URL}/search/email/${termino}`);
     if (!respuesta.ok) throw new Error("Error en la búsqueda");
     return await respuesta.json();
 }
