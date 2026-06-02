@@ -6,9 +6,6 @@ const cerrar_add_cotizacion = document.getElementById("cerrar_add_cotizacion");
 const formadd_cotizacion = document.querySelector("#addcotizacion form");
 
 const add_year = document.getElementById("add_year");
-const add_trimestre = document.getElementById("add_trimestre");
-const add_importe = document.getElementById("add_importe");
-const add_fechaPago = document.getElementById("add_fechaPago");
 
 const modventana = document.getElementById("modcotizacion");
 const formmod_cotizacion = document.querySelector("#modcotizacion form");
@@ -35,7 +32,6 @@ document.getElementById("cerrar_mod_cotizacion").addEventListener("click", () =>
 });
 
 add_year.value = new Date().getFullYear();
-add_trimestre.value = Math.ceil((new Date().getMonth() + 1) / 3);
 
 document.addEventListener('DOMContentLoaded', cargarCotizaciones);
 
@@ -167,7 +163,6 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!formadd_cotizacion.checkValidity()) return;
     const anio = parseInt(add_year.value);
-    const trimestre = parseInt(add_trimestre.value);
     const existe = cotizaciones.some(cot => 
         cot.quoteYear === anio && 
         cot.quarterly === trimestre
@@ -178,19 +173,19 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
         return;
     }
 
-    try {
-        const data = await crearCotizacionAPI({
-            quoteYear: add_year.value,
-            quarterly: add_trimestre.value,
-            facImport: add_importe.value,
-            datePay: add_fechaPago.value || null
-        });
-        console.log('Guardado:', data);
-        Toast("Cotización añadida correctamente");
-    } catch (err) {
-        console.error('Error:', err);
+    for (let i = 1; i <= 4; i++) {
+        try {
+            const data = await crearCotizacionAPI({
+                quoteYear: add_year.value,
+                quarterly: i,
+                facImport: 0.00,
+                datePay: null
+            });
+            console.log('Guardado:', data);
+        } catch (err) {
+            console.error('Error:', err);
+        }
     }
-    add_importe.value = "";
     addventana.style.display = "none";
     cargarCotizaciones();
 });

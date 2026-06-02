@@ -113,6 +113,7 @@ header * {
     font-weight: bolder;
     padding: 20px;
     align-content: center;
+    cursor: pointer;
 }
 
 .button_db:hover {

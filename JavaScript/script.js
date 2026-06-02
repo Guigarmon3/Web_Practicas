@@ -81,6 +81,7 @@ async function cargarClientes() {
 }
 
 function renderizarClientes(clientes) {
+    
     const contenedorClientes = document.getElementById("contenedor-clientes");
     contenedorClientes.innerHTML = '';
 

@@ -103,7 +103,7 @@ async function renderizarGestoria(management) {
             const divInfoTotalFacturado = document.createElement('div');
             divInfoTotalFacturado.className = 'cotizacion-info';
             const totalfacturadoText = document.createElement('h4');
-            totalfacturadoText.textContent = 'Total Facturado:';
+            totalfacturadoText.textContent = 'Total Facturado (automático):';
             const totalfacturado = document.createElement('p');
             totalfacturado.className = 'cotizacion-valor';
             totalfacturado.textContent = `${pagosTrimestre ? pagosTrimestre.toFixed(2) : '0.00'} €`;
@@ -125,7 +125,7 @@ async function renderizarGestoria(management) {
             const divInfoGanancia = document.createElement('div');
             divInfoGanancia.className = 'cotizacion-info';
             const gananciaText = document.createElement('h4');
-            gananciaText.textContent = 'Ganancia:';
+            gananciaText.textContent = 'Ganancia Real (automático):';
             const ganancia = document.createElement('p');
             ganancia.className = 'cotizacion-valor';
             ganancia.textContent = `${pagosTrimestreReal ? pagosTrimestreReal.toFixed(2) : '0.00'} €`;
