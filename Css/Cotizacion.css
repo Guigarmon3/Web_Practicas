@@ -140,7 +140,7 @@ form input {
     display: none;
 }
 
-#totalTGB {
+.totalAnual {
     border: 1px solid #44b6df;
     text-align: center;
     padding: 10px;

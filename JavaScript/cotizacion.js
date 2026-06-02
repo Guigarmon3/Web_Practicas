@@ -152,7 +152,7 @@ async function renderizarCotizaciones(lista) {
             const totalanio = await obtenerCotizacionesAgrupadasPorAnyo(anyo);
             const h3total = document.createElement('h3');
             h3total.textContent = `Total TGSS: ${totalanio.toFixed(2)} €`;
-            h3total.id = "totalTGB"
+            h3total.className = "totalAnual";
             divAnio.appendChild(h3total);
         } catch (error) {
             console.error(`Error al obtener cotizaciones para el año ${anyo}:`, error);

@@ -4,7 +4,6 @@ import { Toast } from './tablas.js';
 let managementData = [];
 
 const search_year = document.getElementById("search_year");
-const search_trimestre = document.getElementById("search_trimestre");
 
 const addgestion = document.getElementById("gestoria_add");
 const addventana = document.getElementById("addgestion");
@@ -12,9 +11,6 @@ const cerrar_add_gestion = document.getElementById("cerrar_add_gestion");
 const formadd_gestion = document.querySelector("#addgestion form");
 
 const add_year_gestion = document.getElementById("add_year_gestion");
-const add_quarterly_gestion = document.getElementById("add_quarterly_gestion");
-const add_performance_gestion = document.getElementById("add_performance_gestion");
-const add_importe_gestion = document.getElementById("add_importe_gestion");
 
 const modventana = document.getElementById("modgestion");
 const cerrarModgestion = document.getElementById("cerrarModgestion");
@@ -42,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 add_year_gestion.value = new Date().getFullYear();
-add_quarterly_gestion.value = Math.ceil((new Date().getMonth() + 1) / 3);
 
 async function cargarTodo() {
     try {
@@ -80,44 +75,6 @@ async function renderizarGestoria(management) {
         const cabeceraAnyo = document.createElement('h2');
         cabeceraAnyo.textContent = `Año: ${anyo}`;
         anyoDiv.appendChild(cabeceraAnyo);
-
-        let pagosAnuales = 0;
-        try {
-            pagosAnuales = await obtenerPagosAñoAPI({ year: anyo });
-            console.log(`Total Facturado para el año ${anyo}:`, pagosAnuales);
-        } catch (error) {
-            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
-        }
-
-        const divInfoGananciaAnual = document.createElement('div');
-        divInfoGananciaAnual.className = 'cotizacion-info';
-        const gananciaAnualText = document.createElement('h3');
-        gananciaAnualText.textContent = 'Ganancia Anual:';
-        const gananciaAnual = document.createElement('p');
-        gananciaAnual.className = 'cotizacion-valor';
-        gananciaAnual.textContent = `${pagosAnuales ? pagosAnuales.toFixed(2) : '0.00'} €`;
-        divInfoGananciaAnual.appendChild(gananciaAnualText);
-        divInfoGananciaAnual.appendChild(gananciaAnual);
-        anyoDiv.appendChild(divInfoGananciaAnual);
-
-        let pagosAnualesReal = 0;
-        try {
-            pagosAnualesReal = await obtenerPagosAñoRealAPI({ year: anyo });
-            console.log(`Total Real para el año ${anyo}:`, pagosAnualesReal);
-        } catch (error) {
-            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
-        }
-
-        const divInfoGananciaAnualReal = document.createElement('div');
-        divInfoGananciaAnualReal.className = 'cotizacion-info';
-        const gananciaAnualRealText = document.createElement('h3');
-        gananciaAnualRealText.textContent = 'Ganancia Anual Real:';
-        const gananciaAnualReal = document.createElement('p');
-        gananciaAnualReal.className = 'cotizacion-valor';
-        gananciaAnualReal.textContent = `${pagosAnualesReal ? pagosAnualesReal.toFixed(2) : '0.00'} €`;
-        divInfoGananciaAnualReal.appendChild(gananciaAnualRealText);
-        divInfoGananciaAnualReal.appendChild(gananciaAnualReal);
-        anyoDiv.appendChild(divInfoGananciaAnualReal);
 
         const contenedorHorizontal = document.createElement('div');
         contenedorHorizontal.className = 'listado-cotizaciones-anio';
@@ -182,7 +139,7 @@ async function renderizarGestoria(management) {
             rendimientoText.textContent = 'Rendimiento:';
             const rendimiento = document.createElement('p');
             rendimiento.className = 'cotizacion-valor';
-            rendimiento.textContent = `${cot.performance.toFixed(2)} %`;
+            rendimiento.textContent = `${cot.performance.toFixed(2)} €`;
             divInfoRendimiento.appendChild(rendimientoText);
             divInfoRendimiento.appendChild(rendimiento);
             trimestreDiv.appendChild(divInfoRendimiento);
@@ -223,15 +180,20 @@ async function renderizarGestoria(management) {
             eliminar.className = 'cli_borrar';
             divBotones.appendChild(eliminar);
             eliminar.addEventListener('click', async () => {
-                if (confirm('¿Seguro que deseas eliminar esta gestoría?')) {
+                if (confirm('¿Seguro que deseas eliminar los datos del trimestre?')) {
                     try {
-                        const respuesta = await borrarManagementAPI(cot.facYear, cot.quarterly);
-                        Toast("Gestoría eliminada correctamente");
+                        const respuesta = await editarManagementAPI({
+                            facYear: cot.facYear, 
+                            quarterly: cot.quarterly,
+                            taxPayment: 0.00,
+                            performance: 0.00
+                        });
+                        Toast("Datos del trimestre eliminados correctamente");
                         console.log(respuesta);
                         cargarTodo();
                     } catch (error) {
-                        console.error("Error al eliminar la gestoría:", error);
-                        Toast("Error al eliminar la gestoría");
+                        console.error("Error al eliminar los datos del trimestre:", error);
+                        Toast("Error al eliminar los datos del trimestre");
                     }
                 }
             });
@@ -321,51 +283,41 @@ async function renderizarGestoria(management) {
 
             trimestreDiv.appendChild(divBotones);
             contenedorHorizontal.appendChild(trimestreDiv);
-
-            //Seguir por aquí para mostrar el total anual
-            let pagosAnuales = 0;
-            try {
-                pagosAnuales = await obtenerPagosAñoAPI({
-                    year: cot.facYear
-                });
-                console.log("Total Facturado:", pagosAnuales);
-            } catch (error) {
-                console.error("Error al obtener los pagos por año:", error);
-            }
             
         };
         anyoDiv.appendChild(contenedorHorizontal);
+
+        let pagosAnuales = 0;
+        try {
+            pagosAnuales = await obtenerPagosAñoAPI({ year: anyo });
+            console.log(`Total Facturado para el año ${anyo}:`, pagosAnuales);
+        } catch (error) {
+            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
+        }
+
+        const gananciaAnual = document.createElement('h3');
+        gananciaAnual.className = 'totalAnual';
+        gananciaAnual.textContent = `Ganancia Anual: ${pagosAnuales ? pagosAnuales.toFixed(2) : '0.00'} €`;
+        anyoDiv.appendChild(gananciaAnual);
+
+        let pagosAnualesReal = 0;
+        try {
+            pagosAnualesReal = await obtenerPagosAñoRealAPI({ year: anyo });
+            console.log(`Total Real para el año ${anyo}:`, pagosAnualesReal);
+        } catch (error) {
+            console.error(`Error al obtener los pagos por año para el año ${anyo}:`, error);
+        }
+
+        
+        const gananciaAnualReal = document.createElement('h3');
+        gananciaAnualReal.className = 'totalAnual';
+        gananciaAnualReal.textContent = `Ganancia Anual Real: ${pagosAnualesReal ? pagosAnualesReal.toFixed(2) : '0.00'} €`;
+        anyoDiv.appendChild(gananciaAnualReal);
+
         contenedorGestoria.appendChild(anyoDiv);
 
     }
 }
-
-search_trimestre.addEventListener("input", async () => {
-    let busqueda = parseInt(search_trimestre.value.trim(), 10);
-    if (isNaN(busqueda)) {
-        cargarTodo();
-        return;
-    }
-    if (busqueda > 4) {
-        search_trimestre.value = 4;
-        busqueda = 4;
-    }
-    if (busqueda < 1) {
-        search_trimestre.value = 1;
-        busqueda = 1;
-    }
-    if (search_year.value === "") {
-        search_year.value = new Date().getFullYear();
-    }
-
-    try {
-        const resultados = await obtenerManagementAñoAPI(search_year.value, busqueda);
-        const datosParaRenderizar = Array.isArray(resultados) ? resultados : (resultados ? [resultados] : []);
-        renderizarGestoria(datosParaRenderizar);
-    } catch (error) {
-        console.error("Error en la búsqueda:", error);
-    }
-});
 
 search_year.addEventListener("input", async () => {
     let busqueda = search_year.value.trim();
@@ -376,19 +328,13 @@ search_year.addEventListener("input", async () => {
     if (busqueda.length < 4) {
         return;
     }
-    if (search_trimestre.value === "") {
-        search_trimestre.value =  Math.ceil((new Date().getMonth() + 1) / 3);
-    }
-    if (search_trimestre.value > 4) {
-        search_trimestre.value = 4;
-    }
-    if (search_trimestre.value < 1) {
-        search_trimestre.value = 1;
-    }
 
     try {
-        const resultados = await obtenerManagementAñoAPI(busqueda, search_trimestre.value);
-        const datosParaRenderizar = Array.isArray(resultados) ? resultados : (resultados ? [resultados] : []);
+        const datosParaRenderizar = [];
+        for (let i = 1; i <= 4; i++) {
+            const resultados = await obtenerManagementAñoAPI(busqueda, i);
+            datosParaRenderizar.push(resultados);
+        }
         renderizarGestoria(datosParaRenderizar);
     } catch (error) {
         console.error("Error en la búsqueda:", error);
@@ -399,46 +345,44 @@ formadd_gestion.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!formadd_gestion.checkValidity()) return;
     const anio = parseInt(add_year_gestion.value);
-    const trimestre = parseInt(add_quarterly_gestion.value);
-    const existe = managementData.some(item => (item.facYear ?? item.fac_year) === anio && item.quarterly === trimestre);
+    const existe = managementData.some(item => (item.facYear ?? item.fac_year) === anio);
     if (existe) {
-        Toast("Ya existe una gestoría para ese año y trimestre");
+        Toast("Ya existe un registro anual para ese año");
         return;
     }
 
-    try {
-        const newGestion = await crearManagementAPI({
-            facYear: add_year_gestion.value,
-            quarterly: add_quarterly_gestion.value,
-            taxPayment: add_importe_gestion.value,
-            performance: add_performance_gestion.value
-        });
-        console.log("Gestoría creada:", newGestion);
-        Toast("Gestoría creada correctamente");
-    } catch (error) {
-        console.error("Error al crear la gestoría:", error);
-        Toast("Error al crear la gestoría");
+    for (let i = 1; i <= 4; i++) {
+        try {
+            const newGestion = await crearManagementAPI({
+                facYear: add_year_gestion.value,
+                quarterly: i,
+                taxPayment: 0.00,
+                performance: 0.00
+            });
+            console.log("Registro anual creado:", newGestion);
+        } catch (error) {
+            console.error("Error al crear el registro anual:", error);
+        }
     }
     addventana.style.display = "none";
-    add_importe_gestion.value = "";
-    add_performance_gestion.value = "";
     cargarTodo();
 });
 
 formmod_gestion.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!formmod_gestion.checkValidity()) return;
-    try {        const updatedGestion = await editarManagementAPI({
+    try {        
+        const updatedGestion = await editarManagementAPI({
             facYear: gestionEditable.facYear,
             quarterly: gestionEditable.quarterly,
             taxPayment: mod_importe_gestion.value,
             performance: mod_performance_gestion.value
         });
-        console.log("Gestoría actualizada:", updatedGestion);
-        Toast("Gestoría actualizada correctamente");
+        console.log("Trimestre actualizado:", updatedGestion);
+        Toast("Trimestre actualizado correctamente");
     } catch (error) {
-        console.error("Error al actualizar la gestoría:", error);
-        Toast("Error al actualizar la gestoría");
+        console.error("Error al actualizar el trimestre:", error);
+        Toast("Error al actualizar el trimestre");
     }
     modventana.style.display = "none";
     cargarTodo();
