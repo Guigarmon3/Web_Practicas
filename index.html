@@ -18,10 +18,21 @@
         
         <div id="main">
             <div class="header-acciones">
-                <input placeholder="Nickname" type="search" class="input_db" id="cli_found">
+                <input placeholder="Nombre" type="search" class="input_db" id="cli_found_name">
+                <input placeholder="Nickname" type="search" class="input_db" id="cli_found_nick">
+                <input placeholder="Email" type="search" class="input_db" id="cli_found_email">
                 <button class="button_db" id="cli_add">Añadir Cliente</button>
             </div>
-            <div class="cliente-cont">
+            <div class="cliente cosas">
+                <div class="cliente-cont titulos">
+                    <h4>Nombre</h4>
+                    <h4>Nickname</h4>
+                    <h4>Email</h4>
+                    <h4>Plataforma</h4>
+                    <button class="test"></button>
+                    <button class="test"></button>
+                    <button class="test"></button>
+                </div>
             </div>
             <div id="contenedor-clientes">
 
@@ -71,19 +82,18 @@
             <h1>Añadir Pago</h1>
             <form>
                 <center>
-                    <h4>Cantidad pagada a la TGSS:</h4>
+                    <h4>Tipo:</h4>
                     <input type="text" placeholder="Tipo" id="add_tipo_pago" required>
-                    <br>
+                    <h4>Titulo:</h4>
                     <input type="text" placeholder="Titulo" id="add_titulo_pago" required>
-                    <br>
+                    <h4>Fecha:</h4>
                     <input type="date" placeholder="Fecha" id="add_fecha_pago" required>
-                    <br>
+                    <h4>Precio (USD$):</h4>
                     <input type="number" step="0.01" placeholder="Precio USD$" id="add_precio_pago" required>
-                    <br>
+                    <h4>Precio (PayPal):</h4>
                     <input type="number" step="0.01" placeholder="Precio PayPal" id="add_precio_paypal" required>
-                    <br>
+                    <h4>Precio (EUR€):</h4>
                     <input type="number" step="0.01" placeholder="Precio EUR€" id="add_precio_eur" required>
-                    <br>
                     <input type="submit" id="añadirPago" class="button_db" value="Añadir Pago">
                 </center>
             </form>
@@ -94,20 +104,18 @@
             <h1>Modificar Pago</h1>
             <form>
                 <center>
+                    <h4>Tipo:</h4>
                     <input type="text" placeholder="Tipo" id="mod_tipo_pago" required>
-                    <br>
+                    <h4>Titulo:</h4>
                     <input type="text" placeholder="Titulo" id="mod_titulo_pago" required>
-                    <br>
+                    <h4>Fecha:</h4>
                     <input type="date" placeholder="Fecha" id="mod_fecha_pago" required>
-                    <br>
+                    <h4>Precio (USD$):</h4>
                     <input type="number" step="0.01" placeholder="Precio USD$" id="mod_precio_pago" required>
-                    <br>
+                    <h4>Precio (PayPal):</h4>
                     <input type="number" step="0.01" placeholder="Precio PayPal" id="mod_precio_paypal" required>
-                    <br>
+                    <h4>Precio (EUR€):</h4>
                     <input type="number" step="0.01" placeholder="Precio EUR€" id="mod_precio_eur" required>
-                    <h4 class="modal-label">Transferencia:</h4>
-                    <input type="checkbox" id="mod_transferencia">
-                    <br>
                     <input type="submit" id="modificarPago" class="button_db" value="Modificar Pago">
                 </center>
             </form>

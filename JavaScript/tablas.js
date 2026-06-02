@@ -1,4 +1,4 @@
-export const headers = ["ID", "Tipo", "Titulo", "Fecha", "USD$", "PayPal", "EUR€", "Transferencia", "Acciones"];
+export const headers = ["Tipo", "Titulo", "Fecha", "USD$", "PayPal", "EUR€", "Transferencia", "Acciones"];
 
 const MOBILE_BREAKPOINT = 768;
 

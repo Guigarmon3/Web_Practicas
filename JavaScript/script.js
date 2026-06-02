@@ -16,6 +16,10 @@ let clienteEditable = null;
 let clientePagos = null;
 let pagoEditable = null;
 
+const inputbuscat = document.getElementById("cli_found_name");
+const inputbuscarnick = document.getElementById("cli_found_nick");
+const inputbuscaemail = document.getElementById("cli_found_email");
+
 const adduser = document.getElementById("cli_add");
 const addventana = document.getElementById("adduser");
 const cerrar_add = document.getElementById("cerrar_add");
@@ -36,7 +40,6 @@ const modplataforma = document.getElementById("mod_plataforma");
 const cerrar_mod = document.getElementById("cerrar_mod");
 
 const ventanaPagos = document.getElementById("pagos");
-const inputbuscat = document.getElementById("cli_found");
 const MostrarPendientes = document.getElementById("cli_pendientes");
 const MostrarRealizados = document.getElementById("cli_realizados");
 
@@ -202,7 +205,6 @@ async function renderizarVentanaPagos() {
             pagos.forEach(pago => {
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
-                    <td>${pago.idNumber || pago.id}</td>
                     <td>${pago.facturaType}</td>
                     <td>${pago.title}</td>
                     <td>${pago.billDate}</td>
@@ -341,6 +343,34 @@ inputbuscat.addEventListener("input", async (e) => {
    } catch (error) {
        console.error("Error al buscar cliente:", error);
    }
+});
+
+inputbuscarnick.addEventListener("input", async (e) => {
+    const terminoBusqueda = e.target.value.trim();
+    if (terminoBusqueda === "") {
+        cargarClientes();
+        return;
+    }
+    try {
+        const clientesFiltrados = await buscarClienteAPI(terminoBusqueda);
+        renderizarClientes(clientesFiltrados);
+    } catch (error) {
+        console.error("Error al buscar cliente:", error);
+    }
+});
+
+inputbuscaemail.addEventListener("input", async (e) => {
+    const terminoBusqueda = e.target.value.trim();
+    if (terminoBusqueda === "") {
+        cargarClientes();
+        return;
+    }
+    try {
+        const clientesFiltrados = await buscarClienteAPI(terminoBusqueda);
+        renderizarClientes(clientesFiltrados);
+    } catch (error) {
+        console.error("Error al buscar cliente:", error);
+    }
 });
 
 cerrar_add.addEventListener("click", () => {
