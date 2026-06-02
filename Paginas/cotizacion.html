@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" href="../Css/Cotizacion.css">
+        <link rel="stylesheet" href="../Css/style.css">
+        <title>Cotización</title>
+    </head>
+    <body>
+        <header>
+            <a href="../index.html" class="button_db">Clientes</a>
+            <a href="./gestoria.html" class="button_db" id="gestoria">Gestoría</a>
+            <a href="./cotizacion.html" class="button_db white" id="cotizacion">Cotización</a>
+            <a href="./realizados.html" class="button_db" id="cli_pendientes">Realizados</a> 
+            <a href="./pendientes.html" class="button_db">Pendientes</a>
+        </header>
+        <div id="main">
+            <div class="header-acciones">
+                <input type="number" step="0.01"id="year" min="2020" class="input_db" placeholder="Año">
+                <button class="button_db" id="cotizacion_add">Registrar Cotización</button>
+            </div>
+            <div id="contenedor-cotizaciones"></div>
+        </div>
+
+        <div class="ventana" id="addcotizacion">
+            <button class="xbutton_db" id="cerrar_add_cotizacion">X</button>
+            <form>
+                <h3 class="modal-titulo">Registrar Cotización</h3>
+                <h4 class="modal-label">Año:</h4>
+                <input type="number" min="2020" max="2099" id="add_year" required>
+                <h4 class="modal-label">Trimestre:</h4>
+                <input type="number" min="1" max="4" id="add_trimestre" required>
+                <h4 class="modal-label">Cantidad pagada a la TGSS:</h4>
+                <input type="number" step="0.01" id="add_importe" required>
+                <h4 class="modal-label">Cuándo se realizó el pago (opcional):</h4>
+                <input type="date" id="add_fechaPago">
+                <input type="submit" id="añadir" class="button_db modal-submit" value="Registrar Cotización">
+            </form>
+        </div>
+        <div class="ventana" id="modcotizacion">
+            <button class="xbutton_db" id="cerrar_mod_cotizacion" type="button">X</button>
+            <form>
+                <h4>Cantidad pagada a la TGSS:</h4>
+                <input type="number" step="0.01" id="mod_importe"  required>
+                <h4>Cuándo se realizó el pago (opcional):</h4>
+                <input type="date" id="mod_fechaPago" >
+                <input type="submit" id="modificar" class="button_db modal-submit" value="Modificar Cotización">
+            </form>
+        </div>
+        <script src="../JavaScript/cotizacion.js" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    </body>
+</html>

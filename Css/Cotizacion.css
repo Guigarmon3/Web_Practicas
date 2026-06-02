@@ -1,0 +1,170 @@
+.header-acciones {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+#year {
+    width: 160px;
+    margin: 0;
+    height: 40px;
+}
+
+#cotizacion_add {
+    margin: 0;
+    max-width: max-content;
+}
+
+#modificar {
+    margin: 0px auto;
+}
+form input {
+    margin: 0px auto;
+    margin-bottom: 20px;
+}
+
+.contenedor-anio {
+    border: 2px solid #44b6df;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contenedor-anio h2 {
+    margin-top: 0;
+    font-size: xx-large;
+    color: #2D283E;
+    text-align: center;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.listado-cotizaciones-anio {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+}
+
+.cotizacion-item {
+    border: 2px solid #44b6df;
+    margin: 0;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    background-color: #fcfdfe;
+    flex: 1;
+    min-width: 0;
+}
+
+.cotizacion-item h3 {
+    margin: 0 0 10px 0;
+    font-size: large;
+    color: #2D283E;
+    border-bottom: 1px solid #44b6df;
+    padding-bottom: 5px;
+}
+
+.cotizacion-info {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: medium;
+    font-weight: lighter;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cotizacion-info-fecha {
+    margin-top: 10px;
+}
+
+.cotizacion-info h4 {
+    margin: 0;
+    font-size: medium;
+    font-weight: bold;
+    color: #3389A9;
+}
+
+.cotizacion-valor {
+    margin: 0;
+    background-color: #f0f4f8;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #2D283E;
+    text-align: right;
+    border: 1px solid #CCE9E8;
+    width: auto;
+}
+
+.cotizacion-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cotizacion-botones button {
+    flex: 1;
+}
+
+.ventana {
+    display: none;
+}
+
+.modal-titulo {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-label {
+    margin: 10px 0 5px 0;
+    text-align: center;
+}
+
+.modal-input {
+    width: 80%;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+}
+
+.modal-submit {
+    margin-top: 20px;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#modcotizacion form{
+    display: grid;
+    text-align: center;
+    grid-template-columns: auto;
+}
+.modal-titulo {
+    display: none;
+}
+#totalTGB {
+    border:1px solid #44b6df;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+@media screen and (max-width: 768px) {
+    .listado-cotizaciones-anio {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
