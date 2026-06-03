@@ -1,0 +1,183 @@
+#btnAnadirAnyo {
+    width: 10%;
+    margin: 20px;
+    margin-left: 0px;
+}
+
+footer {
+    bottom: 0;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    height: 10%;
+    width: 98%;
+    color: white;
+    background-color: #3389A9;
+    border: none;
+    text-align: center;
+    box-shadow: 0px 0px 10px #006994;
+}
+
+.anyo {
+    border: 2px solid #44b6df;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: xx-large;
+    font-weight: bolder;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.anyo h2 {
+    margin-top: 0;
+    font-size: xx-large;
+    color: #2D283E;
+    border-bottom: 2px solid #3389A9;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.trimestre {
+    border: 2px solid #44b6df;
+    margin: 0;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+    background-color: #fcfdfe;
+    flex: 1;
+    min-width: 0;
+}
+
+.trimestre h3 {
+    margin: 0 0 10px 0;
+    font-size: large;
+    color: #2D283E;
+    border-bottom: 1px solid #44b6df;
+    padding-bottom: 5px;
+}
+
+.mes {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-size: medium;
+    font-weight: lighter;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mes h4 {
+    margin: 0;
+    font-size: medium;
+    font-weight: bold;
+    color: #3389A9;
+}
+
+.mes_contenido {
+    margin: 0;
+    background-color: #f0f4f8;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #2D283E;
+    text-align: right;
+    border: 1px solid #CCE9E8;
+    width: auto;
+}
+
+/* Estilos de Modales compartidos desde tu diseño */
+.ventana {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 3px solid #3389A9;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    width: 400px;
+}
+
+.xbutton_db {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 200px;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#modalPago {
+    display: block;
+    height: 25vh;
+}
+#formPago{
+    display: grid;
+    grid-template-columns: auto;
+    border: 1px solid; 
+}
+form h3 {
+    text-align: center !important;
+}
+#inputNuevoPago {margin-top: 50px !important; }
+
+
+
+@media screen and (min-width: 769px) {
+    .contenedor-horizontal-trimestres {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px){
+    body, html {
+        height: 100vh;
+    }
+    header {
+        width: 95%;
+        height: auto;
+        display: grid;
+        grid-template-columns: auto auto;
+        margin: 0px auto;
+        left: 1%;
+    }
+    #main {
+        overflow: scroll;
+        margin-top: 40%;
+        height: 75%;
+        width: 95%;
+    }
+
+    .contenedor-horizontal-trimestres {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    footer {
+        display: none;
+    }
+    #add_gestion_button {
+        background-color: red;
+    }
+
+}

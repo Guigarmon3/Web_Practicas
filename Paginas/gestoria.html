@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestoría</title>
+        <link rel="stylesheet" href="../Css/style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" href="../Css/cotizacion.css">
+    </head>
+    <body>
+
+        <header>
+            <a href="../index.html" class="button_db">Clientes</a>
+            <a href="./gestoria.html" class="button_db white" id="gestoria">Gestoría</a>
+            <a href="./cotizacion.html" class="button_db" id="cotizacion">Cotización</a>
+            <a href="./realizados.html" class="button_db" id="cli_pendientes">Realizados</a> 
+            <a href="./pendientes.html" class="button_db">Pendientes</a>
+        </header>
+
+        <div id="main">
+            <div class="header-acciones">
+                    <input type="number" step="0.01" id="search_trimestre" min="1" max="4" class="input_db" placeholder="Trimestre">
+                    <input type="number" step="0.01" id="search_year" class="input_db" placeholder="Año">
+                    <button class="button_db" id="gestoria_add">Registrar Gestoría</button>
+                </div>
+            <div id="contenedor-gestoria"></div>
+        </div>
+
+        <div class="ventana" id="addgestion">
+            <button class="xbutton_db" id="cerrar_add_gestion">X</button>
+            <form id="formAddGestion">
+                <h3 id="regger">Registrar Gestoría</h3>
+                <input type="number" id="add_year_gestion" required placeholder="Año">
+                <input type="number" min="1" max="4" id="add_quarterly_gestion" required placeholder="Trimestre">
+                <input type="number" step="0.01" id="add_performance_gestion" required placeholder="Rendimiento (%)">
+                <input type="number" step="0.01" id="add_importe_gestion" required placeholder="Pago a Hacienda (€)">
+                <button type="submit" id="add_gestion_button" class="button_db">Registrar Gestoría</button>
+            </form>
+        </div>
+
+        <div id="modgestion" class="ventana">
+            <button class="xbutton_db" id="cerrarModgestion">X</button>
+            <form id="formPago">
+                <h3>Modificar Pago Hacienda</h3>
+                <input type="number" step="0.01" id="mod_performance_gestion" required placeholder="Rendimiento (%)">
+                <input type="number" step="0.01" id="mod_importe_gestion" required placeholder="Pago a Hacienda (€)">
+                <button type="submit" id="mod_gestion_button" class="button_db">Actualizar Pago</button>
+            </form>
+        </div>
+
+        <div id="meses" class="ventana">
+            <button class="xbutton_db" id="cerrarMeses">X</button>
+            <div id="meses-contenedor"></div>
+        </div>
+
+        <script src="../JavaScript/G-script.js" type="module"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    </body>
+</html>
