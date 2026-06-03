@@ -2,6 +2,80 @@ td {
     height: 5vh;
 }
 
+.pendiente-anyo {
+    border: 2px solid #44b6df;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.pendiente-anyo__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background-color: #3389A9;
+    color: white;
+    font-size: x-large;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.pendiente-anyo__header:hover {
+    background-color: #2a7090;
+}
+
+.pendiente-anyo__body {
+    padding: 15px;
+}
+
+.pendiente-mes {
+    border: 2px solid #44b6df;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    background-color: #fcfdfe;
+    overflow: hidden;
+}
+
+.pendiente-mes__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background-color: #66A9BE;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.pendiente-mes__header:hover {
+    background-color: #5594a8;
+}
+
+.pendiente-mes__body {
+    padding: 10px;
+}
+
+.pendiente-flecha {
+    font-size: medium;
+}
+
+select.input_db {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: #2D283E;
+    border: 2px solid #3389A9;
+}
+
+select.input_db:focus {
+    outline: none;
+    border-color: #44b6df;
+}
+
 @media (max-width: 768px) {
 
     .tablica {
@@ -22,9 +96,10 @@ td {
         box-sizing: border-box;
         background-color: transparent;
     }
+
     .tablica tbody {
         margin: 0px auto;
-        height:max-content;
+        height: max-content;
     }
 
     .tablica tr {
