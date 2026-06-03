@@ -147,8 +147,8 @@ export async function editarCotizacionAPI(cotizacionData) {
     return await res.json();
 }
 
-export async function borrarCotizacionAPI(year, quarterly) {
-    const respuesta = await fetch(`${QUOTE_URL}/delete/${year}/${quarterly}`, { 
+export async function borrarCotizacionAPI(year, quarterly, month) {
+    const respuesta = await fetch(`${QUOTE_URL}/delete/${year}/${quarterly}/${month}`, { 
         method: 'DELETE' 
     });
     if (!respuesta.ok) throw new Error(`Error al eliminar: ${respuesta.status}`);

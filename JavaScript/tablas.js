@@ -1,4 +1,4 @@
-export const headers = ["Tipo", "Titulo", "Fecha", "USD$", "PayPal", "EUR€", "Transferencia", "Acciones"];
+export const headers = ["Codigo factura", "Tipo", "Titulo", "Fecha", "USD$", "PayPal", "EUR€", "Transferencia", "Acciones"];
 
 const MOBILE_BREAKPOINT = 768;
 

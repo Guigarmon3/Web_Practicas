@@ -48,7 +48,8 @@ const MostrarRealizados = document.getElementById("cli_realizados");
 const addventanaPagos = document.getElementById("addpago");
 const cerrar_addpagos = document.getElementById("cerrar_addPago");
 const formaddpagos = document.querySelector("#addpago form");
-
+    
+const add_codigo_factura = document.getElementById("add_codigo_factura");
 const add_tipo_pago = document.getElementById("add_tipo_pago");
 const add_titulo_pago = document.getElementById("add_titulo_pago");
 const add_fecha_pago = document.getElementById("add_fecha_pago");
@@ -60,6 +61,7 @@ const modventanaPagos = document.getElementById("modpago");
 const formmodpagos = document.querySelector("#modpago form");
 const cerrar_modPago = document.getElementById("cerrar_modPago");
 
+const mod_codigo_factura = document.getElementById("mod_codigo_factura");
 const mod_tipo_pago = document.getElementById("mod_tipo_pago");
 const mod_titulo_pago = document.getElementById("mod_titulo_pago");
 const mod_fecha_pago = document.getElementById("mod_fecha_pago");
@@ -207,6 +209,7 @@ async function renderizarVentanaPagos() {
             pagos.forEach(pago => {
                 const fila = document.createElement("tr");
                 fila.innerHTML = `
+                    <td>${pago.idString}</td>
                     <td>${pago.facturaType}</td>
                     <td>${pago.title}</td>
                     <td>${pago.billDate}</td>
@@ -223,6 +226,7 @@ async function renderizarVentanaPagos() {
                     try {
                         const resultado = await editarPagoAPI({
                             idNumber: pago.idNumber,
+                            idString: pago.idString,
                             facturaType: pago.facturaType,
                             title: pago.title,
                             billDate: pago.billDate,
@@ -252,13 +256,13 @@ async function renderizarVentanaPagos() {
                 btnModificarFac.id = "modpagosButton";
                 btnModificarFac.addEventListener("click", async () => {
                     modventanaPagos.style.display = "block";
+                    mod_codigo_factura.value = pago.idString;
                     mod_tipo_pago.value = pago.facturaType;
                     mod_titulo_pago.value = pago.title;
                     mod_fecha_pago.value = pago.billDate;
                     mod_precio_pago.value = pago.priceUs;
                     mod_precio_paypal.value = pago.pricePaypal;
                     mod_precio_eur.value = pago.priceEu;
-                    mod_transferencia.checked = pago.made;
                     pagoEditable = pago;
                 });
 
@@ -432,6 +436,7 @@ formaddpagos.addEventListener("submit", async (e) => {
 
     try {
         const data = await crearPagoAPI({
+            idString: add_codigo_factura.value,
             facturaType: add_tipo_pago.value,
             title: add_titulo_pago.value,
             billDate: add_fecha_pago.value,
@@ -486,13 +491,14 @@ formmodpagos.addEventListener("submit", async (e) => {
     try {
         const data = await editarPagoAPI({
             idNumber: pagoEditable.idNumber,
+            idString: mod_codigo_factura.value,
             facturaType: mod_tipo_pago.value,
             title: mod_titulo_pago.value,
             billDate: mod_fecha_pago.value,
             priceUs: mod_precio_pago.value,
             pricePaypal: mod_precio_paypal.value,
             priceEu: mod_precio_eur.value,
-            isMade: mod_transferencia.checked,
+            isMade: pagoEditable.made,
             customer: {
                 id: clientePagos.id
             }
