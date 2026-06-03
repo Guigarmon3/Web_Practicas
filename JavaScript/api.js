@@ -1,7 +1,8 @@
-const CUSTOMER_URL = 'http://localhost:8080/customers';
-const BILL_URL = 'http://localhost:8080/bill';
-const QUOTE_URL = 'http://localhost:8080/quotes';
-const MANAGEMENT_URL = 'http://localhost:8080/management';
+const BASE_URL = 'http://localhost:8080';
+const CUSTOMER_URL = `${BASE_URL}/customers`;
+const BILL_URL = `${BASE_URL}/bill`;
+const QUOTE_URL = `${BASE_URL}/quotes`;
+const MANAGEMENT_URL = `${BASE_URL}/management`;
 
 export async function obtenerTodosLosClientes() {
     const respuesta = await fetch(`${CUSTOMER_URL}/all`);

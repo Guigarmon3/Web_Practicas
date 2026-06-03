@@ -129,7 +129,7 @@ function renderizarPagos(lista) {
                 headerMes.querySelector('.pendiente-flecha').textContent = mesAbierto ? '▼' : '▶';
             });
 
-            const cabeceras = ["NickName", "Cliente", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Acciones"];
+            const cabeceras = ["NickName", "Cliente", "Numero Factura", "Tipo", "Titulo", "Fecha", "Precio USD$", "Precio PayPal", "Precio EUR€", "Acciones"];
             const table = document.createElement('table');
             table.classList.add('tablica');
             table.style.width = '100%';
@@ -154,6 +154,7 @@ function renderizarPagos(lista) {
                     const celdas = [
                         { label: "NickName",      valor: cliente.nick },
                         { label: "Cliente",       valor: cliente.name || "Sin Nombre" },
+                        { label: "Numero Factura", valor: pago.idString },
                         { label: "Tipo",          valor: pago.facturaType },
                         { label: "Titulo",        valor: pago.title },
                         { label: "Fecha",         valor: pago.billDate },
