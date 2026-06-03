@@ -80,70 +80,83 @@ async function renderizarCotizaciones(lista) {
             divCot.className = 'cotizacion-item';
 
             const h3Trim = document.createElement('h3');
-            h3Trim.textContent = `Trimestre ${cot.quarterly}`;
+            h3Trim.textContent = `Trimestre: ${cot.quarterly}/4`;
             divCot.appendChild(h3Trim);
 
-            const divInfoImporte = document.createElement('div');
-            divInfoImporte.className = 'cotizacion-info';
-            const h4Importe = document.createElement('h4');
-            h4Importe.textContent = 'Importe TGSS:';
-            const divValImporte = document.createElement('div');
-            divValImporte.className = 'cotizacion-valor';
-            divValImporte.textContent = `${cot.facImport.toFixed(2)} €`;
-            divInfoImporte.appendChild(h4Importe);
-            divInfoImporte.appendChild(divValImporte);
-            divCot.appendChild(divInfoImporte);
+            const nombreMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ];
 
-            const divInfoFecha = document.createElement('div');
-            divInfoFecha.className = 'cotizacion-info';
-            divInfoFecha.style.marginTop = '10px';
-            const h4Fecha = document.createElement('h4');
-            h4Fecha.textContent = 'Fecha de Pago:';
-            const divValFecha = document.createElement('div');
-            divValFecha.className = 'cotizacion-valor';
-            divValFecha.textContent = cot.datePay ? new Date(cot.datePay).toLocaleDateString('es-ES') : 'Pendiente';
-            divInfoFecha.appendChild(h4Fecha);
-            divInfoFecha.appendChild(divValFecha);
-            divCot.appendChild(divInfoFecha);
+            const startMes = (cot.quarterly - 1) * 3;
 
-            const divBotones = document.createElement('div');
-            divBotones.className = 'cotizacion-botones';
+            for (let i = 1; i <= 3; i++) {
+                const mes = nombreMes[startMes + i - 1];
+                const divMes = document.createElement('div');
+                divMes.textContent = mes;
+                divCot.appendChild(divMes);
 
-            const btnMod = document.createElement('button');
-            btnMod.className = 'cli_modificar';
-            btnMod.textContent = 'Modificar';
-            btnMod.addEventListener('click', () => {
-                cotizacionEditable = cot;
-                mod_importe.value = cot.facImport;
-                mod_fechaPago.value = cot.datePay ? cot.datePay.substring(0, 10) : '';
-                modventana.style.display = 'block';
-            });
+                const divInfoImporte = document.createElement('div');
+                divInfoImporte.className = 'cotizacion-info';
+                const h4Importe = document.createElement('h4');
+                h4Importe.textContent = 'Importe TGSS:';
+                const divValImporte = document.createElement('div');
+                divValImporte.className = 'cotizacion-valor';
+                divValImporte.textContent = `${cot.facImport.toFixed(2)} €`;
+                divInfoImporte.appendChild(h4Importe);
+                divInfoImporte.appendChild(divValImporte);
+                divCot.appendChild(divInfoImporte);
 
-            const btnDel = document.createElement('button');
-            btnDel.className = 'cli_borrar';
-            btnDel.textContent = 'Eliminar';
-            btnDel.addEventListener('click', async () => {
-                if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
-                    try {
-                        const response = await editarCotizacionAPI({
-                            quoteYear: cot.quoteYear,
-                            quarterly: cot.quarterly,
-                            facImport: 0.00,
-                            datePay: null
-                        });
-                        console.log(response);
-                        Toast("TGSS eliminada correctamente");
-                        cargarCotizaciones();
-                    } catch (error) {
-                        Toast("No se pudo eliminar la TGSS");
-                        console.error(error);
+                const divInfoFecha = document.createElement('div');
+                divInfoFecha.className = 'cotizacion-info';
+                divInfoFecha.style.marginTop = '10px';
+                const h4Fecha = document.createElement('h4');
+                h4Fecha.textContent = 'Fecha de Pago:';
+                const divValFecha = document.createElement('div');
+                divValFecha.className = 'cotizacion-valor';
+                divValFecha.textContent = cot.datePay ? new Date(cot.datePay).toLocaleDateString('es-ES') : 'Pendiente';
+                divInfoFecha.appendChild(h4Fecha);
+                divInfoFecha.appendChild(divValFecha);
+                divCot.appendChild(divInfoFecha);
+
+                const divBotones = document.createElement('div');
+                divBotones.className = 'cotizacion-botones';
+
+                const btnMod = document.createElement('button');
+                btnMod.className = 'cli_modificar';
+                btnMod.textContent = 'Modificar';
+                btnMod.addEventListener('click', () => {
+                    cotizacionEditable = cot;
+                    mod_importe.value = cot.facImport;
+                    mod_fechaPago.value = cot.datePay ? cot.datePay.substring(0, 10) : '';
+                    modventana.style.display = 'block';
+                });
+
+                const btnDel = document.createElement('button');
+                btnDel.className = 'cli_borrar';
+                btnDel.textContent = 'Eliminar';
+                btnDel.addEventListener('click', async () => {
+                    if (confirm('¿Seguro que deseas eliminar esta cotización?')) {
+                        try {
+                            const response = await editarCotizacionAPI({
+                                quoteYear: cot.quoteYear,
+                                quarterly: cot.quarterly,
+                                facImport: 0.00,
+                                datePay: null
+                            });
+                            console.log(response);
+                            Toast("TGSS eliminada correctamente");
+                            cargarCotizaciones();
+                        } catch (error) {
+                            Toast("No se pudo eliminar la TGSS");
+                            console.error(error);
+                        }
                     }
-                }
-            });
-
-            divBotones.appendChild(btnMod);
-            divBotones.appendChild(btnDel);
-            divCot.appendChild(divBotones);
+                });
+                
+                divBotones.appendChild(btnMod);
+                divBotones.appendChild(btnDel);
+                divCot.appendChild(divBotones);
+            }
 
             divListado.appendChild(divCot);
         });
