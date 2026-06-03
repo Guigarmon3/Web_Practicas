@@ -160,7 +160,21 @@ form input {
     .tablica thead {
         display: none;
     }
-
+    .header-acciones {
+        display: grid;
+        grid-template-columns: auto;
+    }
+    #search_year, #year {
+        order: 2;
+    }
+    #gestoria_add #cotizacion_add {
+        max-height: max-content;
+        height: max-content;
+        max-width: 100%;
+        width: 100%;
+        border-radius: 5px;
+        order: 1;
+    }
     .tablica,
     .tablica tbody,
     .tablica tr,

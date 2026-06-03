@@ -46,10 +46,6 @@ async function cargarTodo() {
     } catch (error) {
         console.error("Error al cargar los datos:", error);
     }
-
-    if (window.innerWidth <= 768) {
-        addgestion.textContent = "+";
-    }
 }
 
 async function renderizarGestoria(management) {

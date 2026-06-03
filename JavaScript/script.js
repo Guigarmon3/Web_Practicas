@@ -81,10 +81,6 @@ async function cargarClientes() {
     } catch (error) {
         console.error("Error detallado en la consulta:", error);
     }
-    
-    if (window.innerWidth <= 768) {
-        adduser.textContent = "+";
-    }
 }
 
 function renderizarClientes(clientes) {

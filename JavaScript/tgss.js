@@ -42,10 +42,6 @@ async function cargarCotizaciones() {
     } catch (error) {
         console.error("Error al cargar las cotizaciones:", error);
     }
-
-    if (window.innerWidth <= 768) {
-        addcotizacion.textContent = "+";
-    }
 }
 
 async function renderizarCotizaciones(lista) {
