@@ -456,6 +456,23 @@ legend {
     padding: 20px;
     align-content: center;
 }
+#modpago, #addpago {
+    text-align: center;
+}
+#modpago form center h4,#addpago form center h4  {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 9%;
+}
+#modpago form center input, #addpago form center input{
+    height: min-content;
+    padding: 5px;
+    margin: 0px;
+}
+#modpago form center input[type="submit"], #addpago form center input[type="submit"] {
+    margin-top: 20px;
+}
 
 @media screen and (max-width: 768px){
     body, html {
