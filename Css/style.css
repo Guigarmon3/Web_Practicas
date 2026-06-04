@@ -477,15 +477,6 @@ legend {
 input {
     border: 2px solid rgb(51, 137, 169) !important;
 }
-.titulos {
-    text-align: center;
-    text-align: center;
-    margin: 0px auto;
-    display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
-    align-items: center;
-}
 
 @media screen and (max-width: 768px){
     body, html {
@@ -757,5 +748,14 @@ input {
     }
     .titulos button {
         display: none;
+    }
+    .titulos {
+        text-align: center;
+        text-align: center;
+        margin: 0px auto;
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+        align-items: center;
     }
 }
