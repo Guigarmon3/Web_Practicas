@@ -459,7 +459,7 @@ legend {
 #modpago, #addpago {
     text-align: center;
 }
-#modpago form center h4,#addpago form center h4  {
+#modpago form center h4, #addpago form center h4  {
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -472,6 +472,19 @@ legend {
 }
 #modpago form center input[type="submit"], #addpago form center input[type="submit"] {
     margin-top: 20px;
+}
+
+input {
+    border: 2px solid rgb(51, 137, 169) !important;
+}
+.titulos {
+    text-align: center;
+    text-align: center;
+    margin: 0px auto;
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (max-width: 768px){
