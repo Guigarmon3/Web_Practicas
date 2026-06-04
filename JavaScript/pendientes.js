@@ -181,6 +181,7 @@ function renderizarPagos(lista) {
                         try {
                             await editarPagoAPI({
                                 idNumber: pago.idNumber,
+                                idString: pago.idString,
                                 facturaType: pago.facturaType,
                                 title: pago.title,
                                 billDate: pago.billDate,

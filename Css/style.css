@@ -399,6 +399,7 @@ form {
     justify-content: center;
     width: 150px;
     background-color: transparent;
+    gap: 5px;
 }
 
 .anyo {
@@ -476,15 +477,6 @@ legend {
 
 input {
     border: 2px solid rgb(51, 137, 169) !important;
-}
-.titulos {
-    text-align: center;
-    text-align: center;
-    margin: 0px auto;
-    display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
-    align-items: center;
 }
 
 @media screen and (max-width: 768px){
@@ -597,6 +589,7 @@ input {
         margin-top: 25px;
         width: 300px;
         box-shadow: 0px 0px 10px;
+        overflow: auto;
     }
 
     .cliente {
@@ -706,7 +699,7 @@ input {
         padding: 10px; 
     }
 
-    #delpagosButton, #modpagosButton {
+    .delpagosButton, .modpagosButton {
         width: 100%;
         margin: 5px !important;
     }
@@ -757,5 +750,14 @@ input {
     }
     .titulos button {
         display: none;
+    }
+    .titulos {
+        text-align: center;
+        text-align: center;
+        margin: 0px auto;
+        display: grid;
+        grid-template-columns: auto;
+        justify-content: center;
+        align-items: center;
     }
 }

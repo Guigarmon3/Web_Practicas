@@ -250,7 +250,7 @@ async function renderizarVentanaPagos() {
                 const btnModificarFac = document.createElement("button");
                 btnModificarFac.classList.add("cli_modificar");
                 btnModificarFac.textContent = "Modificar";
-                btnModificarFac.id = "modpagosButton";
+                btnModificarFac.classList.add("modpagosButton");
                 btnModificarFac.addEventListener("click", async () => {
                     modventanaPagos.style.display = "block";
                     mod_codigo_factura.value = pago.idString;
@@ -272,7 +272,7 @@ async function renderizarVentanaPagos() {
                 const btnEliminarFac = document.createElement("button");
                 btnEliminarFac.classList.add("cli_borrar");
                 btnEliminarFac.textContent = "Eliminar";
-                btnEliminarFac.id = "delpagosButton";
+                btnEliminarFac.classList.add("delpagosButton");
                 btnEliminarFac.style.marginRight = "-50%";
                 btnEliminarFac.addEventListener("click", async () => {
                     if (confirm(`¿Estás seguro de que quieres eliminar el pago "${pago.facturaType}"?`)) {
