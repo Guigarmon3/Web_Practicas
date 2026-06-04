@@ -6,6 +6,7 @@ import {
     crearClienteAPI, 
     editarClienteAPI, 
     borrarClienteAPI,
+    obtenerPagosAPI,
     obtenerPagosCliente,
     crearPagoAPI,
     editarPagoAPI,
@@ -429,6 +430,13 @@ formadd.addEventListener("submit", async (e) => {
 formaddpagos.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!formaddpagos.checkValidity()) return;
+
+    const pagosExistentes = await obtenerPagosAPI();
+    const idPagos = pagosExistentes.some(p => p.idString === add_codigo_factura.value);
+    if (idPagos) {
+        Toast("Ya existe un pago con ese código de factura.");
+        return;
+    }
 
     try {
         const data = await crearPagoAPI({
