@@ -216,10 +216,8 @@ formadd_cotizacion.addEventListener("submit", async (e) => {
                     datePay: null
                 });
                 console.log('Guardado:', data);
-                Toast("TGSS creada correctamente");
             } catch (err) {
                 console.error('Error:', err);
-                Toast("Error al crear la TGSS");
             }
         }
     }
