@@ -144,9 +144,16 @@ form input {
     border: 1px solid #44b6df;
     text-align: center;
     padding: 10px;
+    margin: 0px;
     border-radius: 5px;
 }
+.cotizacion-border{
+    border: none;
+}
 
+.cotizacion-border * {
+    margin: 5px;
+}
 
 @media (orientation: portrait) and (max-width: 768px) {
     .listado-cotizaciones-anio {

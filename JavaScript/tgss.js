@@ -85,7 +85,7 @@ async function renderizarCotizaciones(lista) {
 
         for (const trimestre of trimestresOrdenados) {
             const divTrimestre = document.createElement('div');
-            divTrimestre.className = 'cotizacion-item';
+            divTrimestre.classList = 'cotizacion-item cotizacion-border';
 
             const h3Trim = document.createElement('h3');
             h3Trim.textContent = `Trimestre: ${trimestre}/4`;

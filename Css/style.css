@@ -354,7 +354,6 @@ th:last-child, td:last-child {
 
 input[type="checkbox"] {
     transform: scale(3);
-    border: 2px solid #ff6600;
 }
 
 .xbutton_db {
@@ -759,5 +758,9 @@ input {
         grid-template-columns: auto;
         justify-content: center;
         align-items: center;
+    }
+
+    input[type="checkbox"] {
+        transform: scale(1);
     }
 }
