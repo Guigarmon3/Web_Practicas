@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <link rel="stylesheet" href="../Css/pagos.css">
+        <link rel="stylesheet" href="../Css/style.css">
+        <title>Pagos Realizados</title>
+    </head>
+    <body>
+        <header>
+            <a href="../index.html" class="button_db">Clientes</a>
+            <a href="./registroAnual.html" class="button_db" id="gestoria">Registro Anual</a>
+            <a href="./tgss.html" class="button_db" id="cotizacion">TGSS</a>
+            <a href="./realizados.html" class="button_db white" id="cli_pendientes">Realizados</a> 
+            <a href="./pendientes.html" class="button_db">Pendientes</a>
+        </header>
+
+        <div id="main">
+            <div class="header-acciones">
+                <select class="input_db" id="filtro-mes">
+                    <option value="">Seleccionar Mes</option>
+                    <option value="0">Enero</option>
+                    <option value="1">Febrero</option>
+                    <option value="2">Marzo</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Mayo</option>
+                    <option value="5">Junio</option>
+                    <option value="6">Julio</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Septiembre</option>
+                    <option value="9">Octubre</option>
+                    <option value="10">Noviembre</option>
+                    <option value="11">Diciembre</option>
+                </select>
+                <select class="input_db" id="filtro-anyo">
+                    <option value="">Seleccionar Año</option>
+                </select>
+            </div>
+            <div id="contenedor-realizados"></div>
+        </div>
+
+        <script type="module" src="../JavaScript/realizados.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    </body>
+</html>
