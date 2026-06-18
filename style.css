@@ -1,0 +1,438 @@
+
+
+
+body, html {
+    background-color: #66A9BE;
+    margin: 0;
+    overflow:hidden;
+    height: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #2D283E;
+}
+
+
+body {
+    display: grid;
+    grid-template-columns: auto;
+    padding: 1%;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 1;
+    height: 10%;
+    width: 98%;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: -0.3%;
+    margin-top: -0.5%;
+    border-radius: 5px;
+    background-color: #3389A9;
+    border: none;
+    text-align: center;
+    box-shadow: 0px 0px 10px #006994;
+}
+
+
+button:hover {cursor: pointer;}
+header * {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.input_db {
+    flex: 3;
+    height: 48%;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+    border: lightblue;
+    transition: all 0.3s ease;
+}
+
+.input_db::placeholder {
+    color: lightgray;
+}
+
+.input_db:focus {
+    font-weight: bold;
+    outline: none;
+}
+
+.button_db {
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background-color: #66A9BE;
+    box-shadow: 0px 4px 0px #006994;
+    color: white;
+    border: none;
+    font-size: large;
+    margin: 5px;
+    flex: 1;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-weight: bolder;
+    padding: 20px;
+    align-content: center;
+}
+
+.button_db:hover {
+    font-size: larger;
+}
+.button_db:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #50889a;
+}
+
+#main {
+    padding: 10px;
+    overflow:auto;
+    background: #ffffff;
+    margin-top: 11vh;
+    height: 71vh;
+    border: 1px solid #C8B6FF;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 10px #e1e5ff;}
+
+footer {
+    bottom: 0;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    top: 1;
+    height: 10%;
+    width: 98%;
+    color: white;
+    background-color: #3389A9;
+    border: none;
+    text-align: center;
+    box-shadow: 0px 0px 10px #006994;
+}
+
+
+.cliente {
+    border: 2px solid #7cd1e2;
+    border-radius: 5px;
+    margin: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 5px #CCE9E8;
+}
+
+.cliente-cont {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 20px;
+}
+
+.cliente-cont * {
+    width: auto;
+    text-align: center;
+}
+.cliente-cont h4 {
+    flex: 3;
+}
+.cliente-cont button {
+    flex: 1;
+}
+
+.cli_platform {
+    border: none;
+}
+
+
+.cli_button, .cli_modificar, .cli_borrar {
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    color: white;
+    border: none;
+    font-size: large;
+    margin: 5px;
+    font-weight: bolder;
+    padding: 15px;
+    align-content: center;
+    background-color: #66A9BE; 
+    box-shadow: 0px 4px 0px #3389A9;
+}
+.cli_borrar {
+    background-color: rgb(242, 110, 110);
+    box-shadow: 0px 4px 0px rgb(224, 77, 77);
+}
+.cli_button {
+    background-color: #6bbc81;
+    box-shadow: 0px 4px 0px rgb(97, 154, 112);
+}
+
+.cli_modificar:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #3389A9;
+}
+.cli_borrar:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px rgb(224, 77, 77);
+}
+.cli_button:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 0px #96e9ac;
+}
+
+
+#template_table {
+    width: 80%;
+    margin: 0px auto;
+}
+
+table {
+    border-collapse: separate; 
+    border-spacing: 10px;
+    overflow: hidden;
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    background-color: #3389A9;
+}
+
+tr {
+    background-color: #3389A9;
+    margin-right: 20px;
+}
+
+th {
+    color: white;
+    border: 1px solid #3389A9;
+    background-color: #3389A9;
+    width: 1.5%;
+    margin: 10px;
+}
+
+td {
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+th:last-child, td:last-child {
+    border-right: none; 
+}
+
+.ventana {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 30%;
+    background-color: rgba(251, 251, 255); 
+    border: 2px solid #66A9BE;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 10px #66A9BE;
+}
+
+.ventana form {
+    width: 100%;
+    height: 100%;
+}
+
+.ventana form input {
+    margin-top: 20px;
+    width: 80%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    border: 2px solid #3389A9;
+    height: 50px;
+}
+
+.ventana form input::placeholder {
+    color: gray;
+}
+
+.ventana form input:focus {
+    font-weight: bolder;
+    border: 2px solid #44b6df;
+    outline: none;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#añadir, #modificar {
+    background-color: #66A9BE;
+    border: none;
+    padding: 0px;
+}
+#moduser {
+    display: none;
+}
+
+.toast_nube {
+    background: #66A9BE !important;
+    color: #dfe2eb !important;
+    padding: 25px !important;
+    font-weight: bolder;
+    font-size: 25px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+.toast_nube:hover {
+    cursor:default;
+}
+
+.tablica {
+    margin: 0px auto;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+@media screen and (max-width: 768px){
+    body, html {
+        height: 100vh;
+    }
+    * {
+        overflow: hidden;
+    }
+    header {
+        width: 95%;
+        height: auto;
+        display: grid;
+        grid-template-columns: auto auto;
+        margin: 0px auto;
+        left: 1%;
+    }
+
+    header * {
+        width: 150px;
+        flex: 1;
+        margin: 0px auto;
+        margin-top: 10px;
+    }
+    .input_db {
+        font-size: 100%;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: 50px;
+    }
+
+    .input_db::placeholder {
+        color: transparent;
+    }
+
+    .button_db {
+        font-size: 100%;
+        height: 50px;
+        margin: 10px;
+        padding: 1px;
+        text-align: center;
+    }
+    #main {
+        overflow: scroll;
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-content: center;
+        align-items: center;
+        margin: 0px auto;
+        margin-top: 53%;
+        width: 95%;
+    }
+    footer {
+        display: none;
+    }
+
+    .toast_nube {
+        background: #66A9BE !important;
+        color: #dfe2eb !important;
+        padding: 10px !important;
+        font-weight: bolder;
+        font-size: 100%;
+        height: auto;
+    border-radius: 5px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    }
+    .ventana {
+        margin-top: 25px;
+        width: 300px;
+        box-shadow: 0px 0px 10px;
+    }
+
+    .cliente {
+        font-size: 100%;
+        background-color: white;
+        border-radius: 5px;
+        height: 300px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cliente-cont {
+        display: list-item;
+        list-style-type: none;
+        text-align: center;
+        font-size: 100%;
+    }
+
+    .cliente-cont * {
+        width: 100%;
+        margin: 0px;
+        text-align: center;
+    }
+
+    .cli_platform {
+        border: none;
+    }
+
+    .cli_borrar, .cli_modificar, .cli_button {
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        color: white;
+        border: none;
+        color: white;
+        font-size: 80%;
+ 
+        width: 60%;
+        margin-bottom: 10px;
+    }
+
+    .cli_button:hover, .cli_borrar:hover, .cli_modificar:hover {
+        font-weight: bolder;
+    }
+
+    .cli_button:active, .cli_borrar:active, .cli_modificar:active {
+        transform: translateY(2px);
+        box-shadow: 0px 2px 0px #50889a;
+    }
+
+    th {
+        width: 25%;
+        border-radius: 5px;
+    }
+    td {
+        border-radius: 5px;
+    }
+    .tablica {
+        margin: 0px auto;
+        width: 80%;
+    }
+    #cerrarpagos {
+        width: 80%;
+    }
+}
